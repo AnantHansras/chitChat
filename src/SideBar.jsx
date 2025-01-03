@@ -1,61 +1,115 @@
-import React from 'react'
-import PersonIcon from '@mui/icons-material/Person';
+import React from 'react';
+import MapsUgcIcon from '@mui/icons-material/MapsUgc';
 import GroupsIcon from '@mui/icons-material/Groups';
 import SearchIcon from '@mui/icons-material/Search';
-import NightlightIcon from '@mui/icons-material/Nightlight';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
+import NightsStayIcon from '@mui/icons-material/NightsStay';
+import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import { IconButton } from '@mui/material';
 import FriendContainer from './components/FriendContainer';
+import { useNavigate } from 'react-router-dom';
+import LogoutIcon from '@mui/icons-material/Logout';
+import HomeIcon from '@mui/icons-material/Home';
+import { useSelector, useDispatch } from 'react-redux';
+import { toggleTheme } from './slices/ThemeSlice';
+import LightModeIcon from '@mui/icons-material/LightMode';
 const SideBar = () => {
-    const fakeData = [
-        {
-            name:"User1",
-            lastMessage:"Hii",
-            lastMessageTime:"8:00"
-        },
-        {
-            name:"NewUser1",
-            lastMessage:"Good Night",
-            lastMessageTime:"12:00"
-        }
-    ]
+  const darkMode = useSelector((state) => state.darkMode.isDarkMode);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const toggleModeHandler = () => {
+    dispatch(toggleTheme());
+  };
+
+  const fakeData = [
+    {
+      name: 'User1',
+      lastMessage: 'Hii',
+      lastMessageTime: '8:00',
+    },
+    {
+      name: 'NewUser1',
+      lastMessage: 'Good Night',
+      lastMessageTime: '12:00',
+    },
+  ];
+
   return (
-    <div className='flex-[0.3] flex flex-col'>
-        {/* icons */}
-        <div className ='flex flex-row justify-evenly bg-white rounded-2xl mb-1 py-1 m-3'>
-            <IconButton>
-                <PersonIcon/>
-            </IconButton>
-            <IconButton>
-                <GroupsIcon/>
-            </IconButton>
-            <IconButton>
-                <AddCircleIcon/>
-            </IconButton>
-            <IconButton>
-                <NightlightIcon/>
-            </IconButton>
-        </div>
-        {/* seach bar */}
-        <div className='bg-white flex flex-row item-center border rounded-2xl m-3 my-1 focus:border-gray-700'>
-            <IconButton>
-                <SearchIcon/>
-            </IconButton>
-            <input type='text' placeholder='Search' className='ml-2  mb-1 text-lg border-none outline-none'/>
-        </div>
-        {/* friends */}
-        <div className='bg-white rounded-2xl flex-1 m-3 mt-1'>
+    <div
+      className={`flex-[0.3] flex flex-col ${
+        darkMode ? ' text-white' : ''
+      }`}
+    >
+      {/* icons */}
+      <div
+        className={`flex flex-row justify-evenly rounded-2xl mb-1 py-1 m-3 ${
+          darkMode ? 'bg-gray-800' : 'bg-white'
+        }`}
+        style={{
+          boxShadow:
+            '0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1)',
+        }}
+      >
+        <IconButton onClick={() => navigate('welcome')} color="inherit" className='opacity-60'>
+          <HomeIcon />
+        </IconButton>
+        <IconButton onClick={() => navigate('allusers')} color="inherit" className='opacity-60'>
+          <MapsUgcIcon />
+        </IconButton>
+        <IconButton onClick={() => navigate('groups')} color="inherit" className='opacity-60'>
+          <GroupsIcon />
+        </IconButton>
+        <IconButton onClick={() => navigate('creategroup')} color="inherit" className='opacity-60'>
+          <GroupAddIcon />
+        </IconButton>
+        <IconButton onClick={toggleModeHandler} color="inherit" className='opacity-60'>
         {
-            fakeData.map((user, index) => (
-                <FriendContainer key={index} friend={user}>
-                {/* Add your content here */}
-                </FriendContainer>
-            ))
+          darkMode ? <LightModeIcon/> : <NightsStayIcon />
         }
-
-        </div>
+        </IconButton>
+        <IconButton color="inherit" className='opacity-60'>
+          <LogoutIcon />
+        </IconButton>
+      </div>
+      {/* search bar */}
+      <div
+        className={`flex flex-row items-center border rounded-2xl m-3 my-1 ${
+          darkMode ? 'bg-gray-800 border-gray-600 text-white' : 'bg-white'
+        }`}
+        style={{
+          boxShadow:
+            '0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1)',
+        }}
+      >
+        <IconButton color="inherit" className='opacity-60'>
+          <SearchIcon />
+        </IconButton>
+        <input
+          type="text"
+          placeholder="Search"
+          className={`ml-2 mb-1 text-lg border-none outline-none ${
+            darkMode ? 'bg-gray-800 text-white' : ''
+          }`}
+        />
+      </div>
+      {/* friends */}
+      <div
+        className={`rounded-2xl flex-1 m-3 mt-1 ${
+          darkMode ? 'bg-gray-800 text-white' : ' bg-white'
+        }`}
+        style={{
+          boxShadow:
+            '0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1)',
+        }}
+      >
+        {fakeData.map((user, index) => (
+          <FriendContainer key={index} friend={user}>
+            {/* Add your content here */}
+          </FriendContainer>
+        ))}
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default SideBar
+export default SideBar;
