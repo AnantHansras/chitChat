@@ -1,3 +1,4 @@
+
 import logo from '../assets/image.png';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -113,15 +114,22 @@ export default () => {
                         >
                             Sign In
                         </button>
-                        <div onClick={() =>{navigate('/forgot-password')}}
-                                className={`cursor-pointer text-white text-center ${
-                                    darkMode ? ' hover :text-green-400' : ' hover :text-green-600'
-                                }`}>
-                                Forgot password?
-                        </div>
+                        <div
+  onClick={() => {
+    navigate('/forgot-password');
+  }}
+  className={`cursor-pointer text-center ${
+    darkMode
+      ? 'text-gray-300 hover:text-green-400'
+      : 'text-gray-800 hover:text-green-600'
+  }`}
+>
+  Forgot password?
+</div>
+
                     </form>
                 </div>
             </div>
         </main>
     );
-};
+}; 
