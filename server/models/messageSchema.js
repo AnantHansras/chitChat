@@ -19,7 +19,18 @@ const msgSchema = mongoose.Schema({
     imageUrl: {
         type: String, // Field to store the image URL
         required: false // Optional field
-    }
+    },
+    reactions: [
+        {
+            user: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'User',
+            },
+            emoji: {
+                type: String, 
+            }
+        }
+    ]
 }, {
     timestamps: true
 });

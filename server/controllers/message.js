@@ -120,4 +120,33 @@ const deleteMessage = async (req, res) => {
     }
 };
 
-module.exports = {sendMessage,allMessages,deleteMessage}
+const reactToMessage = async (req, res) => {
+    try {
+        const { emoji, msgId } = req.body;
+        const userId = req.user.id;
+
+        const message = await Message.findById(msgId);
+
+        if (!message) {
+            return res.status(404).json({ error: 'Message not found' });
+        }
+
+        const existingReaction = message.reactions.find(reaction => reaction.user.toString() === userId);
+
+        if (existingReaction) {
+            existingReaction.emoji = emoji;
+        } else {
+            message.reactions.push({ user: userId, emoji });
+        }
+        await message.save();
+
+        res.status(200).json({ message: 'Reaction added/updated successfully', data: message });
+    } catch (error) {
+        console.error('Error reacting to message:', error);
+        res.status(500).json({ error: 'An error occurred while reacting to the message' });
+    }
+};
+
+
+
+module.exports = {sendMessage,allMessages,deleteMessage,reactToMessage}

@@ -1,7 +1,4 @@
 
-
-
-
 const express = require('express');
 const app = express();
 
@@ -24,6 +21,18 @@ app.use(
 		credentials:true,
 	})
 )
+
+const {cloudinaryConnect } = require("./config/clodinary");
+// const fileUpload = require("express-fileupload");
+
+// app.use(
+// 	fileUpload({
+// 		useTempFiles:true,
+// 		tempFileDir:"/tmp",
+// 	})
+// )
+cloudinaryConnect();
+
 
 const userRoutes = require('./Routes/user')
 const chatRoutes = require('./Routes/chat')
@@ -51,31 +60,36 @@ const io = require("socket.io")(server,{
 })
 
 io.on("connection", (socket) => {
-    // console.log("New client connected");
+    //  console.log("New client connected");
 
     socket.on("setup", (user) => {
         if (!user || !user._id) return console.error("Invalid user");
         socket.join(user._id);
-        // console.log(`User ${user._id} joined their private room`);
+        //  console.log(`User ${user._id} joined their private room`);
         socket.emit("user connected");
     });
 
     socket.on("chat access", (room) => {
         socket.join(room);
-        // console.log(`User joined chat room: ${room}`);
+        io.emit("refresh2");
+        // setTimeout(() => {
+		// 	// console.log("Sending refresh event to all clients in the room");
+		// 	io.emit("refresh"); // Emit globally for testing
+		// }, 1000); 
+        //  console.log(`User joined chat room: ${room}`);
     });
 
     socket.on("newMessage", () => {
         
         setTimeout(() => {
-			// console.log("Sending refresh event to all clients in the room");
+			//  console.log("Sending refresh event to all clients in the room");
 			io.emit("refresh"); // Emit globally for testing
 		}, 1000); 
     });
 
-    socket.on("disconnect", () => {
-        console.log("Client disconnected");
-    });
+    // socket.on("disconnect", () => {
+    //     console.log("Client disconnected");
+    // });
 
 	
 });

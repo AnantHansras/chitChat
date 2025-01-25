@@ -19,7 +19,8 @@ export const chatEndpoints = {
 export const msgEndpoints = {
     ALLMESSAGES_API : BASE_URL + '/message/allmsgs',
     SENDMESSAGE_API : BASE_URL + '/message/sendmsg',
-    DELETEMESSAGE_API : BASE_URL + '/message/deletemsg'
+    DELETEMESSAGE_API : BASE_URL + '/message/deletemsg',
+    REACTTOMESSAGE_API : BASE_URL + '/message/reacttomsg'
 }
 
 export const passwordEndpoints = {
