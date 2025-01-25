@@ -73,7 +73,7 @@ export function deletemsg(msgId,token){
   }
 }
 
-export function sendmsg(emoji,msgId,token){
+export function reacttomsg(emoji,msgId,token){
   return async (dispatch) => {
     try {
       
