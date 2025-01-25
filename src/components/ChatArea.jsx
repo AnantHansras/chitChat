@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { IconButton } from '@mui/material';
 import SendRoundedIcon from '@mui/icons-material/SendRounded';
+import AttachFileIcon from '@mui/icons-material/AttachFile';
 import Selfmsg from './Selfmsg';
 import Othermsg from './Othermsg';
 import logo from '../assets/image.png';
@@ -12,7 +13,7 @@ import {useNavigate,useParams} from 'react-router-dom'
 import { exitGroup } from '../services/chatAPI';
 import { allmsgs, sendmsg } from '../services/msgAPI';
 import { useRef } from 'react';
-
+import Tooltip from '@mui/material/Tooltip';
 import { io } from "socket.io-client";
 import { refreshWeb } from '../slices/RefreshSlice';
 
@@ -29,13 +30,42 @@ const ChatArea = () => {
   const [msg,setMsg] = useState('');
   const [allMsg,setAllMsg] = useState([]);
   const messagesEndRef = useRef(null);
+  const [attachment, setAttachment] = useState(null);
+  const handleAttachmentChange = (e) => {
+    if (e.target.files.length > 0) {
+      setAttachment(e.target.files[0]);
+    }
+  };
+  const handleSeen = (msg) => {
+    if (!msg.seenBy || !msg.chat || !msg.chat.users) {
+      // If no seenBy array, no chat data, or users data is missing, assume not seen.
+      return false;
+    }
+
+    const allGroupMembers = msg.chat.users;
+    const seenByUserIds = msg.seenBy.map((user) => user._id);
+    if (isGroupChat == 'false') {
+      // For individual chats: Check if the receiver has seen the message.
+      const otherUserId = allGroupMembers.find((memberId) => memberId !== user._id);
+      
+      return seenByUserIds.includes(otherUserId);
+    } else {
+      // For group chats: Check if all members (excluding the sender) have seen the message.
+      const usersWhoNeedToSee = allGroupMembers.filter((id) => id !== msg.sender._id);
+      if (usersWhoNeedToSee.length === 0) {
+        return false;
+      }
+  
+      return usersWhoNeedToSee.every((userId) => seenByUserIds.includes(userId));
+    }
+  };
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
   useEffect(() => {
     scrollToBottom();
-  }, [allMsg]);
+  }, []);
   const handleDelete = async()=>{
     navigate('/main/welcome');
     const groupId = chatId
@@ -54,16 +84,19 @@ const ChatArea = () => {
     }
 
   }, []);
-  
+  const [refresh2,setRefresh2] = useState(false);
   useEffect(() => {
     const handleRefresh = () => {
       dispatch(refreshWeb());
-      console.log("Refresh event received");
+    };
+    const handleRefresh2 = () => {
+      setRefresh2((prev) => !prev);
     };
   
     if (socketRef.current) {
       // Add the listener
       socketRef.current.on("refresh", handleRefresh);
+      socketRef.current.on("refresh2", handleRefresh2);
       console.log("Refresh listener added");
     }
   
@@ -71,6 +104,7 @@ const ChatArea = () => {
       if (socketRef.current) {
         // Clean up the listener to avoid duplicates
         socketRef.current.off("refresh", handleRefresh);
+        socketRef.current.off("refresh2", handleRefresh2);
         // console.log("Refresh listener removed");
       }
     };
@@ -85,6 +119,7 @@ const ChatArea = () => {
 
         // Emit chat access event
         socketRef.current.emit("chat access", chatId);
+        //socketRef.current.emit("newMessage", chatId);
         // console.log("Chat access sent for room:", chatId);
       } catch (error) {
         console.error("Error fetching messages:", error);
@@ -93,7 +128,18 @@ const ChatArea = () => {
 
     fetchMessages();
   }, [chatId, dispatch, refresh, token]);
+  useEffect(() => {
+    const fetchMessages = async () => {
+      try {
+        const messages = await dispatch(allmsgs(chatId, token));
+        setAllMsg(messages.data);
+      } catch (error) {
+        console.error("Error fetching messages:", error);
+      }
+    };
 
+    fetchMessages();
+  }, [chatId, dispatch, refresh2, token]);
   // Handle message sending
   const handleOnSend = async (e) => {
     e.preventDefault();
@@ -101,18 +147,20 @@ const ChatArea = () => {
     if (!msg.trim()) return; // Prevent sending empty messages
 
     try {
-      await dispatch(sendmsg(msg, chatId, token));
+      console.log("ye le",attachment)
+      await dispatch(sendmsg(msg,attachment, chatId, token));
 
       // Emit new message event to notify others
       socketRef.current.emit("newMessage", chatId);
       // console.log("New message sent to room:", chatId);
 
       setMsg(""); // Clear input field
+      setAttachment(null);
     } catch (error) {
       console.error("Error sending message:", error);
     }
   };
-
+  
   return (
     <AnimatePresence>
         <motion.div
@@ -142,12 +190,17 @@ const ChatArea = () => {
           {chatName[0]}
         </div>
         <div className="ml-4 mb-1 text-xl font-bold">{chatName}</div>
-        <div className='ml-auto mr-4'>
-        {
-          isGroupChat === 'false' ? (<IconButton  color="inherit" className='ml-auto opacity-60' onClick={() => navigate('/main/welcome')}><HomeIcon/></IconButton>):
-          (<IconButton onClick={handleDelete} color="inherit" className='ml-auto opacity-60' ><DeleteIcon/></IconButton>)
-        }
-        </div>
+        <div className="ml-auto mr-4">
+    <IconButton 
+        color="inherit" 
+        className="ml-auto opacity-60" 
+        onClick={isGroupChat === 'false' ? () => navigate('/main/welcome') : handleDelete}
+    >
+        <Tooltip title={isGroupChat === 'false' ? "Home" : "Leave Group"} placement="top" arrow>
+            {isGroupChat === 'false' ? <HomeIcon /> : <DeleteIcon />}
+        </Tooltip>
+    </IconButton>
+</div>
         
         
       </div>
@@ -167,9 +220,9 @@ const ChatArea = () => {
           <div ref={messagesEndRef} />
           {allMsg.map((msg, index) => {
             return user._id == msg.sender._id ? (
-              <Selfmsg key={index} content={msg.content} time={msg.createdAt} />
+              <Selfmsg key={index} content={msg.content} time={msg.createdAt} seen={handleSeen(msg)} id={msg._id} imageUrl={msg.imageUrl}/>
             ) : (
-              <Othermsg key={index} sender={msg.sender.name} content={msg.content} time={msg.createdAt}/>
+              <Othermsg key={index} sender={msg.sender.name} content={msg.content} time={msg.createdAt} imageUrl={msg.imageUrl}/>
             );
           })}
           
@@ -195,6 +248,17 @@ const ChatArea = () => {
             darkMode ? 'bg-gray-800 text-gray-300 placeholder-gray-500' : ''
           }`}
         />
+        <input
+            type="file"
+            id="attachment"
+            style={{ display: 'none' }}
+            onChange={handleAttachmentChange}
+          />
+        <Tooltip title="Attach File" placement="top" arrow>
+            <IconButton component="label" htmlFor="attachment">
+              <AttachFileIcon className={`${darkMode ? 'text-gray-400' : 'text-gray-600'}`} />
+            </IconButton>
+          </Tooltip>
         <IconButton onClick={handleOnSend}>
           <SendRoundedIcon 
             className={`${darkMode ? 'text-green-400' : 'text-green-600'}`}

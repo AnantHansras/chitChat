@@ -1,13 +1,27 @@
 const Chat = require('../models/chatSchema');
 const Message = require('../models/messageSchema');
 const User = require('../models/userSchema');
+const dotenv = require('dotenv');
+dotenv.config();
+const {uploadImageToCloudinary} = require('../config/imageUploader');
 
 const allMessages = async(req,res) =>{
     try{
         const chatId = req.body.chatId;
-        const msgs = await Message.find({chat:chatId})
-        .populate('sender','name email')
-        .populate('chat')
+        // const msgs = await Message.find({chat:chatId})
+        // .populate('sender','name email')
+        // .populate('chat')
+        // .sort({ createdAt: -1 })
+        await Message.updateMany(
+            { chat: chatId, seenBy: { $ne: req.user.id } }, // Only update if the user hasn't already seen the message
+            { $addToSet: { seenBy: req.user.id } } // Add userId to seenBy array
+          );
+      
+          const msgs = await Message.find({ chat: chatId })
+            .populate('sender', 'name email')
+            .populate('chat')
+            .populate('seenBy', 'name email') // Populate the seenBy field to get user info
+            .sort({ createdAt: -1 });
 
         return res.status(200).json({
             success:true,
@@ -22,39 +36,88 @@ const allMessages = async(req,res) =>{
     }
 }
 
-const sendMessage = async(req,res) =>{
-    try{
-        const {content,chatId} = req.body;
-        if(!chatId || !content){
+const sendMessage = async (req, res) => {
+    try {
+        const { content, chatId } = req.body;
+        let imageUrl = null;
+
+        // Validate input
+        if (!chatId || (!content && !req.file)) {
             return res.status(400).json({
-                success:false,
-                message:'please write something in message'
-            })
-        }
-        let newmsg = {
-            sender : req.user.id,
-            content:content,
-            chat: chatId
+                success: false,
+                message: 'Please provide a message content or an image.',
+            });
         }
 
-        let msg = await Message.create(newmsg);
+        // Handle image upload if present
+        if (req.file) {
+            const uploadedImage = await uploadImageToCloudinary(req.file.path,
+                process.env.FOLDER_NAME,
+                1000,
+                1000);
+            imageUrl = uploadedImage.secure_url;
+        }
 
-        msg = await msg.populate('sender', 'name')
-        msg = await msg.populate('chat')
-        msg = await User.populate(msg,{path:'chat.users',select:'name email'})
+        let newMsg = {
+            sender: req.user.id,
+            content: content || '', // Allow empty content if there's an image
+            chat: chatId,
+            imageUrl: imageUrl, // Include imageUrl if available
+        };
 
-        await Chat.findByIdAndUpdate(chatId,{latestMessage: msg})
+        let msg = await Message.create(newMsg);
+
+        msg = await msg.populate('sender', 'name');
+        msg = await msg.populate('chat');
+        msg = await User.populate(msg, { path: 'chat.users', select: 'name email' });
+
+        // Update the latest message in the chat
+        await Chat.findByIdAndUpdate(chatId, { latestMessage: msg });
+
         return res.status(200).json({
-            success:true,
-            message:'Msg sent Successfully'
-        })
+            success: true,
+            message: 'Message sent successfully',
+            data: msg,
+        });
+    } catch (e) {
+        return res.status(400).json({
+            success: false,
+            message: e.message,
+        });
     }
-    catch(e){
+};
+
+const deleteMessage = async (req, res) => {
+    const { msgId } = req.body;
+
+    // Validate input
+    if (!msgId) {
         return res.status(400).json({
             success:false,
-            message:e.message
+            message:"Message ID is required" 
         })
     }
-}
 
-module.exports = {sendMessage,allMessages}
+    try {
+        const result = await Message.findByIdAndDelete(msgId);
+
+        if (!result) {
+            return res.status(400).json({
+                success:false,
+                message:"Message Not found" 
+            })
+        }
+
+        return res.status(200).json({
+            success:true,
+            message:"Message Deleted successfully" 
+        })
+    } catch (error) {
+        return res.status(400).json({
+            success:false,
+            message:error.message
+        })
+    }
+};
+
+module.exports = {sendMessage,allMessages,deleteMessage}
