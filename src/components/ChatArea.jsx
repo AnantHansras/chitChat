@@ -147,7 +147,6 @@ const ChatArea = () => {
     if (!msg.trim()) return; // Prevent sending empty messages
 
     try {
-      console.log("ye le",attachment)
       await dispatch(sendmsg(msg,attachment, chatId, token));
 
       // Emit new message event to notify others
@@ -222,7 +221,7 @@ const ChatArea = () => {
             return user._id == msg.sender._id ? (
               <Selfmsg key={index} content={msg.content} time={msg.createdAt} seen={handleSeen(msg)} id={msg._id} imageUrl={msg.imageUrl}/>
             ) : (
-              <Othermsg key={index} sender={msg.sender.name} content={msg.content} time={msg.createdAt} imageUrl={msg.imageUrl}/>
+              <Othermsg key={index} sender={msg.sender.name} content={msg.content} id={msg._id} time={msg.createdAt} imageUrl={msg.imageUrl} reactions={msg.reactions}/>
             );
           })}
           
