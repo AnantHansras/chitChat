@@ -28,7 +28,7 @@ const AllUsers = () => {
     };
 
     fetchData(); 
-  }, []);
+  }, [search]);
 
   return (
     <AnimatePresence>

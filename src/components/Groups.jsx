@@ -27,7 +27,7 @@ const Groups = () => {
       };
   
       fetchData(); 
-    }, []);
+    }, [search]);
   return (
     <AnimatePresence>
         <motion.div

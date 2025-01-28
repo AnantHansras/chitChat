@@ -42,6 +42,11 @@ const CreateGroup = () => {
           value={groupName}
           onChange={handleGroupNameChange}
           placeholder="Enter group name"
+          onKeyDown={(e) => {
+    if (e.key === "Enter") {
+      handleCreateGroup(e); 
+    }
+  }}
           className={`p-2 border rounded-lg mb-4 text-lg focus:outline-none focus:ring-2 ${
             darkMode
               ? 'bg-gray-700 border-gray-500 text-gray-300 focus:ring-green-500'

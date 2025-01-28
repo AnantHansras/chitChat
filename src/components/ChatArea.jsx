@@ -109,7 +109,10 @@ const ChatArea = () => {
       }
     };
   }, [dispatch]);
-
+  const parentAddReaction = async () =>{
+    socketRef.current.emit("newMessage", chatId);
+    console.log("aya kya??")
+  }
   // Fetch messages for the current chat and join the room
   useEffect(() => {
     const fetchMessages = async () => {
@@ -159,7 +162,6 @@ const ChatArea = () => {
       console.error("Error sending message:", error);
     }
   };
-  
   return (
     <AnimatePresence>
         <motion.div
@@ -219,7 +221,7 @@ const ChatArea = () => {
           <div ref={messagesEndRef} />
           {allMsg.map((msg, index) => {
             return user._id == msg.sender._id ? (
-              <Selfmsg key={index} content={msg.content} time={msg.createdAt} seen={handleSeen(msg)} id={msg._id} imageUrl={msg.imageUrl}/>
+              <Selfmsg parentAddReaction={parentAddReaction} key={index} content={msg.content} time={msg.createdAt} seen={handleSeen(msg)} id={msg._id} imageUrl={msg.imageUrl} reactions={msg.reactions}/>
             ) : (
               <Othermsg key={index} sender={msg.sender.name} content={msg.content} id={msg._id} time={msg.createdAt} imageUrl={msg.imageUrl} reactions={msg.reactions}/>
             );
@@ -242,6 +244,11 @@ const ChatArea = () => {
           value={msg}
           onChange={(e) =>{e.preventDefault();setMsg(e.target.value)}}
           type="text"
+          onKeyDown={(e) => {
+    if (e.key === "Enter") {
+      handleOnSend(e); 
+    }
+  }}
           placeholder="Type a message"
           className={`outline-none mr-auto mb-1 border-none ${
             darkMode ? 'bg-gray-800 text-gray-300 placeholder-gray-500' : ''

@@ -237,4 +237,34 @@ const addSelfToGroup = async (req, res) => {
     }
 };
 
-module.exports = { accessChats,fetchChats,fetchAllGroups,createGroup ,groupExit,addSelfToGroup};
+const unSeenMessages = async (req, res) => {
+    const chatId = req.body.chatId;
+    const userId = req.user.id; // Assuming userId is available in req.user from authentication middleware
+
+    try {
+        // Validate input
+        if (!chatId) {
+            return res.status(400).json({ success: false, message: "Chat ID is required" });
+        }
+
+        // Count messages from the chat that are unseen by the current user
+        const unseenMessageCount = await Message.countDocuments({
+            chat: chatId,
+            seenBy: { $ne: userId } // Messages not seen by the current user
+        });
+
+        // Return count of unseen messages
+        res.status(200).json({
+            success: true,
+            unseenMessageCount,
+        });
+    } catch (error) {
+        console.error("Error fetching unseen message count: ", error);
+        res.status(500).json({
+            success: false,
+            message: "Internal Server Error",
+            error: error.message,
+        });
+    }
+};
+module.exports = {unSeenMessages, accessChats,fetchChats,fetchAllGroups,createGroup ,groupExit,addSelfToGroup};

@@ -1,36 +1,54 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux'; // Assuming darkMode is in Redux store
-
-const FriendContainer = ({ friend,chatName }) => {
+import { useSelector } from 'react-redux';
+import { unseenCount } from '../services/chatAPI';
+import { useDispatch } from 'react-redux';
+import { refreshWeb } from '../slices/RefreshSlice';
+import { IoIosInformationCircleOutline } from "react-icons/io";
+const FriendContainer = ({ friend, chatName }) => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const darkMode = useSelector((state) => state.darkMode.isDarkMode); // Access darkMode state
-  function formatWhatsAppStyle(dateString) {
-    const date = new Date(dateString); // Convert input string to Date object
-    const now = new Date(); // Current date and time
+  const refresh = useSelector((state) => state.refresh.refresh);
+  const darkMode = useSelector((state) => state.darkMode.isDarkMode);
+  const [count, setCount] = useState(0);
+  const token = localStorage.getItem("token") ? JSON.parse(localStorage.getItem("token")) : null;
+  useEffect(() => {
+    const fetchUnseenCount = async () => {
+      
+      const chatId = friend._id;
+        const data = await dispatch(unseenCount(token, chatId));
+        if (data && data.unseenMessageCount !== undefined) {
+            setCount(data.unseenMessageCount);
+        }
+    };
     
+    fetchUnseenCount();
+}, [refresh]);
+
+  function formatWhatsAppStyle(dateString) {
+    const date = new Date(dateString);
+    const now = new Date();
+
     const isSameDay = (date1, date2) =>
       date1.getFullYear() === date2.getFullYear() &&
       date1.getMonth() === date2.getMonth() &&
       date1.getDate() === date2.getDate();
-  
+
     const isYesterday = (date1, date2) => {
       const yesterday = new Date(date2);
       yesterday.setDate(yesterday.getDate() - 1);
       return isSameDay(date1, yesterday);
     };
-  
+
     if (isSameDay(date, now)) {
-      // If the date is today, return time in HH:MM format
       return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     } else if (isYesterday(date, now)) {
-      // If the date is yesterday, return "Yesterday"
-      return "Yesterday";
+      return 'Yesterday';
     } else {
-      // Otherwise, return the date in DD/MM/YYYY format
       return date.toLocaleDateString();
     }
   }
+
   return (
     <div
       className={`grid grid-cols-[40px_auto_auto] grid-rows-[20px_20px] gap-x-6 rounded-2xl m-2 cursor-pointer p-3 transition-all duration-300 hover:shadow-lg hover:scale-[1.02] ${
@@ -38,6 +56,7 @@ const FriendContainer = ({ friend,chatName }) => {
       }`}
       onClick={() => {
         navigate('chat/' + friend._id + '&' + chatName + '&' + friend.isGroupChat);
+        setCount(0)
       }}
     >
       {/* Avatar */}
@@ -50,39 +69,51 @@ const FriendContainer = ({ friend,chatName }) => {
       </p>
 
       {/* Friend Name */}
-      <p
-        className={`row-start-1 col-start-2 col-end-4 font-semibold self-center ${
-          darkMode ? 'text-gray-300' : 'text-[#0000008F]'
-        }`}
-      >
-        {chatName}
-      </p>
+      <div className="row-start-1 col-start-2 col-end-4 flex items-center justify-between">
+        <p
+          className={`font-semibold self-center ${
+            darkMode ? 'text-gray-300' : 'text-[#0000008F]'
+          }`}
+        >
+          {chatName}
+        </p>
+        {/* Unseen Messages Count */}
+        {count > 0 && (
+          <div
+            className="flex justify-center items-center h-5 w-5 bg-green-500 text-white text-xs  rounded-full"
+          >
+            {count}
+          </div>
+        )}
+      </div>
 
       {/* Last Message */}
-      {
-        friend.latestMessage && 
+      {friend.latestMessage ? (
         <p
-        className={`row-start-2 col-start-2 text-sm self-center ${
-          darkMode ? 'text-gray-400' : 'text-[#0000008A]'
-        }`}
-      >
-        {friend.latestMessage.content}
-      </p>
-      }
+          className={`row-start-2 col-start-2 text-sm self-center ${
+            darkMode ? 'text-gray-400' : 'text-[#0000008A]'
+          }`}
+        >
+          {friend.latestMessage.content.length > 7
+            ? friend.latestMessage.content.slice(0, 7) + '...'
+            : friend.latestMessage.content}
+        </p>
+      ):(
+        <p className={`row-start-2 col-start-2 text-sm self-center flex flex-row  gap-x-1 ${
+            darkMode ? 'text-gray-400' : 'text-[#0000008A]'
+          }`}><IoIosInformationCircleOutline className='text-md mt-1'/>No Conversation</p>
+      )}
+
       {/* Last Message Time */}
-      {
-        friend.latestMessage && 
+      {friend.latestMessage && (
         <p
-        className={`row-start-2 col-start-3 text-sm justify-self-end self-center ${
-          darkMode ? 'text-gray-500' : 'text-[#00000066]'
-        }`}
-      >
-      {formatWhatsAppStyle(friend.latestMessage.createdAt)}
-       
-      </p>
-      }
-      
-      
+          className={`row-start-2 col-start-3 text-sm justify-self-end self-center ${
+            darkMode ? 'text-gray-500' : 'text-[#00000066]'
+          }`}
+        >
+          {formatWhatsAppStyle(friend.latestMessage.createdAt)}
+        </p>
+      )}
     </div>
   );
 };

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Smile } from "lucide-react";
 import { reacttomsg } from "../services/msgAPI";
@@ -31,6 +31,7 @@ function formatWhatsAppStyle(dateString) {
 
 const Othermsg = ({ content, time, sender, reactions, id }) => {
   const dispatch = useDispatch();
+  const refresh = useSelector((state) => state.refresh.refresh)
   const colors = ["#FF5733", "#33FF57", "#3357FF", "#F1C40F", "#8E44AD", "#1ABC9C", "#E74C3C", "#2ECC71"];
   const token = localStorage.getItem("token") ? JSON.parse(localStorage.getItem("token")) : null;
   function getColorFromUsername(username) {
@@ -42,10 +43,13 @@ const Othermsg = ({ content, time, sender, reactions, id }) => {
     return colors[colorIndex];
   }
 
-  const textColor = getColorFromUsername("Anant");
+  const textColor = getColorFromUsername(`${sender}`);
   const darkMode = useSelector((state) => state.darkMode.isDarkMode);
   const [messageReactions, setMessageReactions] = useState(() => {
-    if (!reactions || reactions.length === 0) return {};
+    if (!reactions || reactions.length === 0) {
+      console.log("no gdbd")
+      return {};
+    }
   
     return reactions.reduce((acc, reaction) => {
       acc[reaction.emoji] = (acc[reaction.emoji] || 0) + 1;
@@ -80,7 +84,9 @@ const Othermsg = ({ content, time, sender, reactions, id }) => {
       console.error("Error adding reaction:", error);
     }
   };
-  
+  useEffect(() =>{
+        
+      },[refresh])
   return (
     <div className="flex flex-col items-start">
       <div className="relative">
@@ -92,7 +98,10 @@ const Othermsg = ({ content, time, sender, reactions, id }) => {
           <div className="mb-0 text-sm font-bold" style={{ color: textColor }}>
             {sender}
           </div>
-          <div className={`text-sm mb-0 ${darkMode ? "text-gray-200" : "text-gray-900"}`}>{content}</div>
+          {
+            content && <div className={`text-md mb-0 ${darkMode ? "text-gray-200" : "text-gray-900"}`}>{content}</div>
+          }
+          
           <div className={`text-xs ml-auto mt-0 ${darkMode ? "text-gray-400" : "text-gray-800"}`}>
             {formatWhatsAppStyle(time)}
           </div>

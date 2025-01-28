@@ -13,7 +13,8 @@ export const chatEndpoints = {
     FETCHALLGROUPS_API : BASE_URL + "/chat/fetchallgroups",
     CREATEGROUP_API : BASE_URL + "/chat/creategroup",
     GROUPEXIT_API : BASE_URL + "/chat/groupexit",
-    ADDSELFTOGROUP_API : BASE_URL + "/chat/addselftogroup"
+    ADDSELFTOGROUP_API : BASE_URL + "/chat/addselftogroup",
+    UNSEEN_API : BASE_URL + "/chat/unseen"
 }
 
 export const msgEndpoints = {

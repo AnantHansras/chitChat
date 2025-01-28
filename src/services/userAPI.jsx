@@ -111,7 +111,10 @@ export function logout(navigate) {
 
 export function fetchUsers(token,search=""){
   return async (dispatch) => {
-     dispatch(setLoading(true))
+    if(search == ""){
+      dispatch(setLoading(true))
+    }
+     
     try {
       const url = `${FETCHUSERS_API}${search ? `?search=${encodeURIComponent(search)}` : ""}`;
       const response = await apiConnector("GET", url,null,{

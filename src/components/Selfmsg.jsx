@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { Smile } from "lucide-react";
 import { reacttomsg } from "../services/msgAPI";
+
 function formatWhatsAppStyle(dateString) {
   const date = new Date(dateString);
   const now = new Date();
@@ -29,7 +30,8 @@ function formatWhatsAppStyle(dateString) {
   }
 }
 
-const Selfmsg = ({ content, time, seen, id,imageUrl,reactions}) => {
+const Selfmsg = ({ content, time, seen, id,imageUrl,reactions,parentAddReaction}) => {
+  const refresh = useSelector((state) => state.refresh.refresh)
   const darkMode = useSelector((state) => state.darkMode.isDarkMode);
   const dispatch = useDispatch();
   const token = localStorage.getItem("token")
@@ -72,11 +74,14 @@ const Selfmsg = ({ content, time, seen, id,imageUrl,reactions}) => {
         // Update the local state with new reactions
         setMessageReactions(updatedReactions);
         setReactionPickerOpen(false);
+        parentAddReaction();
       } catch (error) {
         console.error("Error adding reaction:", error);
       }
     };
-    
+    useEffect(() =>{
+      
+    },[refresh])
   return (
     <div className="flex flex-col items-end">
       <div className="relative">
