@@ -21,7 +21,7 @@ const allMessages = async(req,res) =>{
             .populate('sender', 'name email')
             .populate('chat')
             .populate('seenBy', 'name email') // Populate the seenBy field to get user info
-            .sort({ createdAt: -1 });
+            .sort({ createdAt: 1 });
 
         return res.status(200).json({
             success:true,

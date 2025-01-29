@@ -7,6 +7,7 @@ import {AnimatePresence,motion} from 'framer-motion'
 import { useState,useEffect } from 'react';
 import { fetchGroups } from '../services/chatAPI';
 import GroupComponent from './GroupComponent';
+
 const Groups = () => {
   const darkMode = useSelector((state) => state.darkMode.isDarkMode);
   const dispatch = useDispatch();

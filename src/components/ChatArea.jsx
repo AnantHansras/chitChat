@@ -16,7 +16,7 @@ import { useRef } from 'react';
 import Tooltip from '@mui/material/Tooltip';
 import { io } from "socket.io-client";
 import { refreshWeb } from '../slices/RefreshSlice';
-
+import ChatBanner from './ChatBanner';
 const ENDPOINT = "http://localhost:5000"; // Backend server URL
 const ChatArea = () => {
   const refresh = useSelector((state) => state.refresh.refresh)
@@ -65,7 +65,7 @@ const ChatArea = () => {
   };
   useEffect(() => {
     scrollToBottom();
-  }, []);
+  }, [allMsg]);
   const handleDelete = async()=>{
     navigate('/main/welcome');
     const groupId = chatId
@@ -205,9 +205,9 @@ const ChatArea = () => {
         
         
       </div>
-
+      
       <div
-          className={`rounded-2xl m-3 my-1 p-2 flex-1 overflow-y-auto flex flex-col-reverse ${
+          className={`rounded-2xl m-3 my-1 p-2 flex-1 overflow-y-auto relative flex flex-col ${
             darkMode ? 'bg-gray-800' : 'bg-white'
           }`}
           style={{
@@ -218,7 +218,11 @@ const ChatArea = () => {
               '0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1)',
           }}
         >
-          <div ref={messagesEndRef} />
+        
+    
+  
+        <ChatBanner />
+ 
           {allMsg.map((msg, index) => {
             return user._id == msg.sender._id ? (
               <Selfmsg parentAddReaction={parentAddReaction} key={index} content={msg.content} time={msg.createdAt} seen={handleSeen(msg)} id={msg._id} imageUrl={msg.imageUrl} reactions={msg.reactions}/>
@@ -226,6 +230,9 @@ const ChatArea = () => {
               <Othermsg key={index} sender={msg.sender.name} content={msg.content} id={msg._id} time={msg.createdAt} imageUrl={msg.imageUrl} reactions={msg.reactions}/>
             );
           })}
+          
+          <div ref={messagesEndRef} />
+
           
         </div>
       {/* Input Section */}

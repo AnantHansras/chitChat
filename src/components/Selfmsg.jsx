@@ -86,9 +86,9 @@ const Selfmsg = ({ content, time, seen, id,imageUrl,reactions,parentAddReaction}
     <div className="flex flex-col items-end">
       <div className="relative">
         <div className="bg-green-300 flex flex-col rounded-3xl max-w-80 ml-auto w-fit m-2 p-2 px-4 gap-0 space-y-0 relative">
-        <div className="absolute top-2 right-2 cursor-pointer text-gray-600 hover:text-red-500">
+        {/* <div className="absolute top-2 right-2 cursor-pointer text-gray-600 hover:text-red-500">
           <FaTrashAlt onClick={handleDelete}/>
-        </div>
+        </div> */}
         {/* Render Image if imageUrl is present */}
         {imageUrl && (
           <img

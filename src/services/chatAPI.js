@@ -159,7 +159,6 @@ export function fetchChats(token,search=""){
 
 export function unseenCount(token,chatId){
   return async (dispatch) => {
-     console.log('hhh')
     try {
      
       const response = await apiConnector("POST",UNSEEN_API,{chatId},{
