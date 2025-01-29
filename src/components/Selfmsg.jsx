@@ -1,10 +1,8 @@
-import React, { useEffect,useState } from "react";
-import { FaTrashAlt } from "react-icons/fa"; // Import delete icon from react-icons
-import { deletemsg } from "../services/msgAPI";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { FaTrashAlt } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
 import { Smile } from "lucide-react";
-import { reacttomsg } from "../services/msgAPI";
+import { deletemsg, reacttomsg } from "../services/msgAPI";
 
 function formatWhatsAppStyle(dateString) {
   const date = new Date(dateString);
@@ -30,78 +28,65 @@ function formatWhatsAppStyle(dateString) {
   }
 }
 
-const Selfmsg = ({ content, time, seen, id,imageUrl,reactions,parentAddReaction}) => {
-  const refresh = useSelector((state) => state.refresh.refresh)
+const Selfmsg = ({ content, time, seen, id, imageUrl, reactions, parentAddReaction }) => {
+  const refresh = useSelector((state) => state.refresh.refresh);
   const darkMode = useSelector((state) => state.darkMode.isDarkMode);
   const dispatch = useDispatch();
-  const token = localStorage.getItem("token")
-    ? JSON.parse(localStorage.getItem("token"))
-    : null;
+  const token = localStorage.getItem("token") ? JSON.parse(localStorage.getItem("token")) : null;
 
   const handleDelete = async (e) => {
     e.preventDefault();
-    await dispatch(deletemsg(id,token))
+    await dispatch(deletemsg(id, token));
   };
+
   const [messageReactions, setMessageReactions] = useState(() => {
-      if (!reactions || reactions.length === 0) return {};
-    
-      return reactions.reduce((acc, reaction) => {
+    if (!reactions || reactions.length === 0) return {};
+    return reactions.reduce((acc, reaction) => {
+      acc[reaction.emoji] = (acc[reaction.emoji] || 0) + 1;
+      return acc;
+    }, {});
+  });
+
+  const [isReactionPickerOpen, setReactionPickerOpen] = useState(false);
+  const emojiOptions = ["😂", "❤️", "🫡", "🥹", "👍", "😏", "😑"];
+
+  const addReaction = async (emoji) => {
+    try {
+      const response = await dispatch(reacttomsg(emoji, id, token));
+      if (!response || !response.data || !response.data.reactions) {
+        throw new Error("Invalid response structure");
+      }
+      const { reactions } = response.data;
+      const updatedReactions = reactions.reduce((acc, reaction) => {
         acc[reaction.emoji] = (acc[reaction.emoji] || 0) + 1;
         return acc;
       }, {});
-    });
-  const [isReactionPickerOpen, setReactionPickerOpen] = useState(false);
-    
-  const emojiOptions = ["😂", "❤️", "🫡", "🥹", "👍", "😏","😑"];
+      setMessageReactions(updatedReactions);
+      setReactionPickerOpen(false);
+      parentAddReaction();
+    } catch (error) {
+      console.error("Error adding reaction:", error);
+    }
+  };
 
-   const addReaction = async (emoji) => {
-      try {
-        const response = await dispatch(reacttomsg(emoji, id, token));
-        console.log("Full Response:", response); // Debugging: log full response
-    
-        // Validate response structure
-        if (!response || !response.data || !response.data.reactions) {
-          throw new Error("Invalid response structure");
-        }
-    
-        // Extract and process the reactions array
-        const { reactions } = response.data; // Correct path to reactions
-        const updatedReactions = reactions.reduce((acc, reaction) => {
-          acc[reaction.emoji] = (acc[reaction.emoji] || 0) + 1;
-          return acc;
-        }, {});
-    
-        // Update the local state with new reactions
-        setMessageReactions(updatedReactions);
-        setReactionPickerOpen(false);
-        parentAddReaction();
-      } catch (error) {
-        console.error("Error adding reaction:", error);
-      }
-    };
-    useEffect(() =>{
-      
-    },[refresh])
+  useEffect(() => {}, [refresh]);
+
   return (
     <div className="flex flex-col items-end">
       <div className="relative">
         <div className="bg-green-300 flex flex-col rounded-3xl max-w-80 ml-auto w-fit m-2 p-2 px-4 gap-0 space-y-0 relative">
-        {/* <div className="absolute top-2 right-2 cursor-pointer text-gray-600 hover:text-red-500">
+      {/* <div className="absolute top-2 right-2 cursor-pointer text-gray-600 hover:text-red-500">
           <FaTrashAlt onClick={handleDelete}/>
         </div> */}
-        {/* Render Image if imageUrl is present */}
-        {imageUrl && (
-          <img
-            src={imageUrl}
-            alt="Attachment"
-            className="rounded-lg max-w-full mb-1"
-          />
-        )}
-        <div className="text-gray-800 mb-0 text-sm">{content}</div>
-        {seen && <p className="text-green-700 text-xs">SEEN</p>}
-        <div className="text-gray-600 text-xs ml-auto mt-0">
-          {formatWhatsAppStyle(time)}
-        </div>
+            {imageUrl && <img src={imageUrl} alt="Attachment" className="rounded-lg max-w-full mb-1" />}
+          <div className="text-gray-800 mb-0 text-md flex justify-between items-end">{content}
+          
+             </div>
+          <div className="text-gray-600 text-xs ml-auto mt-0 flex items-center gap-1">
+            {formatWhatsAppStyle(time)}
+            {seen ? <div className="text-xs"><span className="text-blue-500 -mr-1">✓</span><span className="text-blue-500">✓</span></div> :
+              <div className="text-xs"><span className="text-gray-500 -mr-1">✓</span><span className="text-gray-500">✓</span></div>}
+          </div>
         </div>
         {Object.keys(messageReactions).length > 0 && (
           <div
@@ -118,7 +103,6 @@ const Selfmsg = ({ content, time, seen, id,imageUrl,reactions,parentAddReaction}
           </div>
         )}
       </div>
-      {/* Reaction Button */}
       <button
         className={`text-xs flex items-center gap-1 mt-1 ml-4 ${darkMode ? "text-gray-400" : "text-gray-600"}`}
         onClick={() => setReactionPickerOpen(!isReactionPickerOpen)}
@@ -126,24 +110,18 @@ const Selfmsg = ({ content, time, seen, id,imageUrl,reactions,parentAddReaction}
         <Smile size={16} />
         {isReactionPickerOpen ? "Cancel" : "React"}
       </button>
-
-      {/* Reaction Picker */}
       {isReactionPickerOpen && (
         <div className={`flex gap-2 p-2 rounded-lg shadow-md ml-4 mt-1 ${darkMode ? "bg-gray-800" : "bg-white"}`}>
           {emojiOptions.map((emoji) => (
-            <button
-              key={emoji}
-              className="text-lg hover:scale-110 transition-transform"
-              onClick={() => addReaction(emoji)}
-            >
+            <button key={emoji} className="text-lg hover:scale-110 transition-transform" onClick={() => addReaction(emoji)}>
               {emoji}
             </button>
           ))}
         </div>
       )}
     </div>
-    
   );
 };
 
 export default Selfmsg;
+
