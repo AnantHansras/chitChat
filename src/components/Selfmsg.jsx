@@ -92,7 +92,7 @@ const Selfmsg = ({ content, time, seen, id, imageUrl, reactions, parentAddReacti
           reactions.length === 0 ? (
             <div
               className={`absolute left-0 bottom-0 transform translate-x-2 translate-y-1 flex items-center gap-1 px-1 py-1 rounded-full shadow-md ${
-                darkMode ? "bg-gray-800 text-gray-300" : "bg-white text-gray-900"
+                darkMode ? "bg-gray-800 text-gray-300" : "bg-gray-100 text-gray-900"
               }`}
             >
               <button onClick={() => setReactionPickerOpen(!isReactionPickerOpen)}>
@@ -103,7 +103,7 @@ const Selfmsg = ({ content, time, seen, id, imageUrl, reactions, parentAddReacti
           Object.keys(messageReactions).length > 0 && (
             <div size={16}
               className={`cursor-pointer absolute left-0 bottom-0 transform translate-x-2 translate-y-1 flex items-center gap-1 px-1 py-1 rounded-full shadow-md ${
-                darkMode ? "bg-gray-800 text-gray-300" : "bg-white text-gray-900"
+                darkMode ? "bg-gray-800 text-gray-300" : "bg-gray-100 text-gray-900"
               }`} onClick={() => setReactionPickerOpen(!isReactionPickerOpen)}
             >
               {Object.entries(messageReactions).map(([emoji, count]) => (

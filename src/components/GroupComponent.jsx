@@ -14,7 +14,7 @@ const GroupComponent = ({ friend }) => {
   }
   return (
     <div
-      className={`grid grid-cols-[40px_auto_auto] gap-x-4 items-center rounded-2xl m-2 p-2 ${
+      className={`grid grid-cols-[40px_auto_auto] gap-x-4 items-center rounded-2xl my-2 p-2 ${
         darkMode ? 'bg-gray-800 text-gray-300' : 'bg-white text-[#0000008F]'
       }`}
       style={{

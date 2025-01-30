@@ -18,6 +18,7 @@ import UpdatePassword from './components/UpdatePassword';
 import { ToastContainer } from 'react-toastify';
 import { useEffect,useState } from 'react';
 import SideBar from './components/SideBar';
+import MobileContainer from './components/MobileContainer';
 function App() {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
@@ -83,7 +84,7 @@ function App() {
       )}
       {isMobile && (
         <Route path="/main" element={<MobileContainer />}>
-          <Route path="welcome" element={<SideBar />} />
+          <Route path="" element={<SideBar />} />
           <Route path="allusers" element={<AllUsers />} />
           <Route path="groups" element={<Groups />} />
           <Route path="chat/:params" element={<ChatArea />} />

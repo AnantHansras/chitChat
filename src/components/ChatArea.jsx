@@ -187,7 +187,7 @@ const ChatArea = () => {
       >
         <div
           className={`h-10 w-10 p-1 flex justify-center ml-2 rounded-full items-center text-xl font-bold ${
-            darkMode ? 'bg-gray-700 text-gray-300' : 'bg-[#d9d9d9] text-white'
+            darkMode ? 'bg-gray-600 text-gray-300' : 'bg-[#d9d9d9] text-white'
           }`}
         >
           {chatName[0]}

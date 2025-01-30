@@ -85,8 +85,8 @@ const SideBar = () => {
       </div>
       {/* search bar */}
       <div
-        className={`flex flex-row items-center border rounded-2xl m-3 my-1 ${
-          darkMode ? 'bg-gray-800 border-gray-600 text-white' : 'bg-white'
+        className={`flex flex-row items-center rounded-2xl m-3 my-1 ${
+          darkMode ? 'bg-gray-800 text-white' : 'bg-white'
         }`}
         style={{
           boxShadow:
@@ -102,7 +102,7 @@ const SideBar = () => {
         onChange={(e) => {e.preventDefault(); setSearch(e.target.value)}}
           type="text"
           placeholder="Search"
-          className={`ml-2 mb-1 text-lg border-none outline-none ${
+          className={`ml-2 mb-1 w-[70%] text-lg border-none outline-none ${
             darkMode ? 'bg-gray-800 text-white' : ''
           }`}
         />

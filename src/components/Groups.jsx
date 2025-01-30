@@ -58,8 +58,8 @@ const Groups = () => {
 
           {/* Search Bar */}
           <div
-            className={` flex flex-row items-center border rounded-2xl m-3 my-1 ${
-              darkMode ? 'border-gray-600 bg-gray-800' : 'border-gray-300 bg-white'
+            className={` flex flex-row items-center rounded-2xl m-3 my-1 ${
+              darkMode ? ' bg-gray-800' : ' bg-white'
             }`}
             style={{
               boxShadow:
@@ -75,14 +75,14 @@ const Groups = () => {
               onChange={(e) => setSearch(e.target.value)}
               type="text"
               placeholder="Search for Groups"
-              className={`ml-2 mb-1 text-lg border-none outline-none ${
+              className={`ml-2 mb-1 w-[70%] text-lg border-none outline-none ${
                 darkMode ? 'bg-gray-800 text-gray-300' : ''
               }`}
             />
           </div>
 
           {/* Friends */}
-          <div className="rounded-2xl flex-1 m-3 mt-1">
+          <div className="rounded-2xl flex-1 m-3 my-1">
           {groups.length > 0 ? (
             groups.map((group, index) => (
               group.chatName && <GroupComponent key={index} friend={group}>
