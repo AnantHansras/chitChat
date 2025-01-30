@@ -82,7 +82,7 @@ io.on("connection", (socket) => {
     socket.on("newMessage", () => {
         
         setTimeout(() => {
-			//  console.log("Sending refresh event to all clients in the room");
+			 console.log("Sending refresh event to all clients in the room");
 			io.emit("refresh"); // Emit globally for testing
 		}, 1000); 
     });

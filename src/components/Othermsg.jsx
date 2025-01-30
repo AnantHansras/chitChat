@@ -2,7 +2,7 @@
 
 import React, { useState,useEffect } from "react";
 import { useSelector } from "react-redux";
-import { Smile } from "lucide-react";
+import { VscReactions } from "react-icons/vsc";
 import { reacttomsg } from "../services/msgAPI";
 import { useDispatch } from "react-redux";
 function formatWhatsAppStyle(dateString) {
@@ -29,7 +29,7 @@ function formatWhatsAppStyle(dateString) {
   }
 }
 
-const Othermsg = ({ content, time, sender, reactions, id }) => {
+const Othermsg = ({ content, time, sender,imageUrl, reactions, id }) => {
   const dispatch = useDispatch();
   const refresh = useSelector((state) => state.refresh.refresh)
   const colors = ["#FF5733", "#33FF57", "#3357FF", "#F1C40F", "#8E44AD", "#1ABC9C", "#E74C3C", "#2ECC71"];
@@ -47,7 +47,6 @@ const Othermsg = ({ content, time, sender, reactions, id }) => {
   const darkMode = useSelector((state) => state.darkMode.isDarkMode);
   const [messageReactions, setMessageReactions] = useState(() => {
     if (!reactions || reactions.length === 0) {
-      console.log("no gdbd")
       return {};
     }
   
@@ -77,7 +76,6 @@ const Othermsg = ({ content, time, sender, reactions, id }) => {
         return acc;
       }, {});
   
-      // Update the local state with new reactions
       setMessageReactions(updatedReactions);
       setReactionPickerOpen(false);
     } catch (error) {
@@ -85,8 +83,9 @@ const Othermsg = ({ content, time, sender, reactions, id }) => {
     }
   };
   useEffect(() =>{
-        
-      },[refresh])
+        console.log("ye raha",reactions)
+      },[refresh,messageReactions])
+      
   return (
     <div className="flex flex-col items-start">
       <div className="relative">
@@ -98,40 +97,57 @@ const Othermsg = ({ content, time, sender, reactions, id }) => {
           <div className="mb-0 text-sm font-bold" style={{ color: textColor }}>
             {sender}
           </div>
+          {imageUrl && <img src={imageUrl} alt="Attachment" className="rounded-lg max-w-full mb-1" />}
           {
             content && <div className={`text-md mb-0 ${darkMode ? "text-gray-200" : "text-gray-900"}`}>{content}</div>
           }
           
-          <div className={`text-xs ml-auto mt-0 ${darkMode ? "text-gray-400" : "text-gray-800"}`}>
+          <div className={`text-xs flex ml-auto mt-0 ${darkMode ? "text-gray-400" : "text-gray-800"}`}>
+          
             {formatWhatsAppStyle(time)}
           </div>
         </div>
 
-        {/* WhatsApp-style Reactions */}
-        {Object.keys(messageReactions).length > 0 && (
+
+          {
+            reactions.length === 0 ? (
+              <div
+                            className={`absolute left-0 bottom-0 transform translate-x-2 translate-y-1 flex items-center gap-1 px-1 py-1 rounded-full shadow-md ${
+                              darkMode ? "bg-gray-800 text-gray-300" : "bg-white text-gray-900"
+                            }`}
+                          >
+                            <button onClick={() => setReactionPickerOpen(!isReactionPickerOpen)}>
+                              <VscReactions size={16} />
+                            </button>
+                          </div>
+            ) : (
+              Object.keys(messageReactions).length > 0 && (
           <div
-            className={`absolute right-0 bottom-0 transform translate-x-2 translate-y-2 flex items-center gap-1 px-2 py-1 rounded-full shadow-md ${
+            className={` cursor-pointer absolute left-0 bottom-0 transform translate-x-2 translate-y-2 flex items-center gap-1 px-2 py-1 rounded-full shadow-md ${
               darkMode ? "bg-gray-800 text-gray-300" : "bg-white text-gray-900"
-            }`}
+            }`} onClick={() => setReactionPickerOpen(!isReactionPickerOpen)}
+            
           >
             {Object.entries(messageReactions).map(([emoji, count]) => (
-              <div key={emoji} className="flex items-center">
-                <span className="text-sm">{emoji}</span>
+              <div key={emoji} className="flex items-center" size={16}>
+                <span className="text-xs">{emoji}</span>
                 {count > 1 && <span className="text-xs ml-1">{count}</span>}
               </div>
             ))}
           </div>
-        )}
+        )
+            )
+          }
       </div>
 
-      {/* Reaction Button */}
-      <button
+
+      {/* <button
         className={`text-xs flex items-center gap-1 mt-1 ml-4 ${darkMode ? "text-gray-400" : "text-gray-600"}`}
         onClick={() => setReactionPickerOpen(!isReactionPickerOpen)}
       >
         <Smile size={16} />
         {isReactionPickerOpen ? "Cancel" : "React"}
-      </button>
+      </button> */}
 
       {/* Reaction Picker */}
       {isReactionPickerOpen && (

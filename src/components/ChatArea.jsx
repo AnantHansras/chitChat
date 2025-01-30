@@ -33,7 +33,9 @@ const ChatArea = () => {
   const [attachment, setAttachment] = useState(null);
   const handleAttachmentChange = (e) => {
     if (e.target.files.length > 0) {
+      
       setAttachment(e.target.files[0]);
+      console.log(attachment)
     }
   };
   const handleSeen = (msg) => {
@@ -147,7 +149,7 @@ const ChatArea = () => {
   const handleOnSend = async (e) => {
     e.preventDefault();
 
-    if (!msg.trim()) return; // Prevent sending empty messages
+    if (!msg.trim() && !attachment) return; // Prevent sending empty messages
 
     try {
       await dispatch(sendmsg(msg,attachment, chatId, token));
@@ -225,7 +227,7 @@ const ChatArea = () => {
  
           {allMsg.map((msg, index) => {
             return user._id == msg.sender._id ? (
-              <Selfmsg parentAddReaction={parentAddReaction} key={index} content={msg.content} time={msg.createdAt} seen={handleSeen(msg)} id={msg._id} imageUrl={msg.imageUrl} reactions={msg.reactions}/>
+              <Selfmsg parentAddReaction={parentAddReaction} key={index} content={msg.content} time={msg.createdAt} seen={handleSeen(msg)} imageUrl={msg.imageUrl}  id={msg._id} reactions={msg.reactions}/>
             ) : (
               <Othermsg key={index} sender={msg.sender.name} content={msg.content} id={msg._id} time={msg.createdAt} imageUrl={msg.imageUrl} reactions={msg.reactions}/>
             );
@@ -257,10 +259,21 @@ const ChatArea = () => {
     }
   }}
           placeholder="Type a message"
-          className={`outline-none mr-auto mb-1 border-none ${
+          className={`outline-none mr-auto mb-1 border-none w-full ${
             darkMode ? 'bg-gray-800 text-gray-300 placeholder-gray-500' : ''
           }`}
         />
+        {
+          attachment &&<div className='relative'>
+          <img src={URL.createObjectURL(attachment)} className='h-8 rounded-sm'/>
+          <button
+        onClick={() => setAttachment(null)} // Add logic to remove attachment
+        className="absolute -top-1 -right-1 text-xs rounded-full w-2 h-3 flex items-center justify-center"
+      >
+        ✖
+      </button>
+          </div> 
+        }
         <input
             type="file"
             id="attachment"
