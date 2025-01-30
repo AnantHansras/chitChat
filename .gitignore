@@ -1,26 +1,75 @@
-# Logs
-.env
-uploads
-logs
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
+# Logs  
+logs/  
+*.log  
+npm-debug.log*  
+yarn-debug.log*  
+yarn-error.log*  
+pnpm-debug.log*  
+lerna-debug.log*  
 
-node_modules
-dist
-dist-ssr
-*.local
+# Environment Variables  
+.env  
+.env.local  
+.env.development.local  
+.env.test.local  
+.env.production.local  
 
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
-.DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
+# Uploaded Files  
+uploads/  
+
+# Dependency Directories  
+node_modules/  
+
+# Build Output  
+dist/  
+dist-ssr/  
+.out/  
+.next/  
+.vite/  
+.cache/  
+
+# Local OS/System Files  
+.DS_Store  
+Thumbs.db  
+
+# Editor Directories and Files  
+.vscode/  
+!.vscode/extensions.json  
+.idea/  
+*.suo  
+*.ntvs*  
+*.njsproj  
+*.sln  
+*.sw?  
+
+# TypeScript Build Files  
+*.tsbuildinfo  
+
+# Jest Coverage Reports  
+coverage/  
+*.lcov  
+
+# ESLint, Prettier, and StyleLint Cache  
+.eslintcache  
+.prettiercache  
+.stylelintcache  
+
+# Other Tooling Caches  
+/.parcel-cache/  
+/.turbo/  
+/.eslintcache/  
+/.pnp/  
+.pnp.js  
+
+# Cypress & Playwright Test Artifacts  
+cypress/videos/  
+cypress/screenshots/  
+playwright-report/  
+
+# VSCode-specific settings that should not be committed  
+.vscode/settings.json  
+
+# Ignore Firebase Emulator and Functions Build  
+.firebase/  
+functions/lib/  
+functions/node_modules/  
