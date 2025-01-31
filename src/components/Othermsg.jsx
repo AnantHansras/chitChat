@@ -29,7 +29,7 @@ function formatWhatsAppStyle(dateString) {
   }
 }
 
-const Othermsg = ({ content, time, sender,imageUrl, reactions, id }) => {
+const Othermsg = ({ content, time, sender,imageUrl, reactions, id ,parentAddReaction}) => {
   const dispatch = useDispatch();
   const refresh = useSelector((state) => state.refresh.refresh)
   const colors = ["#FF5733", "#33FF57", "#3357FF", "#F1C40F", "#8E44AD", "#1ABC9C", "#E74C3C", "#2ECC71"];
@@ -42,7 +42,7 @@ const Othermsg = ({ content, time, sender,imageUrl, reactions, id }) => {
     const colorIndex = Math.abs(hash) % colors.length;
     return colors[colorIndex];
   }
-
+  
   const textColor = getColorFromUsername(`${sender}`);
   const darkMode = useSelector((state) => state.darkMode.isDarkMode);
   const [messageReactions, setMessageReactions] = useState(() => {
@@ -58,7 +58,17 @@ const Othermsg = ({ content, time, sender,imageUrl, reactions, id }) => {
   const [isReactionPickerOpen, setReactionPickerOpen] = useState(false);
 
   const emojiOptions = ["😂", "❤️", "🫡","🥹", "👍", "😏","😑"];
-
+  useEffect(() => {
+    if (!reactions || reactions.length === 0) {
+      setMessageReactions({});
+      return;
+    }
+    const reactionCount = reactions.reduce((acc, reaction) => {
+      acc[reaction.emoji] = (acc[reaction.emoji] || 0) + 1;
+      return acc;
+    }, {});
+    setMessageReactions(reactionCount);
+  }, [reactions,refresh]);
   const addReaction = async (emoji) => {
     try {
       const response = await dispatch(reacttomsg(emoji, id, token));
@@ -78,6 +88,7 @@ const Othermsg = ({ content, time, sender,imageUrl, reactions, id }) => {
   
       setMessageReactions(updatedReactions);
       setReactionPickerOpen(false);
+      parentAddReaction();
     } catch (error) {
       console.error("Error adding reaction:", error);
     }

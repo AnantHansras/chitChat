@@ -67,8 +67,19 @@ const Selfmsg = ({ content, time, seen, id, imageUrl, reactions, parentAddReacti
     }
   };
 
-  useEffect(() => {}, [refresh]);
-
+  
+  useEffect(() => {
+    if (!reactions || reactions.length === 0) {
+      setMessageReactions({});
+      return;
+    }
+    const reactionCount = reactions.reduce((acc, reaction) => {
+      acc[reaction.emoji] = (acc[reaction.emoji] || 0) + 1;
+      return acc;
+    }, {});
+    setMessageReactions(reactionCount);
+  }, [reactions,refresh]);
+  
   return (
     <div className="flex flex-col items-end">
       <div className="relative group">

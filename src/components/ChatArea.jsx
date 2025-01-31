@@ -229,7 +229,7 @@ const ChatArea = () => {
             return user._id == msg.sender._id ? (
               <Selfmsg parentAddReaction={parentAddReaction} key={index} content={msg.content} time={msg.createdAt} seen={handleSeen(msg)} imageUrl={msg.imageUrl}  id={msg._id} reactions={msg.reactions}/>
             ) : (
-              <Othermsg key={index} sender={msg.sender.name} content={msg.content} id={msg._id} time={msg.createdAt} imageUrl={msg.imageUrl} reactions={msg.reactions}/>
+              <Othermsg parentAddReaction={parentAddReaction} key={index} sender={msg.sender.name} content={msg.content} id={msg._id} time={msg.createdAt} imageUrl={msg.imageUrl} reactions={msg.reactions}/>
             );
           })}
           
