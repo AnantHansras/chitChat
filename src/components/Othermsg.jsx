@@ -1,6 +1,5 @@
-"use client";
 
-import React, { useState,useEffect } from "react";
+import React, { useState,useEffect ,useRef} from "react";
 import { useSelector } from "react-redux";
 import { VscReactions } from "react-icons/vsc";
 import { reacttomsg } from "../services/msgAPI";
@@ -93,10 +92,12 @@ const Othermsg = ({ content, time, sender,imageUrl, reactions, id ,parentAddReac
       console.error("Error adding reaction:", error);
     }
   };
-  useEffect(() =>{
-        console.log("ye raha",reactions)
-      },[refresh,messageReactions])
-      
+  const reactionPickerRef = useRef(null);
+  useEffect(() => {
+    if (isReactionPickerOpen && reactionPickerRef.current) {
+      reactionPickerRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }, [isReactionPickerOpen]);      
   return (
     <div className="flex flex-col items-start">
       <div className="relative">
@@ -162,7 +163,8 @@ const Othermsg = ({ content, time, sender,imageUrl, reactions, id ,parentAddReac
 
       {/* Reaction Picker */}
       {isReactionPickerOpen && (
-        <div className={`flex gap-2 p-2 rounded-lg shadow-md ml-4 mt-1 ${darkMode ? "bg-gray-800" : "bg-white"}`}>
+        <div  ref={reactionPickerRef}
+        className={`flex gap-2 p-2 rounded-lg shadow-md ml-4 mt-1 ${darkMode ? "bg-gray-800" : "bg-white"}`}>
           {emojiOptions.map((emoji) => (
             <button
               key={emoji}

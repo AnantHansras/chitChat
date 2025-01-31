@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 // import { FaTrashAlt } from "react-icons/fa";
 import { VscReactions } from "react-icons/vsc";
-import { deletemsg, reacttomsg } from "../services/msgAPI";
+import { reacttomsg ,deletemsg} from "../services/msgAPI";
 
 function formatWhatsAppStyle(dateString) {
   const date = new Date(dateString);
@@ -46,6 +46,7 @@ const Selfmsg = ({ content, time, seen, id, imageUrl, reactions, parentAddReacti
   });
 
   const [isReactionPickerOpen, setReactionPickerOpen] = useState(false);
+  const reactionPickerRef = useRef(null);
   const emojiOptions = ["😂", "❤️", "🫡", "🥹", "👍", "😏", "😑"];
 
   const addReaction = async (emoji) => {
@@ -67,7 +68,6 @@ const Selfmsg = ({ content, time, seen, id, imageUrl, reactions, parentAddReacti
     }
   };
 
-  
   useEffect(() => {
     if (!reactions || reactions.length === 0) {
       setMessageReactions({});
@@ -78,8 +78,14 @@ const Selfmsg = ({ content, time, seen, id, imageUrl, reactions, parentAddReacti
       return acc;
     }, {});
     setMessageReactions(reactionCount);
-  }, [reactions,refresh]);
-  
+  }, [reactions, refresh]);
+
+  useEffect(() => {
+    if (isReactionPickerOpen && reactionPickerRef.current) {
+      reactionPickerRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }, [isReactionPickerOpen]);
+
   return (
     <div className="flex flex-col items-end">
       <div className="relative group">
@@ -90,7 +96,6 @@ const Selfmsg = ({ content, time, seen, id, imageUrl, reactions, parentAddReacti
             {content}
           </div>
           <div className="text-gray-600 text-xs ml-auto mt-0 flex items-center gap-1">
-          
             {formatWhatsAppStyle(time)}
             {seen ? (
               <div className="text-xs"><span className="text-blue-500 -mr-1">✓</span><span className="text-blue-500">✓</span></div>
@@ -99,23 +104,24 @@ const Selfmsg = ({ content, time, seen, id, imageUrl, reactions, parentAddReacti
             )}
           </div>
         </div>
-        {
-          reactions.length === 0 ? (
-            <div
-              className={`absolute left-0 bottom-0 transform translate-x-2 translate-y-1 flex items-center gap-1 px-1 py-1 rounded-full shadow-md ${
-                darkMode ? "bg-gray-800 text-gray-300" : "bg-gray-100 text-gray-900"
-              }`}
-            >
-              <button onClick={() => setReactionPickerOpen(!isReactionPickerOpen)}>
-                <VscReactions size={16} />
-              </button>
-            </div>
-          ) : 
+
+        {reactions.length === 0 ? (
+          <div
+            className={`absolute left-0 bottom-0 transform translate-x-2 translate-y-1 flex items-center gap-1 px-1 py-1 rounded-full shadow-md ${
+              darkMode ? "bg-gray-800 text-gray-300" : "bg-gray-100 text-gray-900"
+            }`}
+          >
+            <button onClick={() => setReactionPickerOpen(!isReactionPickerOpen)}>
+              <VscReactions size={16} />
+            </button>
+          </div>
+        ) : (
           Object.keys(messageReactions).length > 0 && (
-            <div size={16}
+            <div
               className={`cursor-pointer absolute left-0 bottom-0 transform translate-x-2 translate-y-1 flex items-center gap-1 px-1 py-1 rounded-full shadow-md ${
                 darkMode ? "bg-gray-800 text-gray-300" : "bg-gray-100 text-gray-900"
-              }`} onClick={() => setReactionPickerOpen(!isReactionPickerOpen)}
+              }`}
+              onClick={() => setReactionPickerOpen(!isReactionPickerOpen)}
             >
               {Object.entries(messageReactions).map(([emoji, count]) => (
                 <div onClick={() => setReactionPickerOpen(!isReactionPickerOpen)} key={emoji} className="cursor-pointer flex items-center">
@@ -125,21 +131,27 @@ const Selfmsg = ({ content, time, seen, id, imageUrl, reactions, parentAddReacti
               ))}
             </div>
           )
-        }
-
-        </div>
-        {isReactionPickerOpen && (
-          <div className={`flex gap-2 p-2 rounded-lg shadow-md ml-4 mt-1 ${darkMode ? "bg-gray-800" : "bg-white"}`}>
-            {emojiOptions.map((emoji) => (
-              <button key={emoji} className="text-lg hover:scale-110 transition-transform" onClick={() => addReaction(emoji)}>
-                {emoji}
-              </button>
-            ))}
-          </div>
         )}
+      </div>
+
+      {isReactionPickerOpen && (
+        <div
+          ref={reactionPickerRef}
+          className={`flex gap-2 p-2 rounded-lg shadow-md ml-4 mt-1 ${
+            darkMode ? "bg-gray-800" : "bg-white"
+          }`}
+        >
+          {emojiOptions.map((emoji) => (
+            <button key={emoji} className="text-lg hover:scale-110 transition-transform" onClick={() => addReaction(emoji)}>
+              {emoji}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
 
 export default Selfmsg;
+
 
