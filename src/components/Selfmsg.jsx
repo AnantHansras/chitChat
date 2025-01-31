@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 // import { FaTrashAlt } from "react-icons/fa";
 import { VscReactions } from "react-icons/vsc";
-import { reacttomsg ,deletemsg} from "../services/msgAPI";
+import { reacttomsg } from "../services/msgAPI";
 
 function formatWhatsAppStyle(dateString) {
   const date = new Date(dateString);
@@ -89,18 +89,32 @@ const Selfmsg = ({ content, time, seen, id, imageUrl, reactions, parentAddReacti
   return (
     <div className="flex flex-col items-end">
       <div className="relative group">
-        <div className="bg-green-300 flex flex-col rounded-3xl max-w-80 ml-auto w-fit m-2 p-2 px-4 gap-0 space-y-0 relative">
+        <div className={`  flex flex-col rounded-3xl max-w-80 ml-auto w-fit m-2 p-2 px-4 gap-0 space-y-0 relative ${
+              darkMode ? "bg-[#3e8b6f]" : "bg-[#C8F0A0]"
+            }`} >
           {imageUrl && <img src={imageUrl} alt="Attachment" className="rounded-lg max-w-full mb-1" />}
           
-          <div className="text-gray-800 mb-0 text-md flex justify-between items-end">
+          <div  className={` mb-0 text-md flex justify-between items-end ${
+              darkMode ? "text-white" : "text-gray-800"
+            }`} >
             {content}
           </div>
-          <div className="text-gray-600 text-xs ml-auto mt-0 flex items-center gap-1">
+          <div className={`text-xs ml-auto mt-0 flex items-center gap-1 ${
+              darkMode ? "text-gray-300" : "text-gray-600"
+            }`} >
             {formatWhatsAppStyle(time)}
             {seen ? (
-              <div className="text-xs"><span className="text-blue-500 -mr-1">✓</span><span className="text-blue-500">✓</span></div>
+              <div className="text-xs"><span className={` -mr-1 ${
+              darkMode ? "text-[#4FB6EC]" : "text-[#4FB6EC]"
+            }`} >✓</span><span className={` ${
+              darkMode ? "text-[#4FB6EC]" : "text-[#4FB6EC]"
+            }`}>✓</span></div>
             ) : (
-              <div className="text-xs"><span className="text-gray-500 -mr-1">✓</span><span className="text-gray-500">✓</span></div>
+              <div className="text-xs"><span className={`-mr-1 ${
+              darkMode ? "text-gray-400" : "text-gray-500"
+            }`}>✓</span><span className={` ${
+              darkMode ? "text-gray-400" : "text-gray-500"
+            }`}>✓</span></div>
             )}
           </div>
         </div>
