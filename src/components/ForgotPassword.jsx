@@ -17,18 +17,18 @@ function ForgotPassword() {
 
   return (
     <div
-      className={`grid min-h-[calc(100vh-3.5rem)] place-items-center ${
-        isDarkMode ? " text-white" : " text-gray-900"
+      className={`grid min-h-[calc(100vh-3.5rem)] h-full w-full place-items-center ${
+        isDarkMode ? " text-white" : " text-gray-900 bg-[#f4f5f8]"
       }`}
     >
       <div
-        className={`max-w-[500px] p-6 lg:p-8 shadow-md rounded-md ${
+        className={`max-w-xs sm:max-w-sm md:max-w-md p-6 lg:p-8 border-2 shadow-lg rounded-xl ${
           isDarkMode ? "bg-gray-800" : "bg-white"
         }`}
       >
         <h1
           className={`text-2xl font-semibold leading-[2.375rem] ${
-            isDarkMode ? "text-green-400" : "text-green-600"
+            isDarkMode ? "text-green-400" : "text-green-400"
           }`}
         >
           {!emailSent ? "Reset Your Password" : "Check Your Email"}

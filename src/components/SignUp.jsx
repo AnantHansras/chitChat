@@ -37,12 +37,12 @@ export default () => {
       }
     
     return (
-        <main
+        <div
             className={`w-full h-screen flex flex-col items-center justify-center ${
                 darkMode ? 'bg-gray-900' : 'bg-[#f4f5f8]'
             } sm:px-4`}
         >
-            <div className={`w-full space-y-6 ${darkMode ? 'text-gray-300' : 'text-gray-600'} sm:max-w-md`}>
+            <div className={`w-full space-y-6 ${darkMode ? 'text-gray-300' : 'text-gray-600'} max-w-xs sm:max-w-sm md:max-w-md`}>
                 <div className="text-center">
                     <div className="mt-5 space-y-2">
                         <h3
@@ -56,7 +56,6 @@ export default () => {
                         <p>
                             Already have an account?{' '}
                             <a
-                                href="javascript:void(0)"
                                 className={`font-medium ${
                                     darkMode
                                         ? 'text-green-400 hover:text-green-300'
@@ -74,7 +73,7 @@ export default () => {
                 <div
                     className={`${
                         darkMode ? 'bg-gray-800 shadow-lg border-gray-600' : 'bg-white border-gray-300'
-                    } p-4 py-6 sm:p-6 sm:rounded-lg border-2 `}
+                    } p-4 py-6 sm:p-6 rounded-xl border-2 `}
                     style={{
         boxShadow:
           '0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1)',
@@ -133,6 +132,6 @@ export default () => {
                     </form>
                 </div>
             </div>
-        </main>
+        </div>
     );
 };

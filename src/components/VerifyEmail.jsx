@@ -28,13 +28,13 @@ const VerifyEmail = () => {
 
   return (
     <div
-      className={`min-h-[calc(100vh-3.5rem)] grid place-items-center ${
-        isDarkMode ? " text-white" : " text-gray-900"
+      className={`min-h-[calc(100vh-3.5rem)] h-full w-full grid place-items-center ${
+        isDarkMode ? " text-white" : " text-gray-900 bg-[#f4f5f8]"
       }`}
     >
       <div
-        className={`max-w-[500px] p-6 lg:p-8 rounded-md shadow-lg ${
-          isDarkMode ? "bg-gray-800" : "bg-gray-100"
+        className={`max-w-xs sm:max-w-sm md:max-w-md p-6 lg:p-8 rounded-xl shadow-lg ${
+          isDarkMode ? "bg-gray-800" : "bg-white"
         }`}
       >
         <h1 className="text-3xl font-semibold text-center text-green-400">Verify Email</h1>

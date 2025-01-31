@@ -36,11 +36,11 @@ function UpdatePassword() {
   return (
     <div
       className={`grid min-h-[calc(100vh-3.5rem)] place-items-center ${
-        isDarkMode ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-900"
+        isDarkMode ? "bg-gray-900 text-white" : "bg-[#f4f5f8] text-gray-900"
       }`}
     >
       <div
-        className={`max-w-[500px] p-6 lg:p-8 shadow-md rounded-md ${
+        className={`max-w-xs sm:max-w-sm md:max-w-md p-6 lg:p-8 shadow-md rounded-md ${
           isDarkMode ? "bg-gray-800" : "bg-white"
         }`}
       >
