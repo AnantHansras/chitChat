@@ -50,7 +50,7 @@ app.get("/", (req, res) => {
 	});
 });
 
-const port = process.env.PORT;
+const port = process.env.PORT || 5000;
 const server = app.listen(port,console.log("Server is running on port ",port));
 const io = require("socket.io")(server,{
 	cors: {
@@ -82,7 +82,7 @@ io.on("connection", (socket) => {
     socket.on("newMessage", () => {
         
         setTimeout(() => {
-			 console.log("Sending refresh event to all clients in the room");
+			//console.log("Sending refresh event to all clients in the room");
 			io.emit("refresh"); // Emit globally for testing
 		}, 1000); 
     });
