@@ -17,7 +17,7 @@ import Tooltip from '@mui/material/Tooltip';
 import { io } from "socket.io-client";
 import { refreshWeb } from '../slices/RefreshSlice';
 import ChatBanner from './ChatBanner';
-const ENDPOINT = "http://localhost:5000"; // Backend server URL
+const ENDPOINT = "https://chitchat-backend-22lq.onrender.com"; // Backend server URL
 const ChatArea = () => {
   const refresh = useSelector((state) => state.refresh.refresh)
   const darkMode = useSelector((state) => state.darkMode.isDarkMode);

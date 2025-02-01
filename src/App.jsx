@@ -73,7 +73,7 @@ function App() {
       <Route path="/verify-email" element={<VerifyEmail />} />
 
       {/* Nested Routes for Desktop */}
-      {true && (
+      {!isMobile && (
         <Route path="/main" element={<MainContainer />}>
           <Route path="welcome" element={<Welcome />} />
           <Route path="allusers" element={<AllUsers />} />

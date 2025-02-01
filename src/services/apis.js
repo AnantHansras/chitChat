@@ -1,4 +1,4 @@
-const BASE_URL="http://localhost:5000"
+const BASE_URL="https://chitchat-backend-22lq.onrender.com"
 
 export const userEndpoints = {
     SENDOTP_API : BASE_URL+"/user/sendotp",

@@ -25,6 +25,7 @@ export default () => {
     };
 
     useEffect(() => {
+        
         const token = localStorage.getItem('token');
         if (token) {
             navigate('/main/welcome');
