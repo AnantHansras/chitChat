@@ -17,7 +17,7 @@ app.use(cookieParser());
 //only requests coming from http://localhost:5173 are allowed to access the server's resources
 app.use(
 	cors({
-		origin:"http://localhost:5173",
+		origin:"*",
 		credentials:true,
 	})
 )
