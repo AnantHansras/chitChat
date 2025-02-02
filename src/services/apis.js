@@ -1,4 +1,4 @@
-const BASE_URL= process.env.REACT_APP_BASE_URL
+const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 export const userEndpoints = {
     SENDOTP_API : BASE_URL+"/user/sendotp",

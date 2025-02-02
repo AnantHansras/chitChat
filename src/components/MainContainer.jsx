@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import {useEffect,useRef} from 'react'
 import { refreshWeb } from '../slices/RefreshSlice';
 import { io } from "socket.io-client";
-const ENDPOINT = process.env.REACT_APP_BASE_URL;
+const ENDPOINT = import.meta.env.VITE_BASE_URL;
 const MainContainer = () => {
   const dispatch = useDispatch();
   const socketRef = useRef();
