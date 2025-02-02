@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import {useEffect,useRef} from 'react'
 import { refreshWeb } from '../slices/RefreshSlice';
 import { io } from "socket.io-client";
-const ENDPOINT = "https://chitchat-backend-22lq.onrender.com";
+const ENDPOINT = process.env.REACT_APP_BASE_URL;
 const MobileContainer = () => {
   const dispatch = useDispatch();
   const socketRef = useRef();

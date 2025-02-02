@@ -1,4 +1,4 @@
-const BASE_URL="https://chitchat-backend-22lq.onrender.com"
+const BASE_URL= process.env.REACT_APP_BASE_URL
 
 export const userEndpoints = {
     SENDOTP_API : BASE_URL+"/user/sendotp",
