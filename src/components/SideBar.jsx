@@ -27,6 +27,16 @@ const SideBar = () => {
   const toggleModeHandler = () => {
     dispatch(toggleTheme());
   };
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
   const refresh = useSelector((state) => state.refresh.refresh)
   const handleOnClick = (e) =>{
     e.preventDefault();
@@ -47,7 +57,7 @@ const SideBar = () => {
 
   return (
     <div
-      className={`flex-[0.3] flex flex-col ${
+      className={`flex-1 md:flex-[0.3] flex flex-col ${
         darkMode ? ' text-white' : ''
       }`}
     >
@@ -61,10 +71,12 @@ const SideBar = () => {
             '0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1)',
         }}
       >
-      
-        <IconButton onClick={() => navigate('welcome')} color="inherit" className='opacity-60'>
+      {/* {
+        !isMobile && <IconButton onClick={isMobile ? () => navigate('/main/') : navigate('/main/welcome')} color="inherit" className='opacity-60'>
         <Tooltip title="Home" placement="top" arrow><HomeIcon /></Tooltip>
         </IconButton>
+      } */}
+        
         <IconButton onClick={() => navigate('allusers')} color="inherit" className='opacity-60'>
         <Tooltip title="All Users" placement="top" arrow><MapsUgcIcon /></Tooltip>
         </IconButton>

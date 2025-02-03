@@ -10,7 +10,7 @@ const Welcome = () => {
     <AnimatePresence>
       <div
         
-        className={`flex flex-col justify-center items-center flex-[0.7] h-[100%] ${
+        className={`flex flex-col justify-center items-center flex-1 md:flex-[0.7] h-[100%] ${
           darkMode ? ' text-gray-300' : ' text-[#0000008F]'
         }`}
       >

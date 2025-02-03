@@ -25,7 +25,7 @@ const CreateGroup = () => {
           animate={ {opacity:1,scale:1} }
           exit={ {opacity:0,scale:0} }
           transition={{duration:'0.5'}}
-        className="flex-[0.7] flex justify-center items-center ">
+        className="flex-1 md:flex-[0.7] flex justify-center items-center ">
       <div
         className={`flex flex-col p-6 m-3 rounded-2xl w-96 ${
           darkMode ? 'bg-gray-800 text-gray-300' : 'bg-white text-gray-600'

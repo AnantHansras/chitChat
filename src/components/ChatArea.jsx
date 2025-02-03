@@ -31,6 +31,16 @@ const ChatArea = () => {
   const [allMsg,setAllMsg] = useState([]);
   const messagesEndRef = useRef(null);
   const [attachment, setAttachment] = useState(null);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
   const handleAttachmentChange = (e) => {
     if (e.target.files.length > 0) {
       
@@ -67,9 +77,14 @@ const ChatArea = () => {
   };
   useEffect(() => {
     scrollToBottom();
-  }, [allMsg]);
+  }, []);
   const handleDelete = async()=>{
-    navigate('/main/welcome');
+    if(isMobile){
+      navigate('/main/')
+    }
+    else{
+      navigate('/main/welcome');
+    }
     const groupId = chatId
     dispatch(exitGroup(groupId,token));
   }
@@ -146,24 +161,57 @@ const ChatArea = () => {
     fetchMessages();
   }, [chatId, dispatch, refresh2, token]);
   // Handle message sending
-  const handleOnSend = async (e) => {
-    e.preventDefault();
+  // const handleOnSend = async (e) => {
+  //   e.preventDefault();
 
-    if (!msg.trim() && !attachment) return; // Prevent sending empty messages
+  //   if (!msg.trim() && !attachment) return; // Prevent sending empty messages
 
-    try {
-      await dispatch(sendmsg(msg,attachment, chatId, token));
+  //   try {
+  //     await dispatch(sendmsg(msg,attachment, chatId, token));
 
-      // Emit new message event to notify others
-      socketRef.current.emit("newMessage", chatId);
-      // console.log("New message sent to room:", chatId);
+  //     // Emit new message event to notify others
+  //     socketRef.current.emit("newMessage", chatId);
+  //     // console.log("New message sent to room:", chatId);
 
-      setMsg(""); // Clear input field
-      setAttachment(null);
-    } catch (error) {
-      console.error("Error sending message:", error);
-    }
-  };
+  //     setMsg(""); // Clear input field
+  //     setAttachment(null);
+  //   } catch (error) {
+  //     console.error("Error sending message:", error);
+  //   }
+  // };
+  let isSending = false; // Flag to track message sending cooldown
+
+const handleOnSend = async (e) => {
+  e.preventDefault();
+
+  if (isSending) {
+    console.warn("Please wait 5 seconds before sending another message.");
+    return;
+  }
+
+  if (!msg.trim() && !attachment) return; // Prevent sending empty messages
+
+  try {
+    isSending = true; // Set flag to true
+
+    await dispatch(sendmsg(msg, attachment, chatId, token));
+
+    // Emit new message event to notify others
+    socketRef.current.emit("newMessage", chatId);
+
+    setMsg(""); // Clear input field
+    setAttachment(null);
+
+    // Wait 5 seconds before allowing another message
+    scrollToBottom();
+    setTimeout(() => {
+      isSending = false;
+    }, 5000);
+  } catch (error) {
+    console.error("Error sending message:", error);
+    isSending = false; // Reset flag in case of an error
+  }
+};
   return (
     <AnimatePresence>
         <motion.div
@@ -171,7 +219,7 @@ const ChatArea = () => {
           animate={ {opacity:1,scale:1} }
           exit={ {opacity:0,scale:0} }
           transition={{duration:'0.5'}}
-      className={`flex flex-col h-100 flex-[0.7] ${
+      className={`flex flex-col h-100 flex-1 md:flex-[0.7] ${
         darkMode ? ' text-gray-300' : ''
       }`}
     >
@@ -194,15 +242,18 @@ const ChatArea = () => {
         </div>
         <div className="ml-4 mb-1 text-xl font-bold">{chatName}</div>
         <div className="ml-auto mr-4">
-    <IconButton 
-        color="inherit" 
-        className="ml-auto opacity-60" 
-        onClick={isGroupChat === 'false' ? () => navigate('/main/welcome') : handleDelete}
-    >
-        <Tooltip title={isGroupChat === 'false' ? "Home" : "Leave Group"} placement="top" arrow>
-            {isGroupChat === 'false' ? <HomeIcon /> : <DeleteIcon />}
-        </Tooltip>
-    </IconButton>
+        <div className='flex'>
+          
+          {
+            isGroupChat === 'true' && <IconButton color="inherit" className="ml-auto opacity-60" onClick={handleDelete}>
+          <Tooltip title={"Leave Group"} placement="top" arrow><DeleteIcon /></Tooltip>
+          </IconButton>
+          }
+          {/* <IconButton onClick={isMobile ? () => navigate('/main/') : navigate('/main/welcome')} color="inherit" className='opacity-60'>
+          <Tooltip title="Home" placement="top" arrow><HomeIcon /></Tooltip>
+          </IconButton> */}
+        </div>
+      
 </div>
         
         

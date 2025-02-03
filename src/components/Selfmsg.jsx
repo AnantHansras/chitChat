@@ -87,7 +87,7 @@ const Selfmsg = ({ content, time, seen, id, imageUrl, reactions, parentAddReacti
   }, [isReactionPickerOpen]);
 
   return (
-    <div className="flex flex-col items-end">
+    <div className="flex flex-col items-end ">
       <div className="relative group">
         <div className={`  flex flex-col rounded-3xl max-w-80 ml-auto w-fit m-2 p-2 px-4 gap-0 space-y-0 relative ${
               darkMode ? "bg-[#3e8b6f]" : "bg-[#C8F0A0]"

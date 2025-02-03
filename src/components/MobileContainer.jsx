@@ -43,7 +43,7 @@ const MobileContainer = () => {
 
   return (
     <div
-      className={`min-w-[100%] h-[100vh] my-5 flex   ${
+      className={`w-[90%] h-[90vh] my-5 flex rounded-3xl   ${
         darkMode ? 'bg-gray-700 text-gray-300' : 'bg-[#f4f5f8]'
       }`}
       style={{

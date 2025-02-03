@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [react()],
   server: {
     host: '0.0.0.0', // Allow access from other devices on the network
-    port: 3000, // Change the port if needed
+    port: 5173, // Change the port if needed
     open: true, // Automatically open the app in the browser
   },
   build: {

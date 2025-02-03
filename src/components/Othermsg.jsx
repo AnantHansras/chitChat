@@ -99,7 +99,7 @@ const Othermsg = ({ content, time, sender,imageUrl, reactions, id ,parentAddReac
     }
   }, [isReactionPickerOpen]);      
   return (
-    <div className="flex flex-col items-start">
+    <div className="flex flex-col items-start ">
       <div className="relative">
         <div
           className={`flex flex-col rounded-3xl max-w-80 mr-auto w-fit m-2 p-2 px-4 gap-0 space-y-0 ${
