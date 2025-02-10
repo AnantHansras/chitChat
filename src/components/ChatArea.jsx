@@ -249,9 +249,11 @@ const handleOnSend = async (e) => {
           <Tooltip title={"Leave Group"} placement="top" arrow><DeleteIcon /></Tooltip>
           </IconButton>
           }
-          {/* <IconButton onClick={isMobile ? () => navigate('/main/') : navigate('/main/welcome')} color="inherit" className='opacity-60'>
-          <Tooltip title="Home" placement="top" arrow><HomeIcon /></Tooltip>
-          </IconButton> */}
+          {
+        true && <IconButton onClick={() => {isMobile ? navigate('/main/') : navigate('/main/welcome')}} color="inherit" className='opacity-60'>
+        <Tooltip title="Home" placement="top" arrow><HomeIcon /></Tooltip>
+        </IconButton>
+      }
         </div>
       
 </div>

@@ -14,32 +14,28 @@ const GroupComponent = ({ friend }) => {
   }
   return (
     <div
-      className={`grid grid-cols-[40px_auto_auto] gap-x-4 items-center rounded-2xl my-2 p-2 ${
-        darkMode ? 'bg-gray-800 text-gray-300' : 'bg-white text-[#0000008F]'
-      }`}
-      style={{
-        boxShadow:
-          '0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1)',
-      }}
+      className={`flex items-center gap-3 rounded-2xl my-2 p-3 w-full ${
+        darkMode ? "bg-gray-800 text-gray-300" : "bg-white text-gray-800"
+      } shadow-md`}
     >
       {/* Initial Avatar */}
       <p
-        className={`col-start-1 h-10 w-10 flex justify-center items-center rounded-full text-white text-2xl font-bold ${
-          darkMode ? 'bg-gray-600' : 'bg-[#d9d9d9]'
+        className={`h-10 w-10 flex justify-center items-center rounded-full text-white text-lg font-bold shrink-0 ${
+          darkMode ? "bg-gray-600" : "bg-gray-300"
         }`}
       >
         {friend.chatName[0]}
       </p>
 
       {/* Friend Name */}
-      <p className={`col-start-2 mb-1 ml-2 font-semibold truncate ${darkMode ? 'text-gray-300' : 'text-[#0000008F]'}`}>
+      <p className="flex-1 truncate text-base font-semibold ">
         {friend.chatName}
       </p>
 
       {/* Message Button */}
       <button
-        className={`col-start-3 text-white text-sm px-4 py-1 w-40 justify-self-end rounded-lg ${
-          darkMode ? 'bg-green-600 hover:bg-green-700' : 'bg-green-500 hover:bg-green-700'
+        className={`text-white text-sm px-4 py-1 min-w-[80px] md:w-40 rounded-lg ${
+          darkMode ? "bg-green-600 hover:bg-green-700" : "bg-green-500 hover:bg-green-700"
         } transition`}
         onClick={handleOnClick}
       >

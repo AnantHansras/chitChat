@@ -1,72 +1,97 @@
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import {AnimatePresence,motion} from 'framer-motion'
-import { createGroup } from '../services/chatAPI';
+import React, { useState,useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { AnimatePresence, motion } from "framer-motion";
+import { createGroup } from "../services/chatAPI";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { useNavigate } from 'react-router-dom';
+import Tooltip from '@mui/material/Tooltip';
+import { IconButton } from '@mui/material';
 const CreateGroup = () => {
-  const [groupName, setGroupName] = useState('');
+  const navigate = useNavigate();
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  
+    useEffect(() => {
+      const handleResize = () => {
+        setIsMobile(window.innerWidth < 768);
+      };
+  
+      window.addEventListener("resize", handleResize);
+      return () => window.removeEventListener("resize", handleResize);
+    }, []);
+  const [groupName, setGroupName] = useState("");
   const darkMode = useSelector((state) => state.darkMode.isDarkMode);
+  const dispatch = useDispatch();
+  
+  const token = localStorage.getItem("token")
+    ? JSON.parse(localStorage.getItem("token"))
+    : null;
+
   const handleGroupNameChange = (event) => {
     setGroupName(event.target.value);
   };
-  const token = localStorage.getItem("token") ? JSON.parse(localStorage.getItem("token")) : null
-  const dispatch = useDispatch();
+
   const handleCreateGroup = () => {
     if (groupName) {
-      dispatch(createGroup(groupName,token));
-      setGroupName('')
+      dispatch(createGroup(groupName, token));
+      setGroupName("");
     } else {
-      alert('Please enter a group name.');
+      alert("Please enter a group name.");
     }
   };
 
   return (
     <AnimatePresence>
-        <motion.div initial={ {opacity:0,scale:0} }
-          animate={ {opacity:1,scale:1} }
-          exit={ {opacity:0,scale:0} }
-          transition={{duration:'0.5'}}
-        className="flex-1 md:flex-[0.7] flex justify-center items-center ">
-      <div
-        className={`flex flex-col p-6 m-3 rounded-2xl w-96 ${
-          darkMode ? 'bg-gray-800 text-gray-300' : 'bg-white text-gray-600'
-        }`}
-        style={{
-          boxShadow: '0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1)',
-        }}
+      <motion.div
+        initial={{ opacity: 0, scale: 0 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0 }}
+        transition={{ duration: 0.5 }}
+        className="flex-1 md:flex-[0.7] flex justify-center items-center px-4 md:px-0"
       >
-        <h3 className="text-xl font-semibold mb-4 mx-auto">
-          Create a Group
-        </h3>
-        <input
-          type="text"
-          value={groupName}
-          onChange={handleGroupNameChange}
-          placeholder="Enter group name"
-          onKeyDown={(e) => {
-    if (e.key === "Enter") {
-      handleCreateGroup(e); 
-    }
-  }}
-          className={`p-2 border rounded-lg mb-4 text-lg focus:outline-none focus:ring-2 ${
-            darkMode
-              ? 'bg-gray-700 border-gray-500 text-gray-300 focus:ring-green-500'
-              : 'bg-white border-gray-300 focus:ring-green-500'
-          }`}
-        />
-        <button
-          onClick={handleCreateGroup}
-          className={`bg-green-500 text-white p-3 rounded-lg text-lg font-semibold hover:bg-green-600 focus:outline-none ${
-            darkMode ? 'hover:bg-green-400' : 'hover:bg-green-600'
-          }`}
+        <div
+          className={`flex flex-col p-6 rounded-2xl w-full max-w-md ${
+            darkMode ? "bg-gray-800 text-gray-300" : "bg-white text-gray-600"
+          } shadow-lg`}
         >
-          Create Group
-        </button>
-      </div>
-        </motion.div>
+        <div className="flex items-center md:mb-4 mb-2">
+        <IconButton onClick={() => {isMobile ? navigate('/main/') : navigate('/main/welcome')}} color="inherit" className='opacity-100'>
+        <Tooltip title="Home" placement="top" className=" font-bold" arrow><ArrowBackIcon /></Tooltip>
+        </IconButton>
+      <h3 className="text-xl font-semibold text-center md:ml-2 md:mb-1">
+            Create a Group
+          </h3>
+        </div>
+          
+          <input
+            type="text"
+            value={groupName}
+            onChange={handleGroupNameChange}
+            placeholder="Enter group name"
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleCreateGroup();
+              }
+            }}
+            className={`p-1 md:p-3 border rounded-lg text-lg w-full focus:outline-none focus:ring-2 ${
+              darkMode
+                ? "bg-gray-700 border-gray-500 text-gray-300 focus:ring-green-500"
+                : "bg-white border-gray-300 focus:ring-green-500"
+            }`}
+          />
+          <button
+            onClick={handleCreateGroup}
+            className={`mt-4 bg-green-500 text-white p-2 md:p-3 rounded-lg text-lg font-semibold hover:bg-green-600 focus:outline-none w-full ${
+              darkMode ? "hover:bg-green-400" : "hover:bg-green-600"
+            }`}
+          >
+            Create Group
+          </button>
+        </div>
+      </motion.div>
     </AnimatePresence>
-    
   );
 };
 
 export default CreateGroup;
+
 

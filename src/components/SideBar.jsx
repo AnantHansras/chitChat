@@ -71,11 +71,11 @@ const SideBar = () => {
             '0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1)',
         }}
       >
-      {/* {
-        !isMobile && <IconButton onClick={isMobile ? () => navigate('/main/') : navigate('/main/welcome')} color="inherit" className='opacity-60'>
+      {
+        !isMobile && <IconButton onClick={() => {isMobile ? navigate('/main/') : navigate('/main/welcome')}} color="inherit" className='opacity-60'>
         <Tooltip title="Home" placement="top" arrow><HomeIcon /></Tooltip>
         </IconButton>
-      } */}
+      }
         
         <IconButton onClick={() => navigate('allusers')} color="inherit" className='opacity-60'>
         <Tooltip title="All Users" placement="top" arrow><MapsUgcIcon /></Tooltip>

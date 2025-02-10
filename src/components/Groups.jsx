@@ -7,8 +7,21 @@ import {AnimatePresence,motion} from 'framer-motion'
 import { useState,useEffect } from 'react';
 import { fetchGroups } from '../services/chatAPI';
 import GroupComponent from './GroupComponent';
-
+import HomeIcon from '@mui/icons-material/Home';
+import { useNavigate } from 'react-router-dom';
+import Tooltip from '@mui/material/Tooltip';
 const Groups = () => {
+  const navigate = useNavigate();
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  
+    useEffect(() => {
+      const handleResize = () => {
+        setIsMobile(window.innerWidth < 768);
+      };
+  
+      window.addEventListener("resize", handleResize);
+      return () => window.removeEventListener("resize", handleResize);
+    }, []);
   const darkMode = useSelector((state) => state.darkMode.isDarkMode);
   const dispatch = useDispatch();
   const [search,setSearch] = useState("");
@@ -42,7 +55,7 @@ const Groups = () => {
         >
           {/* Icons */}
           <div
-            className={`flex flex-row justify-start space-x-7 items-center rounded-2xl mb-1 p-2 m-3 ${
+            className={`flex flex-row justify-start md:space-x-7 space-x-1 items-center rounded-2xl mb-1 p-2 m-3 ${
               darkMode ? 'bg-gray-800' : 'bg-white'
             }`}
             style={{
@@ -50,8 +63,12 @@ const Groups = () => {
                 '0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1)',
             }}
           >
-            <img src={logo} className="opacity-70 h-8" />
-            <div className={`text-xl ${darkMode ? 'text-gray-300' : 'text-[#0000008A]'}`}>
+            {
+        isMobile ? (<IconButton onClick={() => {isMobile ? navigate('/main/') : navigate('/main/welcome')}} color="inherit" className='opacity-60 h-8'>
+        <Tooltip title="Home" placement="top" arrow><HomeIcon /></Tooltip>
+        </IconButton>) : (<img src={logo} className="opacity-70 h-8" />)
+      }
+            <div className={`text-xl font-semibold ${darkMode ? 'text-gray-300' : 'text-[#0000008A]'}`}>
               All Available Groups
             </div>
           </div>
