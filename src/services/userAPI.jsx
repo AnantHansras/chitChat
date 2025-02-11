@@ -34,7 +34,12 @@ export function sendOtp(email, navigate) {
       toast.success("OTP Sent Successfully",{theme: "dark"})
     } catch (error) {
       console.log("SENDOTP API ERROR............", error)
-      toast.error("Could Not Send OTP",{theme: "dark"})
+      const errorMessage =
+        error?.response?.data?.message || // API error message
+        error?.message || // Custom error from throw
+        "Something went wrong"; // Default fallback
+
+      toast.error(errorMessage, { theme: "dark" });
     }
     dispatch(setLoading(false))
   }
@@ -61,7 +66,13 @@ export function signUp(name,email,password,otp,navigate) {
       navigate("/")
     } catch (error) {
       console.log("SIGNUP API ERROR............", error)
-       toast.error("Signup Failed",{theme: "dark"})
+      
+      const errorMessage =
+      error?.response?.data?.message || // API error message
+      error?.message || // Custom error from throw
+      "Something went wrong"; // Default fallback
+
+    toast.error(errorMessage, { theme: "dark" });
       navigate("/signup")
     }
      dispatch(setLoading(false))
@@ -94,7 +105,12 @@ export function login(email, password, navigate) {
 
     } catch (error) {
       console.log("LOGIN API ERROR............", error)
-       toast.error("Login Failed",{theme: "dark"})
+      const errorMessage =
+        error?.response?.data?.message || // API error message
+        error?.message || // Custom error from throw
+        "Something went wrong"; // Default fallback
+
+      toast.error(errorMessage, { theme: "dark" });
     }
      dispatch(setLoading(false))
   }

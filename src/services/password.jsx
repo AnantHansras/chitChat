@@ -23,7 +23,12 @@ export function tokenPassword(email,setEmailSent) {
         toast.success("Email sent Successfully",{theme: "dark"})
       } catch (error) {
         console.log("PASSWORDTOKEN API ERROR............", error)
-        toast.error("Error occured while sending email",{theme: "dark"})
+        const errorMessage =
+        error?.response?.data?.message || // API error message
+        error?.message || // Custom error from throw
+        "Something went wrong"; // Default fallback
+
+      toast.error(errorMessage, { theme: "dark" });
       }
       dispatch(setLoading(false))
     }
@@ -49,7 +54,12 @@ export function resetPassword(password,confirmPassword,token,navigate) {
       toast.success("Passowrd reset done",{theme: "dark"})
     } catch (error) {
       console.log("RESETPASSWORD API ERROR............", error)
-      toast.error("Error while reseting password",{theme: "dark"})
+      const errorMessage =
+        error?.response?.data?.message || // API error message
+        error?.message || // Custom error from throw
+        "Something went wrong"; // Default fallback
+
+      toast.error(errorMessage, { theme: "dark" });
     }
     dispatch(setLoading(false))
   }

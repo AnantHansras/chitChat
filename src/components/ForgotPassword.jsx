@@ -22,13 +22,13 @@ function ForgotPassword() {
       }`}
     >
       <div
-        className={`max-w-xs sm:max-w-sm md:max-w-md p-6 lg:p-8 border-2 shadow-lg rounded-xl ${
-          isDarkMode ? "bg-gray-800" : "bg-white"
+        className={`max-w-xs md:max-w-sm p-6 lg:p-8 border-2 shadow-lg rounded-xl ${
+          isDarkMode ? "bg-gray-800 border-gray-600" : "bg-white border-gray-300"
         }`}
       >
         <h1
           className={`text-2xl font-semibold leading-[2.375rem] ${
-            isDarkMode ? "text-green-400" : "text-green-400"
+            isDarkMode ? "text-gray-200" : "text-gray-700"
           }`}
         >
           {!emailSent ? "Reset Your Password" : "Check Your Email"}
@@ -54,10 +54,10 @@ function ForgotPassword() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Enter email address"
-                  className={`w-full p-3 rounded-md border focus:ring-2 ${
+                  className={`w-full p-2 rounded-md border  ${
                     isDarkMode
-                      ? "bg-gray-700 text-white border-gray-600 focus:ring-green-500"
-                      : "bg-gray-100 text-gray-900 border-gray-300 focus:ring-green-600"
+                      ? "bg-gray-900 text-white border-gray-600 focus:ring-green-500"
+                      : "bg-transparent text-gray-900 border-gray-300 focus:ring-green-600"
                   }`}
                 />
               </label>
@@ -68,8 +68,8 @@ function ForgotPassword() {
             type="submit"
             className={`mt-6 w-full py-3 px-4 rounded-md font-medium transition-all ${
               isDarkMode
-                ? "bg-green-500 hover:bg-green-400 text-gray-900"
-                : "bg-green-600 hover:bg-green-500 text-white"
+                ? "bg-green-500 text-gray-100 hover:bg-green-400"
+                : "bg-green-600 text-white hover:bg-green-500"
             }`}
           >
             {!emailSent ? "Submit" : "Resend Email"}

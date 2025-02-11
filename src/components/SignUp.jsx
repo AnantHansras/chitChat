@@ -42,7 +42,7 @@ export default () => {
                 darkMode ? 'bg-gray-900' : 'bg-[#f4f5f8]'
             } sm:px-4`}
         >
-            <div className={`w-full space-y-6 ${darkMode ? 'text-gray-300' : 'text-gray-600'} max-w-xs sm:max-w-sm md:max-w-md`}>
+            <div className={`w-full space-y-6 ${darkMode ? 'text-gray-300' : 'text-gray-600'} max-w-xs md:max-w-sm`}>
                 <div className="text-center">
                     <div className="mt-5 space-y-2">
                         <h3
@@ -56,7 +56,7 @@ export default () => {
                         <p>
                             Already have an account?{' '}
                             <a
-                                className={`font-medium ${
+                                className={`font-medium cursor-pointer ${
                                     darkMode
                                         ? 'text-green-400 hover:text-green-300'
                                         : 'text-green-600 hover:text-green-500'

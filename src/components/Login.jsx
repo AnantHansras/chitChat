@@ -49,7 +49,7 @@ const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
     return (
         <div className={`w-full h-screen flex flex-col items-center justify-center  ${darkMode ? 'bg-gray-900' : 'bg-[#f4f5f8]'}`}>
-            <div className={`w-full max-w-xs sm:max-w-sm md:max-w-md  space-y-6 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+            <div className={`w-full  max-w-xs md:max-w-sm  space-y-6 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
                 <div className="text-center">
                     <div className="mt-5 space-y-2">
                         <h3 className={`text-2xl flex justify-center items-center font-bold sm:text-3xl ${darkMode ? 'text-gray-100' : 'text-gray-800'}`}>

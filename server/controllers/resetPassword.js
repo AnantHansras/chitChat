@@ -21,7 +21,7 @@ const resetPasswordToken = async (req,res) =>{
         const updatedUser = await User.findOneAndUpdate({email},{token:token,resetPasswordExpires: Date.now() + 5*60*1000},{new:true});
         console.log(updatedUser);
 
-        const URL = `http://localhost:5173/update-password/${token}`;
+        const URL = `https://chitchat-frontend-2lit.onrender.com/update-password/${token}`;
 
         await mailSender(email,"Password Reset link from chitChat : ",URL);
 

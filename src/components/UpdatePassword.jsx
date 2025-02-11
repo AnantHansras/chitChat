@@ -35,23 +35,23 @@ function UpdatePassword() {
 
   return (
     <div
-      className={`grid min-h-[calc(100vh-3.5rem)] place-items-center ${
+      className={`flex justify-center items-center ${
         isDarkMode ? "bg-gray-900 text-white" : "bg-[#f4f5f8] text-gray-900"
       }`}
     >
       <div
-        className={`max-w-xs sm:max-w-sm md:max-w-md p-6 lg:p-8 shadow-md rounded-md ${
-          isDarkMode ? "bg-gray-800" : "bg-white"
+        className={`max-w-xs md:max-w-sm p-6 shadow-md rounded-xl border-2 ${
+          isDarkMode ? "bg-gray-800 border-gray-600" : "bg-white border-gray-300"
         }`}
       >
         <h1
           className={`text-2xl font-semibold ${
-            isDarkMode ? "text-green-400" : "text-green-600"
+            isDarkMode ? "text-gray-300" : "text-gray-600"
           }`}
         >
           Choose New Password
         </h1>
-        <p className="my-4 text-base">
+        <p className="my-3 text-base">
           Almost done. Enter your new password and you’re all set.
         </p>
         <form onSubmit={handleOnSubmit}>
@@ -67,10 +67,10 @@ function UpdatePassword() {
               value={password}
               onChange={handleOnChange}
               placeholder="Enter Password"
-              className={`w-full rounded-md p-3 !pr-10 border focus:ring-2 ${
+              className={`w-full rounded-md p-2 !pr-10 border focus:ring-2 ${
                 isDarkMode
-                  ? "bg-gray-700 text-white border-gray-600 focus:ring-green-400"
-                  : "bg-gray-100 text-gray-900 border-gray-300 focus:ring-green-500"
+                  ? "bg-gray-900 text-white border-gray-600 focus:ring-green-400"
+                  : "bg-transparent text-gray-900 border-gray-300 focus:ring-green-500"
               }`}
             />
             <span
@@ -97,10 +97,10 @@ function UpdatePassword() {
               value={confirmPassword}
               onChange={handleOnChange}
               placeholder="Confirm Password"
-              className={`w-full rounded-md p-3 !pr-10 border focus:ring-2 flex items-center ${
+              className={`w-full rounded-md p-2 !pr-10 border focus:ring-2 flex items-center ${
                 isDarkMode
-                  ? "bg-gray-700 text-white border-gray-600 focus:ring-green-400"
-                  : "bg-gray-100 text-gray-900 border-gray-300 focus:ring-green-500"
+                  ? "bg-gray-900 text-white border-gray-600 focus:ring-green-400"
+                  : "bg-transparent text-gray-900 border-gray-300 focus:ring-green-500"
               }`}
             />
             <span
@@ -118,9 +118,9 @@ function UpdatePassword() {
           {/* Submit Button */}
           <button
             type="submit"
-            className={`mt-6 w-full rounded-md py-3 font-medium transition ${
+            className={`mt-6 w-full rounded-md py-2 font-medium transition ${
               isDarkMode
-                ? "bg-green-500 text-gray-900 hover:bg-green-400"
+                ? "bg-green-500 text-gray-100 hover:bg-green-400"
                 : "bg-green-600 text-white hover:bg-green-500"
             }`}
           >
@@ -129,7 +129,7 @@ function UpdatePassword() {
         </form>
 
         {/* Back to Login */}
-        <div className="mt-6">
+        <div className="mt-4">
           <Link to="/">
             <p
               className={`flex items-center gap-2 transition ${
