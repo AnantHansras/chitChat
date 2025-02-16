@@ -49,7 +49,7 @@ const Groups = () => {
           animate={ {opacity:1,scale:1} }
           exit={ {opacity:0,scale:0} }
           transition={{duration:'0.5'}}
-          className={`flex-1 md:flex-[0.7] flex flex-col ${
+          className={`flex-1 md:flex-[0.7] flex flex-col  ${
             darkMode ? ' text-gray-300' : 'text-[#0000008F]'
           }`}
         >
@@ -99,7 +99,12 @@ const Groups = () => {
           </div>
 
           {/* Friends */}
-          <div className="rounded-2xl flex-1 m-3 my-1">
+          <div className="rounded-2xl flex-1 m-3 my-1 overflow-y-scroll mb-4" 
+          style={{
+          scrollbarWidth: 'none', // For Firefox
+      msOverflowStyle: 'none', // For IE and Edge
+      WebkitOverflowScrolling: 'touch', // For smoother scrolling on mobile
+        }}>
           {groups.length > 0 ? (
             groups.map((group, index) => (
               group.chatName && <GroupComponent key={index} friend={group}>

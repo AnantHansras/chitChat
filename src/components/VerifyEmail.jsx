@@ -29,11 +29,11 @@ const VerifyEmail = () => {
   return (
     <div
       className={`min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 ${
-        isDarkMode ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-900"
+        isDarkMode ? " text-white" : " text-gray-900"
       }`}
     >
       <div
-        className={`w-full max-w-md sm:max-w-lg md:max-w-xl p-6 sm:p-8 rounded-2xl shadow-lg transition-all ${
+        className={`w-full max-w-md p-6 sm:p-8 rounded-2xl shadow-lg transition-all ${
           isDarkMode ? "bg-gray-800" : "bg-white"
         }`}
       >
@@ -47,27 +47,33 @@ const VerifyEmail = () => {
         <form onSubmit={handleOnSubmit} className="mt-6 space-y-4">
           {/* OTP Input Field */}
           <div className="flex justify-center">
-            <OtpInput
-              value={otp}
-              onChange={setOtp}
-              numInputs={6}
-              renderInput={(props) => (
-                <input
-                  {...props}
-                  placeholder="-"
-                  className={`w-12 h-12 px-4 md:px-6 sm:w-14 sm:h-14 border-2 rounded-lg text-center mr-2 text-xl font-semibold transition-all duration-200 focus:outline-none ${
-                    isDarkMode
-                      ? "bg-gray-700 border-gray-600 text-white focus:ring-2 focus:ring-green-400"
-                      : "bg-gray-200 border-gray-300 text-gray-900 focus:ring-2 focus:ring-green-500"
-                  }`}
-                />
-              )}
-              containerStyle={{
-                display: "flex",
-                justifyContent: "center",
-                gap: "10px",
-              }}
-            />
+          <OtpInput
+  value={otp}
+  onChange={setOtp}
+  numInputs={6}
+  renderInput={(props) => (
+    <input
+      {...props}
+      placeholder="--"
+      className={`w-12 h-12 px-4 md:px-6 sm:w-14 sm:h-14 border-2 rounded-lg text-center mr-2 text-xl font-semibold transition-all duration-200 focus:outline-none
+        ${
+          isDarkMode
+            ? "bg-gray-700 border-gray-600 text-white placeholder-white focus:ring-2 focus:ring-green-400"
+            : "bg-gray-200 border-gray-300 text-black placeholder-black focus:ring-2 focus:ring-green-500"
+        }`}
+      style={{
+        color: isDarkMode ? "white" : "black",
+        placeholderColor: isDarkMode ? "white" : "black",
+      }}
+    />
+  )}
+  containerStyle={{
+    display: "flex",
+    justifyContent: "center",
+    gap: "10px",
+  }}
+/>
+
           </div>
 
           {/* Verify Button */}

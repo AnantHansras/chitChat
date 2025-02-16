@@ -55,6 +55,7 @@ const AllUsers = () => {
           className={`flex-1 md:flex-[0.7] flex flex-col ${
             darkMode ? ' text-gray-300' : ' text-[#0000008F]'
           }`}
+          
         >
           {/* Icons */}
           <div
@@ -103,7 +104,12 @@ const AllUsers = () => {
           </div>
 
           {/* Friends */}
-          <div className="rounded-2xl flex-1 m-3 mt-1">
+          <div className="rounded-2xl flex-1 m-3 mt-1 mb-4 overflow-y-auto" 
+          style={{
+          scrollbarWidth: 'none', // For Firefox
+      msOverflowStyle: 'none', // For IE and Edge
+      WebkitOverflowScrolling: 'touch', // For smoother scrolling on mobile
+        }}>
           {users.length > 0 ? (
                         users.map((user, index) => {
                           
