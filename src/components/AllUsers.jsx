@@ -104,7 +104,7 @@ const AllUsers = () => {
           </div>
 
           {/* Friends */}
-          <div className="rounded-2xl flex-1 m-3 mt-1 mb-4  overflow-y-hidden" 
+          <div className="rounded-2xl flex-1 m-3 mt-1 mb-4  overflow-y-auto" 
           style={{
           scrollbarWidth: 'none', 
       msOverflowStyle: 'none', 
