@@ -34,7 +34,7 @@ const VerifyEmail = () => {
     >
       <div
         className={`w-full max-w-md p-6 sm:p-8 rounded-2xl shadow-lg transition-all ${
-          isDarkMode ? "bg-gray-800" : "bg-white"
+          isDarkMode ? "bg-gray-800 border-gray-600" : "bg-white border-gray-300"
         }`}
       >
         <h1 className="text-3xl font-bold text-center text-green-400">
@@ -55,7 +55,7 @@ const VerifyEmail = () => {
     <input
       {...props}
       placeholder="--"
-      className={`w-12 h-12 px-4 md:px-6 sm:w-14 sm:h-14 border-2 rounded-lg text-center mr-2 text-xl font-semibold transition-all duration-200 focus:outline-none
+      className={`w-14 h-14 px-4 md:px-6 sm:w-16 sm:h-16 border-2 rounded-lg text-center mr-2 text-xl font-semibold transition-all duration-200 focus:outline-none
         ${
           isDarkMode
             ? "bg-gray-700 border-gray-600 text-white placeholder-white focus:ring-2 focus:ring-green-400"
