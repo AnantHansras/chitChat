@@ -27,8 +27,9 @@ const VerifyEmail = () => {
   };
 
   return (
+
     <div
-      className={`min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 ${
+      className={` w-full h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 ${
         isDarkMode ? " text-gray-300 bg-gray-900" : "bg-[#f4f5f8] text-gray-600"
       }`}
     >
