@@ -104,11 +104,11 @@ const AllUsers = () => {
           </div>
 
           {/* Friends */}
-          <div className="rounded-2xl flex-1 m-3 mt-1 mb-4 overflow-y-auto" 
+          <div className="rounded-2xl flex-1 m-3 mt-1 mb-4  overflow-y-hidden" 
           style={{
-          scrollbarWidth: 'none', // For Firefox
-      msOverflowStyle: 'none', // For IE and Edge
-      WebkitOverflowScrolling: 'touch', // For smoother scrolling on mobile
+          scrollbarWidth: 'none', 
+      msOverflowStyle: 'none', 
+      WebkitOverflowScrolling: 'touch', 
         }}>
           {users.length > 0 ? (
                         users.map((user, index) => {

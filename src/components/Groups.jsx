@@ -99,7 +99,7 @@ const Groups = () => {
           </div>
 
           {/* Friends */}
-          <div className="rounded-2xl flex-1 m-3 my-1 overflow-y-scroll mb-4" 
+          <div className="rounded-2xl flex-1 m-3 my-1 overflow-y-hidden mb-4" 
           style={{
           scrollbarWidth: 'none', // For Firefox
       msOverflowStyle: 'none', // For IE and Edge
