@@ -29,7 +29,7 @@ const VerifyEmail = () => {
   return (
     <div
       className={`min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 ${
-        isDarkMode ? " text-white" : " text-gray-900"
+        isDarkMode ? " text-gray-300 bg-gray-900" : "bg-[#f4f5f8] text-gray-600"
       }`}
     >
       <div
@@ -54,8 +54,8 @@ const VerifyEmail = () => {
   renderInput={(props) => (
     <input
       {...props}
-      placeholder="--"
-      className={`w-14 h-14 px-4 md:px-6 sm:w-16 sm:h-16 border-2 rounded-lg text-center mr-2 text-xl font-semibold transition-all duration-200 focus:outline-none
+      placeholder="-"
+      className={`w-14 h-14 px-2 md:px-6 sm:w-16 sm:h-16 border-2 rounded-lg text-center mr-2 text-xl font-semibold transition-all duration-200 focus:outline-none
         ${
           isDarkMode
             ? "bg-gray-700 border-gray-600 text-white placeholder-white focus:ring-2 focus:ring-green-400"
