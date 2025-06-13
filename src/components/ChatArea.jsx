@@ -160,25 +160,7 @@ const ChatArea = () => {
 
     fetchMessages();
   }, [chatId, dispatch, refresh2, token]);
-  // Handle message sending
-  // const handleOnSend = async (e) => {
-  //   e.preventDefault();
 
-  //   if (!msg.trim() && !attachment) return; // Prevent sending empty messages
-
-  //   try {
-  //     await dispatch(sendmsg(msg,attachment, chatId, token));
-
-  //     // Emit new message event to notify others
-  //     socketRef.current.emit("newMessage", chatId);
-  //     // console.log("New message sent to room:", chatId);
-
-  //     setMsg(""); // Clear input field
-  //     setAttachment(null);
-  //   } catch (error) {
-  //     console.error("Error sending message:", error);
-  //   }
-  // };
   let isSending = false; // Flag to track message sending cooldown
 
 const handleOnSend = async (e) => {

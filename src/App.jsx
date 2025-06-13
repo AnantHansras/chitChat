@@ -19,7 +19,41 @@ import { ToastContainer } from 'react-toastify';
 import { useEffect,useState } from 'react';
 import SideBar from './components/SideBar';
 import MobileContainer from './components/MobileContainer';
+import { useAuth0 } from '@auth0/auth0-react';
 function App() {
+  const { isLoading, isAuthenticated, loginWithRedirect, logout, user } = useAuth0();
+
+// Auto login when not authenticated
+useEffect(() => {
+  if (!isAuthenticated && !isLoading) {
+    loginWithRedirect();
+  }
+}, [isAuthenticated, isLoading, loginWithRedirect]);
+  useEffect(() => {
+    const saveUser = async () => {
+      if (!user) return;
+
+      try {
+        await fetch("https://chitchat-backend-22lq.onrender.com/api/save-user", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            sub: user.sub,
+            name: user.name,
+            email: user.email,
+          }),
+        });
+      } catch (err) {
+        console.error("Save-user error:", err);
+      }
+    };
+
+    if (isAuthenticated && user) {
+      saveUser();
+    }
+  }, [isAuthenticated, user]);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
   useEffect(() => {
@@ -32,6 +66,13 @@ function App() {
   }, []);
   const darkMode = useSelector((state) => state.darkMode.isDarkMode); 
   const loading = useSelector((state) => state.loading.loading);
+  if (isLoading || !isAuthenticated) {
+  return (
+    <div className="h-screen flex justify-center items-center bg-white">
+      <CircularProgress />
+    </div>
+  );
+}
   return (
     <div
       className={`h-screen  flex flex-row justify-center items-center ${
@@ -48,33 +89,17 @@ function App() {
         <CircularProgress color="inherit" size="3rem" />
       </Backdrop> 
     
-      
-
-      {/* <Routes>
-        <Route path="/forgot-password" element={<ForgotPassword />}/>
-        <Route path="/update-password/:id" element={<UpdatePassword/>}/>
-        <Route path="/" element={<Login />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/verify-email" element={<VerifyEmail />} />
-        <Route path="/main" element={<MainContainer />}>
-          <Route path="welcome" element={<Welcome />} />
-          <Route path="allusers" element={<AllUsers />} />
-          <Route path="groups" element={<Groups />} />
-          <Route path="chat/:params" element={<ChatArea />} />
-          <Route path="creategroup" element={<CreateGroup />} />
-        </Route>
-      </Routes> */}
       <Routes>
       {/* Common Routes */}
-      <Route path="/forgot-password" element={<ForgotPassword />} />
+      {/* <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/update-password/:id" element={<UpdatePassword />} />
       <Route path="/" element={<Login />} />
       <Route path="/signup" element={<SignUp />} />
-      <Route path="/verify-email" element={<VerifyEmail />} />
+      <Route path="/verify-email" element={<VerifyEmail />} /> */}
 
       {/* Nested Routes for Desktop */}
       {!isMobile && (
-        <Route path="/main" element={<MainContainer />}>
+        <Route path="/" element={<MainContainer />}>
           <Route path="welcome" element={<Welcome />} />
           <Route path="allusers" element={<AllUsers />} />
           <Route path="groups" element={<Groups />} />
@@ -83,7 +108,7 @@ function App() {
         </Route>
       )}
       {isMobile && (
-        <Route path="/main" element={<MobileContainer />}>
+        <Route path="/" element={<MobileContainer />}>
           <Route path="" element={<SideBar />} />
           <Route path="allusers" element={<AllUsers />} />
           <Route path="groups" element={<Groups />} />

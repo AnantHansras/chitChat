@@ -27,15 +27,16 @@ const VerifyEmail = () => {
   };
 
   return (
-
     <div
       className={` w-full h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 ${
         isDarkMode ? " text-gray-300 bg-gray-900" : "bg-[#f4f5f8] text-gray-600"
       }`}
     >
       <div
-        className={`w-full max-w-md p-6 sm:p-8 rounded-2xl shadow-lg transition-all ${
-          isDarkMode ? "bg-gray-800 border-gray-600" : "bg-white border-gray-300"
+        className={`w-full max-w-md p-6 sm:p-8 rounded-2xl shadow-lg transition-all border-2 ${
+          isDarkMode
+            ? "bg-gray-800 border-gray-600"
+            : "bg-white border-gray-300"
         }`}
       >
         <h1 className="text-3xl font-bold text-center text-green-400">
@@ -48,33 +49,32 @@ const VerifyEmail = () => {
         <form onSubmit={handleOnSubmit} className="mt-6 space-y-4">
           {/* OTP Input Field */}
           <div className="flex justify-center">
-          <OtpInput
-  value={otp}
-  onChange={setOtp}
-  numInputs={6}
-  renderInput={(props) => (
-    <input
-      {...props}
-      placeholder="-"
-      className={`w-14 h-14 px-2 md:px-4 sm:w-14 sm:h-14 border-2 rounded-lg text-center mr-2 text-xl font-semibold transition-all duration-200 focus:outline-none
+            <OtpInput
+              value={otp}
+              onChange={setOtp}
+              numInputs={6}
+              renderInput={(props) => (
+                <input
+                  {...props}
+                  placeholder="-"
+                  className={`w-14 h-14 px-2 md:px-4 sm:w-14 sm:h-14 border-2 rounded-lg text-center mr-2 text-xl font-semibold transition-all duration-200 focus:outline-none
         ${
           isDarkMode
             ? "bg-gray-700 border-gray-600 text-white placeholder-white focus:ring-2 focus:ring-green-400"
-            : "bg-gray-200 border-gray-300 text-black placeholder-black focus:ring-2 focus:ring-green-500"
+            : "bg-[#f4f5f8] border-gray-300 text-black placeholder-black focus:ring-2 focus:ring-green-500"
         }`}
-      style={{
-        color: isDarkMode ? "white" : "black",
-        placeholderColor: isDarkMode ? "white" : "black",
-      }}
-    />
-  )}
-  containerStyle={{
-    display: "flex",
-    justifyContent: "center",
-    gap: "10px",
-  }}
-/>
-
+                  style={{
+                    color: isDarkMode ? "white" : "black",
+                    placeholderColor: isDarkMode ? "white" : "black",
+                  }}
+                />
+              )}
+              containerStyle={{
+                display: "flex",
+                justifyContent: "center",
+                gap: "10px",
+              }}
+            />
           </div>
 
           {/* Verify Button */}
@@ -113,6 +113,3 @@ const VerifyEmail = () => {
 };
 
 export default VerifyEmail;
-
-
-

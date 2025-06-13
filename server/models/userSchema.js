@@ -9,16 +9,11 @@ const userSchema = mongoose.Schema({
         type:"String",
         require:true
     },
-    password :{
+    auth0Id : {
         type:"String",
-        require:true
+        require:true,
+        unique:true
     },
-    token:{
-        type:String
-    },
-    resetPasswordExpires:{
-        type:Date
-    }
 },{
     timestamps : true
 });

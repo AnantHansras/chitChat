@@ -10,7 +10,7 @@ dbConnect();
 
 const cors = require('cors')
 const cookieParser = require("cookie-parser");
-
+const User = require('./models/userSchema');
 
 app.use(express.json());
 app.use(cookieParser());
@@ -42,7 +42,20 @@ app.use('/user',userRoutes)
 app.use('/chat',chatRoutes)
 app.use('/message',msgRoutes)
 app.use('/password',passRoutes)
+app.post("/api/save-user", async (req, res) => {
+  const { sub, email, name } = req.body;
 
+  let user = await User.findOne({ auth0Id: sub });
+  if (!user) {
+    user = await User.create({
+      auth0Id: sub,
+      name,
+      email,
+    });
+  }
+
+  res.json(user);
+});
 app.get("/", (req, res) => {
 	return res.json({
 		success:true,
