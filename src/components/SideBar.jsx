@@ -16,7 +16,9 @@ import { logout } from '../services/userAPI';
 import { useEffect,useState } from 'react';
 import { fetchChats } from '../services/chatAPI';
 import Tooltip from '@mui/material/Tooltip';
+import { useAuth0 } from '@auth0/auth0-react';
 const SideBar = () => {
+  const { logout } = useAuth0();
   const darkMode = useSelector((state) => state.darkMode.isDarkMode);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -40,7 +42,8 @@ const SideBar = () => {
   const refresh = useSelector((state) => state.refresh.refresh)
   const handleOnClick = (e) =>{
     e.preventDefault();
-    dispatch(logout(navigate));
+    logout({ returnTo: window.location.origin });
+    // dispatch(logout(navigate));
   }
   const handleSearch = async (e) =>{
         e.preventDefault();
