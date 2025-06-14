@@ -1,6 +1,6 @@
 const express = require("express")
 const router = express.Router()
-const {jwtCheck} =require('../middlewares/auth')
+const jwtCheck =require('../middlewares/auth')
 
 const {accessChats,fetchChats,fetchAllGroups,
     createGroup,groupExit,addSelfToGroup,unSeenMessages

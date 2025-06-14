@@ -1,6 +1,6 @@
 const express = require("express")
 const router = express.Router()
-const {jwtCheck} = require('../middlewares/auth')
+const jwtCheck = require('../middlewares/auth')
 const multer = require('multer');
 const upload = multer({ dest: 'uploads/' });
 const {allMessages,sendMessage,deleteMessage,reactToMessage} = require('../controllers/message');
