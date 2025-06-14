@@ -21,7 +21,7 @@ import SideBar from './components/SideBar';
 import MobileContainer from './components/MobileContainer';
 import { useAuth0 } from '@auth0/auth0-react';
 function App() {
-  const { isLoading, isAuthenticated, loginWithRedirect, logout, user } = useAuth0();
+  const { isLoading, isAuthenticated, loginWithRedirect, getAccessTokenSilently, user } = useAuth0();
 
 // Auto login when not authenticated
 useEffect(() => {
@@ -34,6 +34,14 @@ useEffect(() => {
       if (!user) return;
 
       try {
+        const token = await getAccessTokenSilently({
+          audience: "https://myapi.express.com", 
+        });
+
+        // ✅ Save token to localStorage
+        localStorage.setItem("token", JSON.stringify(token));
+        localStorage.setItem("user", JSON.stringify(user));
+
         await fetch("https://chitchat-backend-22lq.onrender.com/api/save-user", {
           method: "POST",
           headers: {

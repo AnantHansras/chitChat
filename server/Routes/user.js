@@ -1,11 +1,11 @@
 const express = require("express")
 const router = express.Router()
 const {loginController,signupController,sendotpController,fetchusersController} = require('../controllers/user')
-const {auth} =require('../middlewares/auth')
+const {jwtCheck} =require('../middlewares/jwtCheck')
 
 router.post('/login',loginController);
 router.post('/signup',signupController);
 router.post("/sendotp", sendotpController);
-router.get("/fetchusers",auth, fetchusersController);
+router.get("/fetchusers",jwtCheck, fetchusersController);
 
 module.exports = router;
