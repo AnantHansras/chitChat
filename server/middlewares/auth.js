@@ -54,7 +54,7 @@ const checkJwtWithLocalUser = [
       const auth0Id = req.auth?.sub;
       console.log("Auth0 ID:", auth0Id);
       if (!auth0Id) {
-        return res.status(401).json({ message: 'Auth0 user ID missing' });
+        return res.status(401).json({ message: 'Auth0 user ID missing' ,data:req.auth,id:auth0Id});
       }
 
       const user = await User.findOne({ auth0Id });
