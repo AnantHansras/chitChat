@@ -10,7 +10,7 @@ createRoot(document.getElementById("root")).render(
   <Auth0Provider
     domain="dev-603dj73x820iet0b.us.auth0.com"
     clientId="uuUxbIe2m05xG7TNst3GovaXJ8Cr0CFq"
-    authorizationParams={{ redirect_uri: window.location.origin }}
+    authorizationParams={{ redirect_uri: window.location.origin,audience: "https://myapi.express.com" }}
   >
     <Provider store={store}>
       <BrowserRouter>
