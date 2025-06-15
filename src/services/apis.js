@@ -1,5 +1,4 @@
 const BASE_URL = "https://chitchat-backend-22lq.onrender.com";
-
 export const userEndpoints = {
     SENDOTP_API : BASE_URL+"/user/sendotp",
     SIGNUP_API : BASE_URL+"/user/signup",
