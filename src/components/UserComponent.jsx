@@ -15,7 +15,7 @@ const UserComponent = ({ friend }) => {
   const handleOnClick = async () => {
     const tempChat = await dispatch(accessChats(friend._id, friend.name, token));
     const chat = tempChat.data;
-    navigate(`/main/chat/${chat._id}&${friend.name}&${isGrp}`);
+    navigate(`/${chat._id}&${friend.name}&${isGrp}`);
   };
 
   return (
