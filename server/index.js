@@ -11,7 +11,7 @@ dbConnect();
 const cors = require('cors')
 const cookieParser = require("cookie-parser");
 const User = require('./models/userSchema');
-
+const jwtCheck = require('./middlewares/auth');
 app.use(express.json());
 app.use(cookieParser());
 //only requests coming from http://localhost:5173 are allowed to access the server's resources

@@ -47,6 +47,19 @@ const jwtCheck = auth({
 });
 
 const checkJwtWithLocalUser = [
+  (req, res, next) => {
+    const authHeader = req.headers.authorization;
+    console.log("Incoming Authorization Header:", authHeader);
+
+    if (!authHeader) {
+      return res.status(400).json({ message: "Missing Authorization header" ,data:req.auth,authHeader:authHeader});
+    }
+
+    // Optional: Just return the raw token info for debugging
+    // return res.status(200).json({ message: "Token received", token: authHeader });
+
+    next(); // continue to jwtCheck
+  },
   jwtCheck, // ✅ first validate the token
   async (req, res, next) => {
     try {
@@ -54,7 +67,7 @@ const checkJwtWithLocalUser = [
       const auth0Id = req.auth?.sub;
       console.log("Auth0 ID:", auth0Id);
       if (!auth0Id) {
-        return res.status(401).json({ message: 'Auth0 user ID missing' ,data:req.auth,id:auth0Id});
+        return res.status(401).json({ message: 'Auth0 user ID missing' ,data:auth0Id});
       }
 
       const user = await User.findOne({ auth0Id });
