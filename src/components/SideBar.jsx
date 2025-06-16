@@ -143,7 +143,7 @@ const SideBar = () => {
           }
           else{
             user.users.map((u) =>{
-              if(u.auth0Id != userData.auth0Id){
+              if(u.auth0Id != userData.user){
                 chatName = u.name;
               }
             })

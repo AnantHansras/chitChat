@@ -261,7 +261,7 @@ const handleOnSend = async (e) => {
         <ChatBanner />
           {/* yaha */}
           {allMsg.map((msg, index) => {
-            return user.auth0Id == msg.sender.auth0Id ? (
+            return user.sub == msg.sender.auth0Id ? (
               <Selfmsg parentAddReaction={parentAddReaction} key={index} content={msg.content} time={msg.createdAt} seen={handleSeen(msg)} imageUrl={msg.imageUrl}  id={msg._id} reactions={msg.reactions}/>
             ) : (
               <Othermsg parentAddReaction={parentAddReaction} key={index} sender={msg.sender.name} content={msg.content} id={msg._id} time={msg.createdAt} imageUrl={msg.imageUrl} reactions={msg.reactions}/>
