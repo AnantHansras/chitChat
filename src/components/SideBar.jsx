@@ -144,8 +144,6 @@ const userData = userString ? JSON.parse(userString) : null;
           }
           else{
             user.users.map((u) =>{
-              toast.error(userData.sub)
-              toast.success(u.auth0Id)
               if(u.auth0Id != userData.sub){
                 chatName = u.name;
               }
