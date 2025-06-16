@@ -54,7 +54,7 @@ const CreateGroup = () => {
           } shadow-lg`}
         >
         <div className="flex items-center md:mb-4 mb-2">
-        <IconButton onClick={() => {isMobile ? navigate('/main/') : navigate('/main/welcome')}} color="inherit" className='opacity-100'>
+        <IconButton onClick={() => {isMobile ? navigate('/') : navigate('/')}} color="inherit" className='opacity-100'>
         <Tooltip title="Home" placement="top" className=" font-bold" arrow><ArrowBackIcon /></Tooltip>
         </IconButton>
       <h3 className="text-xl font-semibold text-center md:ml-2 md:mb-1">

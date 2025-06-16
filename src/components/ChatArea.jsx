@@ -80,10 +80,10 @@ const ChatArea = () => {
   }, []);
   const handleDelete = async()=>{
     if(isMobile){
-      navigate('/main/')
+      navigate('/')
     }
     else{
-      navigate('/main/welcome');
+      navigate('/');
     }
     const groupId = chatId
     dispatch(exitGroup(groupId,token));
@@ -232,7 +232,7 @@ const handleOnSend = async (e) => {
           </IconButton>
           }
           {
-        true && <IconButton onClick={() => {isMobile ? navigate('/main/') : navigate('/main/welcome')}} color="inherit" className='opacity-60'>
+        true && <IconButton onClick={() => {isMobile ? navigate('/') : navigate('/')}} color="inherit" className='opacity-60'>
         <Tooltip title="Home" placement="top" arrow><HomeIcon /></Tooltip>
         </IconButton>
       }

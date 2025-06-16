@@ -10,7 +10,7 @@ const GroupComponent = ({ friend }) => {
   const handleOnClick = (e) =>{
     e.preventDefault();
     dispatch(addSelfToGroup(friend._id,token,navigate));
-    navigate('/' + friend._id + '&' + friend.chatName + '&' + friend.isGroupChat)
+    navigate('/chat' + friend._id + '&' + friend.chatName + '&' + friend.isGroupChat)
   }
   return (
     <div

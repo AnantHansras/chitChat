@@ -39,10 +39,10 @@ const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
         const token = localStorage.getItem('token');
         if (token) {
             if(!isMobile){
-                navigate('/main/welcome');
+                navigate('/');
             }
             else{
-                navigate('/main/');
+                navigate('/');
             }
         }
     }, [navigate]);

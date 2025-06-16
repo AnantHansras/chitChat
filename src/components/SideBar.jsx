@@ -75,7 +75,7 @@ const SideBar = () => {
         }}
       >
       {
-        !isMobile && <IconButton onClick={() => {isMobile ? navigate('/main/') : navigate('/main/welcome')}} color="inherit" className='opacity-60'>
+        !isMobile && <IconButton onClick={() => {isMobile ? navigate('/') : navigate('/')}} color="inherit" className='opacity-60'>
         <Tooltip title="Home" placement="top" arrow><HomeIcon /></Tooltip>
         </IconButton>
       }

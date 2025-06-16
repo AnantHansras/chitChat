@@ -68,7 +68,7 @@ const AllUsers = () => {
             }}
           >
           {
-        isMobile ? (<IconButton onClick={() => {isMobile ? navigate('/main/') : navigate('/main/welcome')}} color="inherit" className='opacity-60 h-8'>
+        isMobile ? (<IconButton onClick={() => {isMobile ? navigate('/') : navigate('/')}} color="inherit" className='opacity-60 h-8'>
         <Tooltip title="Home" placement="top" arrow><HomeIcon /></Tooltip>
         </IconButton>) : (<img src={logo} className="opacity-70 h-8" />)
       }
