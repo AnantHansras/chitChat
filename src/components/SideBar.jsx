@@ -24,7 +24,8 @@ const SideBar = () => {
   const navigate = useNavigate();
   const [search,setSearch] = useState("");
   const token = localStorage.getItem("token") ? JSON.parse(localStorage.getItem("token")) : null
-  const userData = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null
+  const userString = localStorage.getItem("user");
+const userData = userString ? JSON.parse(userString) : null;
   const [chats, setChats] = useState([]);
   const toggleModeHandler = () => {
     dispatch(toggleTheme());
@@ -143,7 +144,9 @@ const SideBar = () => {
           }
           else{
             user.users.map((u) =>{
-              if(u.auth0Id != userData.user){
+              toast.error(userData.sub)
+              toast.success(u.auth0Id)
+              if(u.auth0Id != userData.sub){
                 chatName = u.name;
               }
             })

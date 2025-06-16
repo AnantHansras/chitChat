@@ -18,9 +18,9 @@ const allMessages = async(req,res) =>{
           );
       
           const msgs = await Message.find({ chat: chatId })
-            .populate('sender', 'name email')
+            .populate('sender', 'name email auth0Id') // Populate the sender field to get user info
             .populate('chat')
-            .populate('seenBy', 'name email') // Populate the seenBy field to get user info
+            .populate('seenBy', 'name email auth0Id') // Populate the seenBy field to get user info
             .sort({ createdAt: 1 });
 
         return res.status(200).json({
