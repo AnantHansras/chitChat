@@ -108,7 +108,7 @@ useEffect(() => {
       {/* Nested Routes for Desktop */}
       {!isMobile && (
         <Route path="/" element={<MainContainer />}>
-          <Route path="welcome" element={<Welcome />} />
+          <Route path="" element={<Welcome />} />
           <Route path="allusers" element={<AllUsers />} />
           <Route path="groups" element={<Groups />} />
           <Route path="chat/:params" element={<ChatArea />} />

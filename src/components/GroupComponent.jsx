@@ -12,6 +12,16 @@ const GroupComponent = ({ friend }) => {
     dispatch(addSelfToGroup(friend._id,token,navigate));
     navigate('/chat' + friend._id + '&' + friend.chatName + '&' + friend.isGroupChat)
   }
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+    
+      useEffect(() => {
+        const handleResize = () => {
+          setIsMobile(window.innerWidth < 768);
+        };
+    
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+      }, []);
   return (
     <div
       className={`flex items-center gap-3 rounded-2xl my-2 p-3 w-full ${
@@ -26,11 +36,24 @@ const GroupComponent = ({ friend }) => {
       >
         {friend.chatName[0]}
       </p>
-
-      {/* Friend Name */}
-      <p className="flex-1 truncate text-base font-semibold ">
-        {friend.chatName}
-      </p>
+          {
+            isMobile && (
+              <p className="text-sm text-gray-500 truncate w-20">
+                {friend.chatName.length > 20
+                  ? `${friend.chatName.slice(0, 20)}...`
+                  : friend.chatName}
+              </p>
+            )
+          }
+          {
+            !isMobile && (
+              <p className="text-sm text-gray-500 truncate w-40">
+                {friend.chatName.length > 40
+                  ? `${friend.chatName.slice(0, 40)}...`
+                  : friend.chatName}
+              </p>
+            )
+          }
 
       {/* Message Button */}
       <button

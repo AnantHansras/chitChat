@@ -112,13 +112,9 @@ const AllUsers = () => {
         }}>
           {users.length > 0 ? (
                         users.map((user, index) => {
-                          
-
                           return ( <UserComponent key={index} friend={user}>
                                 {/* Add additional user details if needed */}
                             </UserComponent>)
-          
-                          
           })
                     ) : (
                         <div className="text-center text-2xl mt-5 text-gray-500">
