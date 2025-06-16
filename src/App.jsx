@@ -93,7 +93,6 @@ useEffect(() => {
         open = {loading}
         sx={(theme) => ({ color: '#aea', zIndex: theme.zIndex.drawer + 1 })}
       >
-        <img src={logo} className='h-20 opacity-70'/>
         <CircularProgress color="inherit" size="3rem" />
       </Backdrop> 
     

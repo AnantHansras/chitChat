@@ -31,7 +31,7 @@ const userData = userString ? JSON.parse(userString) : null;
     dispatch(toggleTheme());
   };
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
-
+const [loading, setLoading] = useState(false);
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
@@ -53,8 +53,10 @@ const userData = userString ? JSON.parse(userString) : null;
     }
   useEffect(()=>{
     const fetch = async()=>{
+      setLoading(true);
       const fetchedChats = await dispatch(fetchChats(token,search));
       setChats(fetchedChats.data);
+      setLoading(false);
     }
       fetch();
   },[search,refresh])
@@ -137,7 +139,24 @@ const userData = userString ? JSON.parse(userString) : null;
         }}
       >
       {/* yaha */}
-        {chats.map((user, index) => {
+      {
+        loading ? (
+  // Skeleton loading placeholders
+  [...Array(5)].map((_, idx) => (
+    <div
+      key={idx}
+      className={`animate-pulse flex items-center space-x-4 p-4 border-b ${
+        darkMode ? 'bg-gray-800' : 'bg-white'
+      }`}
+    >
+      <div className="rounded-full bg-gray-300 dark:bg-gray-700 h-10 w-10"></div>
+      <div className="flex-1 space-y-2 py-1">
+        <div className="h-4 bg-gray-300 dark:bg-gray-700 rounded w-3/4"></div>
+        <div className="h-4 bg-gray-300 dark:bg-gray-700 rounded w-1/2"></div>
+      </div>
+    </div>
+  ))
+) :(chats.map((user, index) => {
           let chatName = "";
           if(user.isGroupChat){
             chatName = user.chatName
@@ -157,10 +176,14 @@ const userData = userString ? JSON.parse(userString) : null;
           
 
           
-        )}
+        ))
+      }
+        
+
       </div>
     </div>
   );
 };
 
 export default SideBar;
+
