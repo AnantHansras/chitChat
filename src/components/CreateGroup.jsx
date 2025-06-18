@@ -89,10 +89,10 @@ const CreateGroup = () => {
             }`}
           >
             {loading ? (
-              <>
+              <div className="flex items-center justify-center space-x-2">
                 <Loader2 className="animate-spin h-5 w-5" />
                 Creating...
-              </>
+              </div>
             ) : (
               "Create Group"
             )}

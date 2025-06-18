@@ -134,7 +134,7 @@ const FriendContainer = ({ friend, chatName }) => {
   </div>
 
   {/* Friend Name and Message Count */}
-  <div className="col-start-2 col-end-3 row-start-1 flex justify-between items-center">
+  <div className="col-start-2 row-start-1 flex justify-between items-center">
     <p
       className={`font-semibold truncate ${
         darkMode ? 'text-gray-300' : 'text-[#000000de]'
@@ -142,13 +142,12 @@ const FriendContainer = ({ friend, chatName }) => {
     >
       {chatName}
     </p>
-    {count > 0 && (
-      <div className="h-5 w-5 flex items-center justify-center bg-green-500 text-white text-xs rounded-full">
+  </div>
+        {count > 0 && (
+      <div className="col-start-3 row-start-1 h-5 w-5 flex items-center justify-center bg-green-500 text-white text-xs rounded-full">
         {count}
       </div>
     )}
-  </div>
-
   {/* Last Message */}
   <div className="col-start-2 row-start-2 text-sm text-ellipsis overflow-hidden whitespace-nowrap">
     {friend.latestMessage ? (

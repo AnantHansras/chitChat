@@ -39,7 +39,7 @@ const GroupComponent = ({ friend }) => {
       </p>
           {
             isMobile && (
-              <p className="text-sm text-gray-500 truncate w-20">
+              <p className="text-base font-semibold text-gray-500 truncate flex-1">
                 {friend.chatName.length > 20
                   ? `${friend.chatName.slice(0, 20)}...`
                   : friend.chatName}
@@ -48,7 +48,7 @@ const GroupComponent = ({ friend }) => {
           }
           {
             !isMobile && (
-              <p className="text-sm text-gray-500 truncate w-40">
+              <p className="text-base font-semibold text-gray-500 truncate flex-1">
                 {friend.chatName.length > 40
                   ? `${friend.chatName.slice(0, 40)}...`
                   : friend.chatName}
