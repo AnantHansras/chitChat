@@ -5,11 +5,12 @@ import { createGroup } from "../services/chatAPI";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useNavigate } from 'react-router-dom';
 import Tooltip from '@mui/material/Tooltip';
+import { Loader2 } from "lucide-react";
 import { IconButton } from '@mui/material';
 const CreateGroup = () => {
   const navigate = useNavigate();
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
-  
+  const [loading, setLoading] = useState(false);
     useEffect(() => {
       const handleResize = () => {
         setIsMobile(window.innerWidth < 768);
@@ -32,8 +33,10 @@ const CreateGroup = () => {
 
   const handleCreateGroup = () => {
     if (groupName) {
+      setLoading(true);
       dispatch(createGroup(groupName, token));
       setGroupName("");
+      setLoading(false);
     } else {
       alert("Please enter a group name.");
     }
@@ -80,11 +83,19 @@ const CreateGroup = () => {
           />
           <button
             onClick={handleCreateGroup}
+            disabled={loading}
             className={`mt-4 bg-green-500 text-white p-2 md:p-3 rounded-lg text-lg font-semibold hover:bg-green-600 focus:outline-none w-full ${
               darkMode ? "hover:bg-green-400" : "hover:bg-green-600"
             }`}
           >
-            Create Group
+            {loading ? (
+              <>
+                <Loader2 className="animate-spin h-5 w-5" />
+                Creating...
+              </>
+            ) : (
+              "Create Group"
+            )}
           </button>
         </div>
       </motion.div>

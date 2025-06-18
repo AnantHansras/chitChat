@@ -30,16 +30,17 @@ const AllUsers = () => {
   const [users, setUsers] = useState([]); 
   const handleOnClick = async (e) =>{
     e.preventDefault();
+    setLoading(true);
     const fetchedUsers = await dispatch(fetchUsers(token, search));
-    
+    setLoading(false);
     setUsers(fetchedUsers.data);
   }
   useEffect(() => {
     const fetchData = async () => {
-      
+      setLoading(true);
         const fetchedUsers = await dispatch(fetchUsers(token, search));
         setUsers(fetchedUsers.data); 
-      
+        setLoading(false);
     };
 
     fetchData(); 
@@ -110,22 +111,37 @@ const AllUsers = () => {
       msOverflowStyle: 'none', 
       WebkitOverflowScrolling: 'touch', 
         }}>
-          {users.length > 0 ? (
-                        users.map((user, index) => {
-                          return ( <UserComponent key={index} friend={user}>
-                                {/* Add additional user details if needed */}
-                            </UserComponent>)
-          })
-                    ) : (
-                        <div className="text-center text-2xl mt-5 text-gray-500">
-                            No users found
-                        </div>
-                    )}
+          {loading ? (
+    [...Array(4)].map((_, idx) => <UserSkeleton key={idx} darkMode={darkMode} />)
+  ) : users.length > 0 ? (
+    users.map((user, index) => (
+      <UserComponent key={index} friend={user} />
+    ))
+  ) : (
+    <div className="text-center text-2xl mt-5 text-gray-500">
+      No users found
+    </div>
+  )}
           </div>
         </motion.div>
     </AnimatePresence>
     
   );
 };
+const UserSkeleton = ({ darkMode }) => (
+  <div
+    className={`animate-pulse flex items-center space-x-4 rounded-xl p-4 mb-2 ${
+      darkMode ? "bg-gray-800" : "bg-white"
+    }`}
+  >
+    <div className={`rounded-full h-10 w-10 ${darkMode ? "bg-gray-700" : "bg-gray-300"}`}></div>
+    <div className="flex-1 space-y-2 py-1">
+      <div className={`h-4 rounded w-3/4 ${darkMode ? "bg-gray-600" : "bg-gray-300"}`}></div>
+      <div className={`h-4 rounded w-1/2 ${darkMode ? "bg-gray-700" : "bg-gray-200"}`}></div>
+    </div>
+  </div>
+);
+
 
 export default AllUsers;
+

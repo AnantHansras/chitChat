@@ -10,10 +10,11 @@ import GroupComponent from './GroupComponent';
 import HomeIcon from '@mui/icons-material/Home';
 import { useNavigate } from 'react-router-dom';
 import Tooltip from '@mui/material/Tooltip';
+
 const Groups = () => {
   const navigate = useNavigate();
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
-  
+  const [loading, setLoading] = useState(false);
     useEffect(() => {
       const handleResize = () => {
         setIsMobile(window.innerWidth < 768);
@@ -29,19 +30,39 @@ const Groups = () => {
   const [groups, setGroups] = useState([]);
   
 
-  const handleOnClick = async (e) =>{
-      e.preventDefault();
+  // const handleOnClick = async (e) =>{
+  //     e.preventDefault();
+  //     const fetchedGroups = await dispatch(fetchGroups(token, search));
+  //     setGroups(fetchedGroups.data);
+  // }
+  // useEffect(() => {
+
+  //     const fetchData = async () => {
+  //       const fetchedGroups = await dispatch(fetchGroups(token, search));
+  //       setGroups(fetchedGroups.data);
+  //     };
+  
+  //     fetchData(); 
+  //   }, [search]);
+   const fetchData = async () => {
+    setLoading(true); // 👈 Start loading
+    try {
       const fetchedGroups = await dispatch(fetchGroups(token, search));
       setGroups(fetchedGroups.data);
-  }
+    } catch (err) {
+      console.error("Failed to fetch groups", err);
+    }
+    setLoading(false); // 👈 End loading
+  };
+
+  const handleOnClick = (e) => {
+    e.preventDefault();
+    fetchData();
+  };
+
   useEffect(() => {
-      const fetchData = async () => {
-        const fetchedGroups = await dispatch(fetchGroups(token, search));
-        setGroups(fetchedGroups.data);
-      };
-  
-      fetchData(); 
-    }, [search]);
+    fetchData(); // initial + whenever `search` changes
+  }, [search]);
   return (
     <AnimatePresence>
         <motion.div
@@ -105,17 +126,19 @@ const Groups = () => {
       msOverflowStyle: 'none', // For IE and Edge
       WebkitOverflowScrolling: 'touch', // For smoother scrolling on mobile
         }}>
-          {groups.length > 0 ? (
-            groups.map((group, index) => (
-              group.chatName && <GroupComponent key={index} friend={group}>
-                                {/* Add additional user details if needed */}
-                            </GroupComponent>
-                        ))
-                    ) : (
-                        <div className="text-center mt-5 text-2xl text-gray-500">
-                            No group found
-                        </div>
-                    )}
+                    {loading ? (
+            <>
+              {[...Array(4)].map((_, idx) => (
+                <GroupSkeleton key={idx} darkMode={darkMode} />
+              ))}
+            </>
+          ) : groups.length > 0 ? (
+            groups.map((group, index) =>
+              group.chatName ? <GroupComponent key={index} friend={group} /> : null
+            )
+          ) : (
+            <div className="text-center mt-5 text-2xl text-gray-500">No group found</div>
+          )}
           </div>
         </motion.div>
     </AnimatePresence>
@@ -124,3 +147,17 @@ const Groups = () => {
 };
 
 export default Groups;
+
+const GroupSkeleton = ({ darkMode }) => (
+  <div
+    className={`animate-pulse flex items-center space-x-4 rounded-xl p-4 mb-2 ${
+      darkMode ? "bg-gray-800" : "bg-white"
+    }`}
+  >
+    <div className={`rounded-full h-10 w-10 ${darkMode ? "bg-gray-700" : "bg-gray-300"}`}></div>
+    <div className="flex-1 space-y-2 py-1">
+      <div className={`h-4 rounded w-3/4 ${darkMode ? "bg-gray-600" : "bg-gray-300"}`}></div>
+      <div className={`h-4 rounded w-1/2 ${darkMode ? "bg-gray-700" : "bg-gray-200"}`}></div>
+    </div>
+  </div>
+);
