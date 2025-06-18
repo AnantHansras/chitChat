@@ -89,12 +89,12 @@ useEffect(() => {
     >
 
 
-  <Backdrop className='flex flex-col space-y-2'
+  {/* <Backdrop className='flex flex-col space-y-2'
         open = {loading}
         sx={(theme) => ({ color: '#aea', zIndex: theme.zIndex.drawer + 1 })}
       >
         <CircularProgress color="inherit" size="3rem" />
-      </Backdrop> 
+      </Backdrop>  */}
     
       <Routes>
       {/* Common Routes */}
