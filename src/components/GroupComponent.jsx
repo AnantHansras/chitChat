@@ -1,7 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSelector,useDispatch,useState } from 'react-redux';
+import { useSelector,useDispatch} from 'react-redux';
 import {addSelfToGroup} from '../services/chatAPI'
+import { useState, useEffect } from 'react';
 const GroupComponent = ({ friend }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch()
