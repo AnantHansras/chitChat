@@ -7,7 +7,7 @@ const ChatBanner = () => {
         className={`flex items-center justify-center py-2 px-1 text-xs rounded-lg mx-2 my-4 text-center ${
           darkMode
             ? "bg-yellow-200 text-yellow-900 opacity-70"
-            : "bg-yellow-200 text-yellow-900 opacity-90"
+            : "bg-yellow-200 text-yellow-900 opacity-70"
         } border border-yellow-300`}
       >
         <span>

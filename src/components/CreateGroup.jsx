@@ -31,10 +31,10 @@ const CreateGroup = () => {
     setGroupName(event.target.value);
   };
 
-  const handleCreateGroup = () => {
+  const handleCreateGroup = async () => {
     if (groupName) {
       setLoading(true);
-      dispatch(createGroup(groupName, token));
+      await dispatch(createGroup(groupName, token));
       setGroupName("");
       setLoading(false);
     } else {

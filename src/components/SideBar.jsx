@@ -144,23 +144,35 @@ const [loading, setLoading] = useState(false);
   // Skeleton loading placeholders
   [...Array(5)].map((_, idx) => (
     <div
-  key={idx}
-  className={`animate-pulse flex items-center space-x-4 p-4 ${
+  className={`animate-pulse grid grid-cols-[auto_1fr_auto] grid-rows-[auto_auto] gap-x-4 p-3 rounded-2xl m-2 ${
     darkMode ? 'bg-gray-800' : 'bg-white'
   }`}
 >
+  {/* Avatar Skeleton */}
   <div
-    className={`rounded-full ${darkMode ? 'bg-gray-700' : 'bg-gray-300'} h-10 w-10`}
+    className={`row-span-2 h-10 w-10 rounded-full ${
+      darkMode ? 'bg-gray-700' : 'bg-gray-300'
+    }`}
   ></div>
-  <div className="flex-1 space-y-2 py-1">
-    <div
-      className={`h-4 ${darkMode ? 'bg-gray-700' : 'bg-gray-300'} rounded w-3/4`}
-    ></div>
-    <div
-      className={`h-4 ${darkMode ? 'bg-gray-700' : 'bg-gray-300'} rounded w-1/2`}
-    ></div>
-  </div>
+
+  {/* Top Row */}
+  <div className="col-start-2 col-end-3 row-start-1 w-3/4 h-4 rounded-md mb-1.5 ${
+    darkMode ? 'bg-gray-700' : 'bg-gray-300'
+  }"></div>
+
+  {/* Bottom Row */}
+  <div className="col-start-2 row-start-2 w-1/2 h-4 rounded-md ${
+    darkMode ? 'bg-gray-700' : 'bg-gray-300'
+  }"></div>
+
+  {/* Timestamp Skeleton */}
+  <div
+    className={`col-start-3 row-start-2 h-4 w-10 rounded-md ${
+      darkMode ? 'bg-gray-700' : 'bg-gray-300'
+    }`}
+  ></div>
 </div>
+
 
   ))
 ) :(chats.map((user, index) => {
