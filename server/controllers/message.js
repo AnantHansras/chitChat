@@ -63,6 +63,7 @@ const sendMessage = async (req, res) => {
             content: content || '', // Allow empty content if there's an image
             chat: chatId,
             imageUrl: imageUrl, // Include imageUrl if available
+            seenBy: [req.user.id], 
         };
 
         let msg = await Message.create(newMsg);
