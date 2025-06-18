@@ -1,4 +1,3 @@
-import React from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import { IconButton } from '@mui/material';
 import logo from '../assets/image.png';
@@ -10,7 +9,6 @@ import GroupComponent from './GroupComponent';
 import HomeIcon from '@mui/icons-material/Home';
 import { useNavigate } from 'react-router-dom';
 import Tooltip from '@mui/material/Tooltip';
-import { useState } from 'react';
 const Groups = () => {
   const navigate = useNavigate();
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
@@ -145,9 +143,6 @@ const Groups = () => {
     
   );
 };
-
-export default Groups;
-
 const GroupSkeleton = ({ darkMode }) => (
   <div
     className={`animate-pulse flex items-center space-x-4 rounded-xl p-4 mb-2 ${
@@ -161,3 +156,5 @@ const GroupSkeleton = ({ darkMode }) => (
     </div>
   </div>
 );
+export default Groups;
+
