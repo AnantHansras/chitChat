@@ -20,6 +20,7 @@ import { useEffect,useState } from 'react';
 import SideBar from './components/SideBar';
 import MobileContainer from './components/MobileContainer';
 import { useAuth0 } from '@auth0/auth0-react';
+import BotChatArea from './components/BotChatArea';
 function App() {
   const { isLoading, isAuthenticated, loginWithRedirect, getAccessTokenSilently, user } = useAuth0();
 
@@ -112,6 +113,7 @@ useEffect(() => {
           <Route path="groups" element={<Groups />} />
           <Route path="chat/:params" element={<ChatArea />} />
           <Route path="creategroup" element={<CreateGroup />} />
+          <Route path="chatbot" element={<BotChatArea />} />
         </Route>
       )}
       {isMobile && (
@@ -121,6 +123,7 @@ useEffect(() => {
           <Route path="groups" element={<Groups />} />
           <Route path="chat/:params" element={<ChatArea />} />
           <Route path="creategroup" element={<CreateGroup />} />
+          <Route path="chatbot" element={<BotChatArea />} />
         </Route>
       )}
     </Routes>

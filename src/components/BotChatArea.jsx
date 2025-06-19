@@ -1,0 +1,178 @@
+import React, { useEffect, useRef, useState } from 'react';
+import { IconButton, Tooltip } from '@mui/material';
+import SendRoundedIcon from '@mui/icons-material/SendRounded';
+import AttachFileIcon from '@mui/icons-material/AttachFile';
+import HomeIcon from '@mui/icons-material/Home';
+import logo from '../assets/image.png';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { AnimatePresence, motion } from 'framer-motion';
+import Selfmsg from './Selfmsg';
+import Othermsg from './Othermsg';
+import { sendToNovaAI } from '../services/aiAPI'; // You need to define this
+
+const BotChatArea = () => {
+  const darkMode = useSelector((state) => state.darkMode.isDarkMode);
+  const [msg, setMsg] = useState('');
+  const [allMsg, setAllMsg] = useState([]);
+  const [attachment, setAttachment] = useState(null);
+  const messagesEndRef = useRef(null);
+  const isMobile = window.innerWidth < 768;
+  const navigate = useNavigate();
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [allMsg]);
+
+  const handleAttachmentChange = (e) => {
+    if (e.target.files.length > 0) {
+      setAttachment(e.target.files[0]);
+    }
+  };
+
+  const handleSend = async (e) => {
+    e.preventDefault();
+    if (!msg.trim() && !attachment) return;
+
+    const userMessage = {
+      sender: 'user',
+      content: msg,
+      imageUrl: attachment ? URL.createObjectURL(attachment) : null,
+      createdAt: new Date().toISOString(),
+    };
+
+    setAllMsg((prev) => [...prev, userMessage]);
+    setMsg('');
+    setAttachment(null);
+
+    // Send message to Nova AI
+    try {
+    //   const res = await sendToNovaAI(msg); // Your API logic
+    //   const botReply = {
+    //     sender: 'nova',
+    //     content: res.reply,
+    //     createdAt: new Date().toISOString(),
+    //   };
+    //   setAllMsg((prev) => [...prev, botReply]);
+    } catch (err) {
+      console.error("Error talking to Nova AI:", err);
+    }
+  };
+
+  return (
+    <AnimatePresence>
+      <motion.div
+        initial={{ opacity: 0, scale: 0 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0 }}
+        transition={{ duration: 0.5 }}
+        className={`flex flex-col h-100 flex-1 md:flex-[0.7] ${
+          darkMode ? 'text-gray-300' : ''
+        }`}
+      >
+        {/* Header */}
+        <div
+          className={`flex items-center justify-between m-3 mb-1 p-2 rounded-2xl ${
+            darkMode ? 'bg-gray-800 text-gray-300' : 'bg-white'
+          }`}
+          style={{ boxShadow: '0 8px 10px -6px rgba(0,0,0,0.1)' }}
+        >
+          <div className="flex items-center gap-3">
+            <div
+              className={`h-10 w-10 flex justify-center items-center rounded-full text-white text-xl font-bold ${
+                darkMode ? 'bg-purple-600' : 'bg-purple-300'
+              }`}
+            >
+              N
+            </div>
+            <p className="text-xl font-bold">Nova AI</p>
+          </div>
+          <Tooltip title="Home" placement="top" arrow>
+            <IconButton onClick={() => navigate('/')} className="opacity-60">
+              <HomeIcon />
+            </IconButton>
+          </Tooltip>
+        </div>
+
+        {/* Chat Area */}
+        <div
+          className={`rounded-2xl m-3 my-1 p-2 flex-1 overflow-y-auto relative flex flex-col ${
+            darkMode ? 'bg-gray-800' : 'bg-white'
+          }`}
+          style={{ scrollbarWidth: 'none', WebkitOverflowScrolling: 'touch' }}
+        >
+          {allMsg.map((msg, index) =>
+            msg.sender === 'user' ? (
+              <Selfmsg
+                key={index}
+                content={msg.content}
+                time={msg.createdAt}
+                imageUrl={msg.imageUrl}
+              />
+            ) : (
+              <Othermsg
+                key={index}
+                sender="Nova AI"
+                content={msg.content}
+                time={msg.createdAt}
+              />
+            )
+          )}
+          <div ref={messagesEndRef} />
+        </div>
+
+        {/* Input */}
+        <div
+          className={`flex items-center rounded-2xl m-3 mt-1 p-2 ${
+            darkMode ? 'bg-gray-800 text-gray-300' : 'bg-white'
+          }`}
+          style={{ boxShadow: '0 8px 10px -6px rgba(0,0,0,0.1)' }}
+        >
+          <img src={logo} className="h-7 mr-3 opacity-70" alt="Logo" />
+          <input
+            value={msg}
+            onChange={(e) => setMsg(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && handleSend(e)}
+            placeholder="Ask something..."
+            className={`outline-none w-full ${
+              darkMode
+                ? 'bg-gray-800 text-gray-300 placeholder-gray-500'
+                : ''
+            }`}
+          />
+          {attachment && (
+            <div className="relative">
+              <img src={URL.createObjectURL(attachment)} className="h-8" />
+              <button
+                onClick={() => setAttachment(null)}
+                className="absolute -top-1 -right-1 text-xs rounded-full w-3 h-3 flex items-center justify-center"
+              >
+                ✖
+              </button>
+            </div>
+          )}
+          <input
+            type="file"
+            id="attachment"
+            style={{ display: 'none' }}
+            onChange={handleAttachmentChange}
+          />
+          <Tooltip title="Attach File" placement="top" arrow>
+            <IconButton component="label" htmlFor="attachment">
+              <AttachFileIcon className={darkMode ? 'text-gray-400' : 'text-gray-600'} />
+            </IconButton>
+          </Tooltip>
+          <IconButton onClick={handleSend}>
+            <SendRoundedIcon className={darkMode ? 'text-green-400' : 'text-green-600'} />
+          </IconButton>
+        </div>
+      </motion.div>
+    </AnimatePresence>
+  );
+};
+
+export default BotChatArea;

@@ -17,6 +17,7 @@ import { useEffect,useState } from 'react';
 import { fetchChats } from '../services/chatAPI';
 import Tooltip from '@mui/material/Tooltip';
 import { useAuth0 } from '@auth0/auth0-react';
+import ChatbotContainer from './ChatBotContainer'; // Assuming you have a ChatbotContainer component
 const SideBar = () => {
   const { logout } = useAuth0();
   const darkMode = useSelector((state) => state.darkMode.isDarkMode);
@@ -171,7 +172,9 @@ const [loading, setLoading] = useState(false);
 
 
   ))
-) :(chats.map((user, index) => {
+) :( <div>
+  <ChatbotContainer/>
+  {chats.map((user, index) => {
           let chatName = "";
           if(user.isGroupChat){
             chatName = user.chatName
@@ -187,14 +190,11 @@ const [loading, setLoading] = useState(false);
             <FriendContainer key={index} friend={user} chatName={chatName}>
             </FriendContainer>
           )
-        }
-          
-
-          
-        ))
-      }
-        
-
+        } 
+        )}
+</div>
+  )
+    }
       </div>
     </div>
   );
