@@ -76,7 +76,7 @@ const ChatArea = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
   useEffect(() => {
-    scrollToBottom();
+    setTimeout(() => scrollToBottom(), 1000);
   }, []);
   const handleDelete = async()=>{
     if(isMobile){

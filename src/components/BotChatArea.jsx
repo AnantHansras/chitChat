@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import Selfmsg from './Selfmsg';
 import Othermsg from './Othermsg';
-import { sendToNovaAI } from '../services/aiAPI'; // You need to define this
+// import { sendToNovaAI } from '../services/aiAPI'; // You need to define this
 
 const BotChatArea = () => {
   const darkMode = useSelector((state) => state.darkMode.isDarkMode);
