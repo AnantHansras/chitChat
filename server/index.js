@@ -11,6 +11,7 @@ dbConnect();
 const cors = require('cors')
 const cookieParser = require("cookie-parser");
 const User = require('./models/userSchema');
+const Chat = require('./models/chatSchema');
 const jwtCheck = require('./middlewares/auth');
 app.use(express.json());
 app.use(cookieParser());
@@ -52,6 +53,12 @@ app.post("/api/save-user", async (req, res) => {
       name,
       email,
     });
+    await Chat.create({
+        chatName: "Nova AI",
+        isGroupChat: false,
+        isBot: true,
+        users: [user._id],
+      });
   }
 
   res.json(user);

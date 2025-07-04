@@ -36,6 +36,50 @@ const allMessages = async(req,res) =>{
     }
 }
 
+const allBotMessages = async (req, res) => {
+  try {
+    // find the bot chat for the user
+    const botChat = await Chat.findOne({
+      isGroupChat: false,
+      isBot: true,
+      users: req.user.id,
+    });
+
+    if (!botChat) {
+      return res.status(404).json({
+        success: false,
+        message: "Bot chat not found",
+      });
+    }
+
+    const chatId = botChat._id;
+
+    // mark all unseen messages as seen by this user
+    await Message.updateMany(
+      { chat: chatId, seenBy: { $ne: req.user.id } },
+      { $addToSet: { seenBy: req.user.id } }
+    );
+
+    // fetch all messages in the bot chat
+    const msgs = await Message.find({ chat: chatId })
+      .populate("sender", "name email auth0Id")
+      .populate("chat")
+      .populate("seenBy", "name email auth0Id")
+      .sort({ createdAt: 1 });
+
+    return res.status(200).json({
+      success: true,
+      data: msgs,
+    });
+  } catch (e) {
+    console.error(e);
+    return res.status(400).json({
+      success: false,
+      message: e.message,
+    });
+  }
+};
+
 const sendMessage = async (req, res) => {
     try {
         const { content, chatId } = req.body;
@@ -86,6 +130,78 @@ const sendMessage = async (req, res) => {
             message: e.message,
         });
     }
+};
+
+const sendBotMessage = async (req, res) => {
+  try {
+    const { content } = req.body;
+    let imageUrl = null;
+
+    // Validate input
+    if (!content && !req.file) {
+      return res.status(400).json({
+        success: false,
+        message: "Please provide a message content or an image.",
+      });
+    }
+
+    // find the bot chat
+    const botChat = await Chat.findOne({
+      isGroupChat: false,
+      isBot: true,
+      users: req.user.id,
+    });
+
+    if (!botChat) {
+      return res.status(404).json({
+        success: false,
+        message: "Bot chat not found.",
+      });
+    }
+
+    // Handle image upload if present
+    if (req.file) {
+      const uploadedImage = await uploadImageToCloudinary(
+        req.file.path,
+        process.env.FOLDER_NAME,
+        1000,
+        1000
+      );
+      imageUrl = uploadedImage.secure_url;
+    }
+
+    let newMsg = {
+      sender: req.user.id,
+      content: content || "", // Allow empty if image
+      chat: botChat._id,
+      imageUrl: imageUrl,
+      seenBy: [req.user.id],
+    };
+
+    let msg = await Message.create(newMsg);
+
+    msg = await msg.populate("sender", "name");
+    msg = await msg.populate("chat");
+    msg = await User.populate(msg, {
+      path: "chat.users",
+      select: "name email",
+    });
+
+    // Update the latest message in the chat
+    await Chat.findByIdAndUpdate(botChat._id, { latestMessage: msg });
+
+    return res.status(200).json({
+      success: true,
+      message: "Message sent to bot successfully",
+      data: msg,
+    });
+  } catch (e) {
+    console.error(e);
+    return res.status(400).json({
+      success: false,
+      message: e.message,
+    });
+  }
 };
 
 const deleteMessage = async (req, res) => {
@@ -149,4 +265,4 @@ const reactToMessage = async (req, res) => {
 
 
 
-module.exports = {sendMessage,allMessages,deleteMessage,reactToMessage}
+module.exports = {sendBotMessage,allBotMessages,sendMessage,allMessages,deleteMessage,reactToMessage}

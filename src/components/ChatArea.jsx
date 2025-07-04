@@ -148,6 +148,7 @@ const ChatArea = () => {
 
     fetchMessages();
   }, [chatId, dispatch, refresh, token]);
+
   useEffect(() => {
     const fetchMessages = async () => {
       try {
@@ -163,37 +164,38 @@ const ChatArea = () => {
 
   let isSending = false; // Flag to track message sending cooldown
 
-const handleOnSend = async (e) => {
-  e.preventDefault();
+  const handleOnSend = async (e) => {
+    e.preventDefault();
 
-  if (isSending) {
-    console.warn("Please wait 5 seconds before sending another message.");
-    return;
-  }
+    if (isSending) {
+      console.warn("Please wait 5 seconds before sending another message.");
+      return;
+    }
 
-  if (!msg.trim() && !attachment) return; // Prevent sending empty messages
+    if (!msg.trim() && !attachment) return; // Prevent sending empty messages
 
-  try {
-    isSending = true; // Set flag to true
+    try {
+      isSending = true; // Set flag to true
 
-    await dispatch(sendmsg(msg, attachment, chatId, token));
+      await dispatch(sendmsg(msg, attachment, chatId, token));
 
-    // Emit new message event to notify others
-    socketRef.current.emit("newMessage", chatId);
+      // Emit new message event to notify others
+      socketRef.current.emit("newMessage", chatId);
 
-    setMsg(""); // Clear input field
-    setAttachment(null);
+      setMsg(""); // Clear input field
+      setAttachment(null);
 
-    // Wait 5 seconds before allowing another message
-    scrollToBottom();
-    setTimeout(() => {
-      isSending = false;
-    }, 5000);
-  } catch (error) {
-    console.error("Error sending message:", error);
-    isSending = false; // Reset flag in case of an error
-  }
-};
+      // Wait 5 seconds before allowing another message
+      scrollToBottom();
+      setTimeout(() => {
+        isSending = false;
+      }, 5000);
+    } catch (error) {
+      console.error("Error sending message:", error);
+      isSending = false; // Reset flag in case of an error
+    }
+  };
+
   return (
     <AnimatePresence>
         <motion.div
@@ -328,7 +330,6 @@ const handleOnSend = async (e) => {
       </div>
         </motion.div>
     </AnimatePresence>
-    
   );
 };
 

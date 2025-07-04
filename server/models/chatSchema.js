@@ -8,6 +8,10 @@ const chatSchema = mongoose.Schema({
         type:"Boolean",
         required : true
     },
+    isBot :{
+        type:"Boolean",
+        default : false
+    },
     latestMessage : {
         type:mongoose.Schema.Types.ObjectId,
         ref:'Message'

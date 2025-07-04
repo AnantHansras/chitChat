@@ -7,7 +7,7 @@ const ChatbotContainer = () => {
   const darkMode = useSelector((state) => state.darkMode.isDarkMode);
 
   const botName = "Nova AI";
-  const lastMessage = "Ask me anything, anytime!";
+  const lastMessage = "Ask me anything.";
   const lastActive = "Available now"; // Or use a timestamp logic if needed
 
   return (

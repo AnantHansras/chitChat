@@ -9,6 +9,8 @@ import { useNavigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import Selfmsg from './Selfmsg';
 import Othermsg from './Othermsg';
+import { allbotmsgs, sendbotdmsg } from '../services/msgAPI';
+import { useDispatch } from 'react-redux';
 // import { sendToNovaAI } from '../services/aiAPI'; // You need to define this
 
 const BotChatArea = () => {
@@ -19,14 +21,28 @@ const BotChatArea = () => {
   const messagesEndRef = useRef(null);
   const isMobile = window.innerWidth < 768;
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
+  const [refresh,setrefresh] = usestate(true);
+  const token = localStorage.getItem("token") ? JSON.parse(localStorage.getItem("token")) : null;
+  const user = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null;
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
-
+  useEffect(() => {
+      const fetchMessages = async () => {
+        try {
+          const messages = await dispatch(allbotmsgs(token));
+          setAllMsg(messages.data);
+        } catch (error) {
+          console.error("Error fetching messages:", error);
+        }
+      };
+  
+      fetchMessages();
+    }, [ dispatch, token,refresh]);
   useEffect(() => {
     scrollToBottom();
-  }, [allMsg]);
+  }, []);
 
   const handleAttachmentChange = (e) => {
     if (e.target.files.length > 0) {
@@ -37,30 +53,19 @@ const BotChatArea = () => {
   const handleSend = async (e) => {
     e.preventDefault();
     if (!msg.trim() && !attachment) return;
-
-    const userMessage = {
-      sender: 'user',
-      content: msg,
-      imageUrl: attachment ? URL.createObjectURL(attachment) : null,
-      createdAt: new Date().toISOString(),
-    };
-
-    setAllMsg((prev) => [...prev, userMessage]);
+    
+    await dispatch(sendbotdmsg(msg, attachment, token));
+    setrefresh(!refresh);
     setMsg('');
     setAttachment(null);
 
     // Send message to Nova AI
-    try {
-    //   const res = await sendToNovaAI(msg); // Your API logic
-    //   const botReply = {
-    //     sender: 'nova',
-    //     content: res.reply,
-    //     createdAt: new Date().toISOString(),
-    //   };
+    // try {
+    //   const res = await sendToNovaAI(msg); 
     //   setAllMsg((prev) => [...prev, botReply]);
-    } catch (err) {
-      console.error("Error talking to Nova AI:", err);
-    }
+    // } catch (err) {
+    //   console.error("Error talking to Nova AI:", err);
+    // }
   };
 
   return (
