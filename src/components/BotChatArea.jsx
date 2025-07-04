@@ -11,8 +11,8 @@ import Selfmsg from './Selfmsg';
 import Othermsg from './Othermsg';
 import { allbotmsgs, sendbotdmsg } from '../services/msgAPI';
 import { useDispatch } from 'react-redux';
-import SelfBotmsg from './selfbotmsg';
-import OtherBotmsg from './OtherBotmsg';
+import SelfBotmsg from './SelfBotmsg.jsx';
+import OtherBotmsg from './OtherBotmsg.jsx';
 // import { sendToNovaAI } from '../services/aiAPI'; // You need to define this
 
 const BotChatArea = () => {
