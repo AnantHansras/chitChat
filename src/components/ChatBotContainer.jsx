@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { FaRobot } from 'react-icons/fa';
-
+import { useState } from 'react';
 const ChatbotContainer = () => {
   const navigate = useNavigate();
   const darkMode = useSelector((state) => state.darkMode.isDarkMode);

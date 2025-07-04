@@ -11,6 +11,8 @@ import Selfmsg from './Selfmsg';
 import Othermsg from './Othermsg';
 import { allbotmsgs, sendbotdmsg } from '../services/msgAPI';
 import { useDispatch } from 'react-redux';
+import SelfBotmsg from './selfbotmsg';
+import OtherBotmsg from './OtherBotmsg';
 // import { sendToNovaAI } from '../services/aiAPI'; // You need to define this
 
 const BotChatArea = () => {
@@ -22,7 +24,7 @@ const BotChatArea = () => {
   const isMobile = window.innerWidth < 768;
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [refresh,setrefresh] = usestate(true);
+  const [refresh,setrefresh] = useState(true);
   const token = localStorage.getItem("token") ? JSON.parse(localStorage.getItem("token")) : null;
   const user = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null;
   const scrollToBottom = () => {
@@ -73,7 +75,8 @@ const BotChatArea = () => {
       <motion.div
         initial={{ opacity: 0, scale: 0 }}
         animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0 }}
+        exit={{ opacity: 0, 
+        scale: 0 }}
         transition={{ duration: 0.5 }}
         className={`flex flex-col h-100 flex-1 md:flex-[0.7] ${
           darkMode ? 'text-gray-300' : ''
@@ -112,14 +115,14 @@ const BotChatArea = () => {
         >
           {allMsg.map((msg, index) =>
             msg.sender === 'user' ? (
-              <Selfmsg
+              <SelfBotmsg
                 key={index}
                 content={msg.content}
                 time={msg.createdAt}
                 imageUrl={msg.imageUrl}
               />
             ) : (
-              <Othermsg
+              <OtherBotmsg
                 key={index}
                 sender="Nova AI"
                 content={msg.content}
