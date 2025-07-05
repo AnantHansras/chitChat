@@ -49,7 +49,6 @@ const jwtCheck = auth({
 const checkJwtWithLocalUser = [
   (req, res, next) => {
     const authHeader = req.headers.authorization;
-    console.log("Incoming Authorization Header:", authHeader);
 
     if (!authHeader) {
       return res.status(401).json({ message: "Missing Authorization header" ,data:req.auth,authHeader:authHeader});

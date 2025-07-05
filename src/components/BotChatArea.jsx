@@ -33,6 +33,7 @@ const BotChatArea = () => {
   useEffect(() => {
       const fetchMessages = async () => {
         try {
+          console.log("Fetching messages with token:", token);
           const messages = await dispatch(allbotmsgs(token));
           setAllMsg(messages.data);
         } catch (error) {
@@ -91,16 +92,23 @@ const BotChatArea = () => {
         >
           <div className="flex items-center gap-3">
             <div
-              className={`h-10 w-10 flex justify-center items-center rounded-full text-white text-xl font-bold ${
-                darkMode ? 'bg-purple-600' : 'bg-purple-300'
-              }`}
-            >
-              N
-            </div>
+  className={`
+    row-span-2
+    h-12 w-12
+    flex justify-center items-center
+    rounded-full
+    text-white text-xl font-semibold
+    shadow-md
+    ${darkMode ? 'bg-gradient-to-br from-purple-700 to-indigo-600' : 'bg-gradient-to-br from-purple-400 to-indigo-300'}
+    hover:scale-105 transition-transform duration-300 ease-out
+  `}
+>
+  <Bot size={24} />
+</div>
             <p className="text-xl font-bold">Nova AI</p>
           </div>
           <Tooltip title="Home" placement="top" arrow>
-            <IconButton onClick={() => navigate('/')} className="opacity-60">
+            <IconButton onClick={() => navigate('/')} className="opacity-60" color="inherit">
               <HomeIcon />
             </IconButton>
           </Tooltip>

@@ -81,6 +81,7 @@ export function allmsgs(chatId,token){
 
 export function allbotmsgs(token){
     return async (dispatch) => {
+      console.log("Fetching all bot messages with token:", token);
       try {
         const response = await apiConnector("POST",ALLBOTMESSAGES_API,{
           Authorization: `Bearer ${token}`,

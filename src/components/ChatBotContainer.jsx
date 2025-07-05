@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { FaRobot } from 'react-icons/fa';
+import { Bot } from 'lucide-react';
 import { useState } from 'react';
 const ChatbotContainer = () => {
   const navigate = useNavigate();
@@ -19,12 +19,19 @@ const ChatbotContainer = () => {
     >
       {/* Avatar */}
       <div
-        className={`row-span-2 h-10 w-10 flex justify-center items-center rounded-full text-white text-xl font-semibold ${
-          darkMode ? 'bg-purple-600' : 'bg-purple-300'
-        }`}
-      >
-        <FaRobot />
-      </div>
+  className={`
+    row-span-2
+    h-12 w-12
+    flex justify-center items-center
+    rounded-full
+    text-white text-xl font-semibold
+    shadow-md
+    ${darkMode ? 'bg-gradient-to-br from-purple-700 to-indigo-600' : 'bg-gradient-to-br from-purple-400 to-indigo-300'}
+    hover:scale-105 transition-transform duration-300 ease-out
+  `}
+>
+  <Bot size={24} />
+</div>
 
       {/* Bot Name */}
       <div className="col-start-2 row-start-1 flex justify-between items-center">
