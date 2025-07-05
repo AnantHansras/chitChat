@@ -82,7 +82,7 @@ export function allmsgs(chatId,token){
 export function allbotmsgs(token){
     return async (dispatch) => {
       try {
-        const response = await apiConnector("POST",ALLBOTMESSAGES_API,{
+        const response = await apiConnector("POST",ALLBOTMESSAGES_API,{},{
           Authorization: `Bearer ${token}`,
         })
   

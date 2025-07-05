@@ -62,9 +62,9 @@ const checkJwtWithLocalUser = [
   jwtCheck, // ✅ first validate the token
   async (req, res, next) => {
     try {
-      console.log("yele",req.auth);
+      
       const auth0Id = req.auth?.payload.sub;
-      console.log("Auth0 ID:", auth0Id);
+      
       if (!auth0Id) {
         return res.status(401).json({ message: 'Auth0 user ID missing' ,data:auth0Id});
       }
