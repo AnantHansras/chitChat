@@ -187,9 +187,10 @@ const [loading, setLoading] = useState(false);
             })
           }
           return (
-            <FriendContainer key={index} friend={user} chatName={chatName}>
-            </FriendContainer>
-          )
+  !user.isBot && (
+    <FriendContainer key={index} friend={user} chatName={chatName} />
+  )
+);
         } 
         )}
 </div>

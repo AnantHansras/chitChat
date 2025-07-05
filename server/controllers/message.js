@@ -263,6 +263,86 @@ const reactToMessage = async (req, res) => {
     }
 };
 
+const getChatbotReply = async (content) => {
+  const text = content.trim().toLowerCase();
+
+  if (text.includes("hello") || text.includes("hi")) {
+    return "Hello 👋! How can I assist you today?";
+  }
+
+  if (text.includes("help")) {
+    return "Sure, I’m here to help. Please tell me more about what you need.";
+  }
+
+  if (text.includes("thanks") || text.includes("thank you")) {
+    return "You’re welcome! 😊";
+  }
+
+  return "Hmm… let me think about that 🤔.";
+};
 
 
-module.exports = {sendBotMessage,allBotMessages,sendMessage,allMessages,deleteMessage,reactToMessage}
+const sendMessageToBot = async (req, res) => {
+  try {
+    const { content } = req.body;
+
+    if (!content) {
+      return res.status(400).json({
+        success: false,
+        message: 'Message content is required.',
+      });
+    }
+
+    const userId = req.user.id;
+
+    // 🔍 Find bot chat with this user
+    const botChat = await Chat.findOne({
+      isGroupChat: false,
+      isBot: true,
+      users: userId,
+    });
+
+    if (!botChat) {
+      return res.status(404).json({
+        success: false,
+        message: 'Bot chat not found for this user.',
+      });
+    }
+
+    const botUserId = 'nova_bot_user_id';
+
+    const botReplyContent = await getChatbotReply(content);
+
+    // 📝 Save bot's message
+    let botMsg = await Message.create({
+      sender: botUserId,
+      content: botReplyContent,
+      chat: botChat._id,
+      seenBy: [], 
+    });
+    botMsg = await botMsg.populate('sender', 'name');
+    botMsg = await botMsg.populate('chat');
+    botMsg = await User.populate(botMsg, { path: 'chat.users', select: 'name email' });
+
+    // Update latest message to botMsg
+    await Chat.findByIdAndUpdate(botChat._id, { latestMessage: botMsg });
+
+    return res.status(200).json({
+      success: true,
+      message: 'User and bot messages sent successfully',
+      data: {
+        userMessage: userMsg,
+        botMessage: botMsg,
+      },
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      message: err.message,
+    });
+  }
+};
+
+
+
+module.exports = {sendBotMessage,allBotMessages,sendMessage,allMessages,deleteMessage,reactToMessage,sendMessageToBot}

@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import Selfmsg from './Selfmsg';
 import Othermsg from './Othermsg';
-import { allbotmsgs, sendbotdmsg } from '../services/msgAPI';
+import { allbotmsgs, chatbotReply, sendbotdmsg } from '../services/msgAPI';
 import { useDispatch } from 'react-redux';
 import SelfBotmsg from './SelfBotmsg.jsx';
 import OtherBotmsg from './OtherBotmsg.jsx';
@@ -26,6 +26,7 @@ const BotChatArea = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [refresh,setrefresh] = useState(true);
+  const [isGenerating, setIsGenerating] = useState(false);
   const token = localStorage.getItem("token") ? JSON.parse(localStorage.getItem("token")) : null;
   const user = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null;
   const scrollToBottom = () => {
@@ -62,13 +63,16 @@ const BotChatArea = () => {
     setMsg('');
     setAttachment(null);
 
-    // Send message to Nova AI
-    // try {
-    //   const res = await sendToNovaAI(msg); 
-    //   setAllMsg((prev) => [...prev, botReply]);
-    // } catch (err) {
-    //   console.error("Error talking to Nova AI:", err);
-    // }
+    //Send message to Nova AI
+    setIsGenerating(true);
+    try {
+      const res = await dispatch(chatbotReply(msg, token)); 
+      setrefresh(!refresh);
+    } catch (err) {
+      console.error("Error talking to Nova AI:", err);
+    }
+    setIsGenerating(false);
+
   };
 
   return (
@@ -122,7 +126,7 @@ const BotChatArea = () => {
           style={{ scrollbarWidth: 'none', WebkitOverflowScrolling: 'touch' }}
         >
           {allMsg.map((msg, index) =>
-            msg.sender === 'user' ? (
+            user.sub == msg.sender.auth0Id ? (
               <SelfBotmsg
                 key={index}
                 content={msg.content}
@@ -138,6 +142,40 @@ const BotChatArea = () => {
               />
             )
           )}
+          {isGenerating && (
+  <div className="flex flex-col items-start">
+    <div className="relative">
+      <div
+        className={`flex flex-col rounded-3xl max-w-80 mr-auto w-fit m-2 p-2 px-4 gap-0 space-y-0 ${
+          darkMode ? "bg-gray-700 text-gray-300" : "bg-gray-200 text-gray-900"
+        }`}
+      >
+        <div
+          className="mb-0 text-sm font-bold"
+          style={{ color: "#33FF57" }}
+        >
+          Nova AI
+        </div>
+
+        <div
+          className={`text-md mb-0 ${
+            darkMode ? "text-gray-200" : "text-gray-900"
+          } flex`}
+        >
+          Nova AI is thinking
+          <span className="dot-typing ml-1"></span>
+        </div>
+
+        <div
+          className={`text-xs flex ml-auto mt-0 ${
+            darkMode ? "text-gray-400" : "text-gray-600"
+          }`}
+        >
+        </div>
+      </div>
+    </div>
+  </div>
+)}
           <div ref={messagesEndRef} />
         </div>
 
