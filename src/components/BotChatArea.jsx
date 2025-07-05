@@ -60,7 +60,6 @@ const BotChatArea = () => {
     
     await dispatch(sendbotdmsg(msg, attachment, token));
     setrefresh(!refresh);
-    setMsg('');
     setAttachment(null);
 
     //Send message to Nova AI
@@ -71,6 +70,7 @@ const BotChatArea = () => {
     } catch (err) {
       console.error("Error talking to Nova AI:", err);
     }
+    setMsg('');
     setIsGenerating(false);
 
   };
