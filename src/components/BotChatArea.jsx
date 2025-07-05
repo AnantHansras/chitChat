@@ -34,7 +34,6 @@ const BotChatArea = () => {
   useEffect(() => {
       const fetchMessages = async () => {
         try {
-          console.log("Fetching messages with token:", token);
           const messages = await dispatch(allbotmsgs(token));
           setAllMsg(messages.data);
         } catch (error) {
