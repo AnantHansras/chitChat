@@ -69,6 +69,7 @@ export function allmsgs(chatId,token){
         console.log("ALLMESSAGES API RESPONSE............", response)
   
         if (!response.data.success){
+          console.log("ALLMESSAGES API ERROR............", response.data)
           throw new Error(response.data)
         }
   
