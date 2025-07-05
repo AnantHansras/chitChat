@@ -89,7 +89,7 @@ export function allbotmsgs(token){
         console.log("ALLBOTMESSAGES API RESPONSE............", response)
   
         if (!response.data.success){
-          throw new Error(response.data.message)
+          throw new Error(response.data)
         }
   
         return response.data
