@@ -60,15 +60,8 @@ const BotChatArea = () => {
   const trimmedMsg = msg.trim();
   if (!trimmedMsg && !attachment) return;
 
-  const userMessage = {
-    _id: user.sub, // temporary unique ID
-    role: "user",
-    text: trimmedMsg,
-    timestamp: new Date().toISOString(),
-  };
-
-  // Show user message immediately in UI
-  setAllMsg(prev => [...prev, userMessage]);
+  
+  
 
   // Clear inputs early for UX
   setAttachment(null);
@@ -76,7 +69,16 @@ const BotChatArea = () => {
 
   // Send to backend (don't wait for it to show in UI)
   await dispatch(sendbotdmsg(trimmedMsg, attachment, token));
-
+  const fetchMessages = async () => {
+        try {
+          const messages = await dispatch(allbotmsgs(token));
+          setAllMsg(messages.data);
+        } catch (error) {
+          console.error("Error fetching messages:", error);
+        }
+      };
+  
+  fetchMessages();
   // Fetch Nova's reply
   setIsGenerating(true);
   try {
