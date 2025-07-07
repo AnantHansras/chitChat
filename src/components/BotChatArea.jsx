@@ -61,7 +61,7 @@ const BotChatArea = () => {
   if (!trimmedMsg && !attachment) return;
 
   const userMessage = {
-    _id: Date.now(), // temporary unique ID
+    _id: user.sub, // temporary unique ID
     role: "user",
     text: trimmedMsg,
     timestamp: new Date().toISOString(),
@@ -158,21 +158,21 @@ const BotChatArea = () => {
             )
           )}
           {isGenerating && (
-   <div className="flex flex-col items-start max-w-md">
+   <div className="flex flex-col items-start">
       <div className="relative">
         <div
-          className={`flex flex-col rounded-2xl max-w-80 w-fit mx-2 my-1 px-4 py-3 shadow-sm ${
-            darkMode ? "bg-gray-700 text-gray-200" : "bg-gray-100 text-gray-800"
+          className={`flex flex-col rounded-3xl max-w-80 mr-auto w-fit m-2 px-4 gap-0 space-y-9 ${
+            darkMode ? "bg-gray-700 text-gray-300" : "bg-gray-200 text-gray-900"
           }`}
         >
           {/* Sender name */}
-          <div className="text-sm font-semibold mb-1" style={{ color: "#25D366" }}>
+          <div className="text-sm font-bold mb-0" style={{ color: "#25D366" }}>
             Nova AI
           </div>
 
           {/* Typing message with dots */}
-          <div className="flex items-center gap-2">
-            <span className={`text-sm ${darkMode ? "text-gray-300" : "text-gray-700"}`}>typing</span>
+          <div className="flex items-center gap-2 opacity-70">
+            <span className={`text-sm ${darkMode ? "text-gray-400" : "text-gray-600"}`}>typing</span>
 
             {/* WhatsApp-style typing dots */}
             <div className="flex gap-1 items-center">

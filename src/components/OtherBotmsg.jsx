@@ -42,7 +42,7 @@ const OtherBotmsg = ({ content, time, sender, imageUrl }) => {
     return colors[colorIndex];
   }
 
-  const textColor = "#33FF57";
+  const textColor = "#25D366";
 
   return (
     <div className="flex flex-col items-start">
