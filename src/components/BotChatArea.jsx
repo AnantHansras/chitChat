@@ -172,7 +172,7 @@ const BotChatArea = () => {
 
           {/* Typing message with dots */}
           <div className="flex items-center gap-2 opacity-70">
-            <span className={`text-sm ${darkMode ? "text-gray-400" : "text-gray-600"}`}>typing</span>
+            <span className={`text-sm ${darkMode ? "text-gray-400" : "text-gray-600"}`}>thinking</span>
 
             {/* WhatsApp-style typing dots */}
             <div className="flex gap-1 items-center">
