@@ -57,22 +57,21 @@ const BotChatArea = () => {
   const handleSend = async (e) => {
     e.preventDefault();
     if (!msg.trim() && !attachment) return;
-    
+    const temp = msg;
     await dispatch(sendbotdmsg(msg, attachment, token));
-    setrefresh(!refresh);
-    
+    // setrefresh(!refresh);
+    setAllMsg(prev => [...prev, msg]);
     setAttachment(null);
-
+    setMsg('');
     //Send message to Nova AI
-    // setIsGenerating(true);
+    setIsGenerating(true);
     try {
-      const res = await dispatch(chatbotReply(msg, token)); 
+      const res = await dispatch(chatbotReply(temp, token)); 
       setrefresh(!refresh);
     } catch (err) {
       console.error("Error talking to Nova AI:", err);
     }
-    setMsg('');
-    // setIsGenerating(false);
+    setIsGenerating(false);
 
   };
 
