@@ -63,7 +63,7 @@ export function chatbotReply(content,token){
     return async (dispatch) => {
       try {
         
-        const response = await apiConnector("POST",CHATBOT_API,content,{
+        const response = await apiConnector("POST",CHATBOT_API,{content},{
           Authorization: `Bearer ${token}`,
         })
   

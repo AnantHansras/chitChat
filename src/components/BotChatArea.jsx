@@ -78,9 +78,11 @@ const BotChatArea = () => {
         }
       };
   
-  fetchMessages();
+  await fetchMessages();
   // Fetch Nova's reply
+  setTimeout(() => {
   setIsGenerating(true);
+}, 2000);
   try {
     await dispatch(chatbotReply(trimmedMsg, token));
     setrefresh(prev => !prev); // Now fetch fresh full messages
@@ -163,7 +165,7 @@ const BotChatArea = () => {
    <div className="flex flex-col items-start">
       <div className="relative">
         <div
-          className={`flex flex-col rounded-3xl max-w-80 mr-auto w-fit m-2 px-4 gap-0 space-y-9 ${
+          className={`flex flex-col rounded-3xl max-w-80 mr-auto w-fit m-2 px-4 gap-0 space-y-1 ${
             darkMode ? "bg-gray-700 text-gray-300" : "bg-gray-200 text-gray-900"
           }`}
         >
@@ -184,13 +186,6 @@ const BotChatArea = () => {
             </div>
           </div>
         </div>
-
-        {/* Message tail */}
-        <div
-          className={`absolute -bottom-1 left-4 w-3 h-3 transform rotate-45 ${
-            darkMode ? "bg-gray-700" : "bg-gray-100"
-          }`}
-        ></div>
       </div>
 
       <style jsx>{`
