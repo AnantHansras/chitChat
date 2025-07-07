@@ -60,10 +60,11 @@ const BotChatArea = () => {
     
     await dispatch(sendbotdmsg(msg, attachment, token));
     setrefresh(!refresh);
+    
     setAttachment(null);
 
     //Send message to Nova AI
-    setIsGenerating(true);
+    // setIsGenerating(true);
     try {
       const res = await dispatch(chatbotReply(msg, token)); 
       setrefresh(!refresh);
@@ -71,7 +72,7 @@ const BotChatArea = () => {
       console.error("Error talking to Nova AI:", err);
     }
     setMsg('');
-    setIsGenerating(false);
+    // setIsGenerating(false);
 
   };
 

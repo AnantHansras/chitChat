@@ -315,14 +315,11 @@ const sendMessageToBot = async (req, res) => {
 
     // 📝 Save bot's message
     let botMsg = await Message.create({
-      sender: botUserId,
+      sender: null,
       content: botReplyContent,
       chat: botChat._id,
       seenBy: [], 
     });
-    botMsg = await botMsg.populate('sender', 'name');
-    botMsg = await botMsg.populate('chat');
-    botMsg = await User.populate(botMsg, { path: 'chat.users', select: 'name email' });
 
     // Update latest message to botMsg
     await Chat.findByIdAndUpdate(botChat._id, { latestMessage: botMsg });
