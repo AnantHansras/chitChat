@@ -145,7 +145,7 @@ const BotChatArea = () => {
           style={{ scrollbarWidth: 'none', WebkitOverflowScrolling: 'touch' }}
         >
           {allMsg.map((msg, index) =>
-            user.sub == msg.sender.auth0Id ? (
+            user.sub === msg?.sender?.auth0Id ? (
               <SelfBotmsg
                 key={index}
                 content={msg.content}
