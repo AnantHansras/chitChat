@@ -55,25 +55,40 @@ const BotChatArea = () => {
   };
 
   const handleSend = async (e) => {
-    e.preventDefault();
-    if (!msg.trim() && !attachment) return;
-    const temp = msg;
-    await dispatch(sendbotdmsg(msg, attachment, token));
-    // setrefresh(!refresh);
-    setAllMsg(prev => [...prev, msg]);
-    setAttachment(null);
-    setMsg('');
-    //Send message to Nova AI
-    setIsGenerating(true);
-    try {
-      const res = await dispatch(chatbotReply(temp, token)); 
-      setrefresh(!refresh);
-    } catch (err) {
-      console.error("Error talking to Nova AI:", err);
-    }
-    setIsGenerating(false);
+  e.preventDefault();
 
+  const trimmedMsg = msg.trim();
+  if (!trimmedMsg && !attachment) return;
+
+  const userMessage = {
+    _id: Date.now(), // temporary unique ID
+    role: "user",
+    text: trimmedMsg,
+    timestamp: new Date().toISOString(),
   };
+
+  // Show user message immediately in UI
+  setAllMsg(prev => [...prev, userMessage]);
+
+  // Clear inputs early for UX
+  setAttachment(null);
+  setMsg('');
+
+  // Send to backend (don't wait for it to show in UI)
+  await dispatch(sendbotdmsg(trimmedMsg, attachment, token));
+
+  // Fetch Nova's reply
+  setIsGenerating(true);
+  try {
+    await dispatch(chatbotReply(trimmedMsg, token));
+    setrefresh(prev => !prev); // Now fetch fresh full messages
+  } catch (err) {
+    console.error("Error talking to Nova AI:", err);
+  } finally {
+    setIsGenerating(false);
+  }
+};
+
 
   return (
     <AnimatePresence>
@@ -143,38 +158,72 @@ const BotChatArea = () => {
             )
           )}
           {isGenerating && (
-  <div className="flex flex-col items-start">
-    <div className="relative">
-      <div
-        className={`flex flex-col rounded-3xl max-w-80 mr-auto w-fit m-2 p-2 px-4 gap-0 space-y-0 ${
-          darkMode ? "bg-gray-700 text-gray-300" : "bg-gray-200 text-gray-900"
-        }`}
-      >
+   <div className="flex flex-col items-start max-w-md">
+      <div className="relative">
         <div
-          className="mb-0 text-sm font-bold"
-          style={{ color: "#33FF57" }}
-        >
-          Nova AI
-        </div>
-
-        <div
-          className={`text-md mb-0 ${
-            darkMode ? "text-gray-200" : "text-gray-900"
-          } flex`}
-        >
-          Nova AI is thinking
-          <span className="dot-typing ml-1"></span>
-        </div>
-
-        <div
-          className={`text-xs flex ml-auto mt-0 ${
-            darkMode ? "text-gray-400" : "text-gray-600"
+          className={`flex flex-col rounded-2xl max-w-80 w-fit mx-2 my-1 px-4 py-3 shadow-sm ${
+            darkMode ? "bg-gray-700 text-gray-200" : "bg-gray-100 text-gray-800"
           }`}
         >
+          {/* Sender name */}
+          <div className="text-sm font-semibold mb-1" style={{ color: "#25D366" }}>
+            Nova AI
+          </div>
+
+          {/* Typing message with dots */}
+          <div className="flex items-center gap-2">
+            <span className={`text-sm ${darkMode ? "text-gray-300" : "text-gray-700"}`}>typing</span>
+
+            {/* WhatsApp-style typing dots */}
+            <div className="flex gap-1 items-center">
+              <div className="typing-dot"></div>
+              <div className="typing-dot"></div>
+              <div className="typing-dot"></div>
+            </div>
+          </div>
         </div>
+
+        {/* Message tail */}
+        <div
+          className={`absolute -bottom-1 left-4 w-3 h-3 transform rotate-45 ${
+            darkMode ? "bg-gray-700" : "bg-gray-100"
+          }`}
+        ></div>
       </div>
+
+      <style jsx>{`
+        .typing-dot {
+          width: 4px;
+          height: 4px;
+          border-radius: 50%;
+          background-color: ${darkMode ? "#9CA3AF" : "#6B7280"};
+          animation: typing 1.4s infinite ease-in-out;
+        }
+        
+        .typing-dot:nth-child(1) {
+          animation-delay: 0s;
+        }
+        
+        .typing-dot:nth-child(2) {
+          animation-delay: 0.2s;
+        }
+        
+        .typing-dot:nth-child(3) {
+          animation-delay: 0.4s;
+        }
+        
+        @keyframes typing {
+          0%, 60%, 100% {
+            transform: translateY(0);
+            opacity: 0.4;
+          }
+          30% {
+            transform: translateY(-8px);
+            opacity: 1;
+          }
+        }
+      `}</style>
     </div>
-  </div>
 )}
           <div ref={messagesEndRef} />
         </div>
