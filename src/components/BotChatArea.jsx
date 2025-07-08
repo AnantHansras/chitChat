@@ -14,6 +14,7 @@ import { useDispatch } from 'react-redux';
 import SelfBotmsg from './SelfBotmsg.jsx';
 import OtherBotmsg from './OtherBotmsg.jsx';
 import { Bot } from 'lucide-react';
+import ChatBanner from './ChatBanner.jsx';
 // import { sendToNovaAI } from '../services/aiAPI'; // You need to define this
 
 const BotChatArea = () => {
