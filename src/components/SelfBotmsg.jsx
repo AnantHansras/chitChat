@@ -32,20 +32,12 @@ const SelfBotmsg = ({ content, time, imageUrl }) => {
     <div className="flex flex-col items-end ">
       <div className="relative group">
         <div
-          className={`flex flex-col rounded-3xl max-w-80 ml-auto w-fit m-2 p-2 px-4 gap-0 space-y-0 relative ${
+          className={`flex flex-col rounded-3xl ml-auto w-fit m-2 p-2 px-4 gap-0 space-y-0 relative max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg ${
             darkMode ? "bg-[#3e8b6f]" : "bg-[#C8F0A0]"
           }`}
         >
-          {imageUrl && (
-            <img
-              src={imageUrl}
-              alt="Attachment"
-              className="rounded-lg max-w-full mb-1"
-            />
-          )}
-
           <div
-            className={`mb-0 text-md flex justify-between items-end ${
+            className={`mb-0 text-md flex justify-between items-end break-words whitespace-pre-wrap ${
               darkMode ? "text-white" : "text-gray-800"
             }`}
           >

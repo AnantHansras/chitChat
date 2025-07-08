@@ -52,22 +52,20 @@ const [loading, setLoading] = useState(false);
         const fetchedChats = await dispatch(fetchChats(token,search));
         setChats(fetchedChats.data);
     }
-    useEffect(()=>{
-    const fetch = async()=>{
-      setLoading(true);
-      const fetchedChats = await dispatch(fetchChats(token,search));
+useEffect(() => {
+  const fetch = async () => {
+    setLoading(true);
+    try {
+      const fetchedChats = await dispatch(fetchChats(token, search));
       setChats(fetchedChats.data);
-      setLoading(false);
+    } catch (error) {
+      console.error('Failed to fetch chats:', error);
     }
-      fetch();
-  },[])
-  useEffect(()=>{
-    const fetch = async()=>{
-      const fetchedChats = await dispatch(fetchChats(token,search));
-      setChats(fetchedChats.data);
-    }
-      fetch();
-  },[search,refresh])
+    setLoading(false);
+  };
+  fetch();
+}, [search, refresh]);
+
 
   return (
     <div

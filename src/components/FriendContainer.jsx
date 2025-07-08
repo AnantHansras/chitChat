@@ -116,7 +116,7 @@ const FriendContainer = ({ friend, chatName }) => {
     //   )}
     // </div>
     <div
-  className={`grid grid-cols-[auto_1fr_auto] grid-rows-[auto_auto] gap-x-4 rounded-2xl m-2 cursor-pointer p-3 transition-all duration-300 hover:shadow-lg hover:scale-[1.02] ${
+  className={`grid grid-cols-[auto_1fr_auto] grid-rows-[auto_auto] gap-x-4 rounded-2xl m-2 cursor-pointer p-2 transition-all duration-300 hover:shadow-lg hover:scale-[1.02] ${
     darkMode ? 'hover:bg-gray-700 text-white' : 'hover:bg-gray-100'
   }`}
   onClick={() => {
@@ -126,7 +126,7 @@ const FriendContainer = ({ friend, chatName }) => {
 >
   {/* Avatar */}
   <div
-    className={`row-span-2 h-10 w-10 flex justify-center items-center rounded-full text-white text-xl font-semibold ${
+    className={`row-span-2 h-12 w-12 flex justify-center items-center rounded-full text-white text-xl font-semibold ${
       darkMode ? 'bg-gray-600' : 'bg-[#d9d9d9]'
     }`}
   >

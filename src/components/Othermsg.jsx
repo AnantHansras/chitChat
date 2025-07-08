@@ -102,7 +102,7 @@ const Othermsg = ({ content, time, sender,imageUrl, reactions, id ,parentAddReac
     <div className="flex flex-col items-start ">
       <div className="relative">
         <div
-          className={`flex flex-col rounded-3xl max-w-80 mr-auto w-fit m-2 p-2 px-4 gap-0 space-y-0 ${
+          className={`flex flex-col rounded-3xl max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg mr-auto w-fit m-2 p-2 px-4 gap-0 space-y-0 ${
             darkMode ? "bg-gray-700 text-gray-300" : "bg-gray-200 text-gray-900"
           }`}
         >
@@ -111,7 +111,7 @@ const Othermsg = ({ content, time, sender,imageUrl, reactions, id ,parentAddReac
           </div>
           {imageUrl && <img src={imageUrl} alt="Attachment" className="rounded-lg max-w-full mb-1" />}
           {
-            content && <div className={`text-md mb-0 ${darkMode ? "text-gray-200" : "text-gray-900"}`}>{content}</div>
+            content && <div className={`text-md mb-0 break-words whitespace-pre-wrap ${darkMode ? "text-gray-200" : "text-gray-900"}`}>{content}</div>
           }
           
           <div className={`text-xs flex ml-auto mt-0 ${darkMode ? "text-gray-400" : "text-gray-600"}`}>

@@ -12,7 +12,7 @@ const ChatbotContainer = () => {
 
   return (
     <div
-      className={`grid grid-cols-[auto_1fr_auto] grid-rows-[auto_auto] gap-x-4 rounded-2xl m-2 cursor-pointer p-3 transition-all duration-300 hover:shadow-lg hover:scale-[1.02] ${
+      className={`grid grid-cols-[auto_1fr_auto] grid-rows-[auto_auto] gap-x-4 rounded-2xl m-2 cursor-pointer p-2 transition-all duration-300 hover:shadow-lg hover:scale-[1.02] ${
         darkMode ? 'hover:bg-gray-700 text-white' : 'hover:bg-gray-100'
       }`}
       onClick={() => navigate('/chatbot')} // Route to chatbot
@@ -21,12 +21,12 @@ const ChatbotContainer = () => {
       <div
   className={`
     row-span-2
-    h-12 w-12
+    h-12 w-11
     flex justify-center items-center
     rounded-full
     text-white text-xl font-semibold
     shadow-md
-    ${darkMode ? 'bg-gradient-to-br from-purple-700 to-indigo-600' : 'bg-gradient-to-br from-purple-400 to-indigo-300'}
+    ${darkMode ? 'bg-gradient-to-br from-purple-600 to-indigo-500' : 'bg-gradient-to-br from-purple-400 to-indigo-300'}
     hover:scale-105 transition-transform duration-300 ease-out
   `}
 >

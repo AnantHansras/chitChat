@@ -89,12 +89,12 @@ const Selfmsg = ({ content, time, seen, id, imageUrl, reactions, parentAddReacti
   return (
     <div className="flex flex-col items-end ">
       <div className="relative group">
-        <div className={`  flex flex-col rounded-3xl max-w-80 ml-auto w-fit m-2 p-2 px-4 gap-0 space-y-0 relative ${
+        <div className={`  flex flex-col rounded-3xl max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg ml-auto w-fit m-2 p-2 px-4 gap-0 space-y-0 relative ${
               darkMode ? "bg-[#3e8b6f]" : "bg-[#C8F0A0]"
             }`} >
           {imageUrl && <img src={imageUrl} alt="Attachment" className="rounded-lg max-w-full mb-1" />}
           
-          <div  className={` mb-0 text-md flex justify-between items-end ${
+          <div  className={` mb-0 text-md flex justify-between items-end break-words whitespace-pre-wrap ${
               darkMode ? "text-white" : "text-gray-800"
             }`} >
             {content}

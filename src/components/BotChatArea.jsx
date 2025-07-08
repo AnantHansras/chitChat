@@ -85,11 +85,11 @@ const BotChatArea = () => {
 }, 2000);
   try {
     await dispatch(chatbotReply(trimmedMsg, token));
-    setrefresh(prev => !prev); // Now fetch fresh full messages
   } catch (err) {
     console.error("Error talking to Nova AI:", err);
   } finally {
     setIsGenerating(false);
+    setrefresh(prev => !prev); 
   }
 };
 
@@ -165,12 +165,12 @@ const BotChatArea = () => {
    <div className="flex flex-col items-start">
       <div className="relative">
         <div
-          className={`flex flex-col rounded-3xl max-w-80 mr-auto w-fit m-2 px-4 gap-0 space-y-1 ${
+          className={`flex flex-col rounded-2xl max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg mr-auto w-fit m-2 px-4 gap-0 space-y-1 ${
             darkMode ? "bg-gray-700 text-gray-300" : "bg-gray-200 text-gray-900"
           }`}
         >
           {/* Sender name */}
-          <div className="text-sm font-bold mb-0" style={{ color: "#25D366" }}>
+          <div className="text-sm font-bold mb-0" style={{ color: "#b4a0fc" }}>
             Nova AI
           </div>
 
@@ -244,28 +244,6 @@ const BotChatArea = () => {
                 : ''
             }`}
           />
-          {attachment && (
-            <div className="relative">
-              <img src={URL.createObjectURL(attachment)} className="h-8" />
-              <button
-                onClick={() => setAttachment(null)}
-                className="absolute -top-1 -right-1 text-xs rounded-full w-3 h-3 flex items-center justify-center"
-              >
-                ✖
-              </button>
-            </div>
-          )}
-          <input
-            type="file"
-            id="attachment"
-            style={{ display: 'none' }}
-            onChange={handleAttachmentChange}
-          />
-          <Tooltip title="Attach File" placement="top" arrow>
-            <IconButton component="label" htmlFor="attachment">
-              <AttachFileIcon className={darkMode ? 'text-gray-400' : 'text-gray-600'} />
-            </IconButton>
-          </Tooltip>
           <IconButton onClick={handleSend}>
             <SendRoundedIcon className={darkMode ? 'text-green-400' : 'text-green-600'} />
           </IconButton>

@@ -42,29 +42,22 @@ const OtherBotmsg = ({ content, time, sender, imageUrl }) => {
     return colors[colorIndex];
   }
 
-  const textColor = "#25D366";
+  const textColor = "#b4a0fc";
 
   return (
     <div className="flex flex-col items-start">
       <div className="relative">
         <div
-          className={`flex flex-col rounded-3xl max-w-80 mr-auto w-fit m-2 p-2 px-4 gap-0 space-y-0 ${
+          className={`flex flex-col rounded-3xl max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg mr-auto w-fit m-2 p-2 px-4 gap-0 space-y-0 ${
             darkMode ? "bg-gray-700 text-gray-300" : "bg-gray-200 text-gray-900"
           }`}
         >
           <div className="mb-0 text-sm font-bold" style={{ color: textColor }}>
             {sender}
           </div>
-          {imageUrl && (
-            <img
-              src={imageUrl}
-              alt="Attachment"
-              className="rounded-lg max-w-full mb-1"
-            />
-          )}
           {content && (
             <div
-              className={`text-md mb-0 ${
+              className={`text-md mb-0 break-words whitespace-pre-wrap ${
                 darkMode ? "text-gray-200" : "text-gray-900"
               }`}
             >
