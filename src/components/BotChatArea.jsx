@@ -82,7 +82,8 @@ const BotChatArea = () => {
   // Fetch Nova's reply
   setTimeout(() => {
   setIsGenerating(true);
-}, 50);setIsGenerating(true);
+}, 50);
+
   try {
     await new Promise((res) => setTimeout(res, 50));// nccessary delay for thinking animation
     await new Promise((res) => setTimeout(res, 1000)); // Simulated "thinking" to be removed later
