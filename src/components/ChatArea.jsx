@@ -209,7 +209,7 @@ const ChatArea = () => {
     >
       {/* Header */}
       <div
-        className={`flex flex-row justify-start m-3 mb-1 p-1 items-center rounded-2xl ${
+        className={`flex flex-row justify-start m-3 mb-1 p-2 items-center rounded-2xl ${
           darkMode ? 'bg-gray-800 text-gray-300' : 'bg-white'
         }`}
         style={{
@@ -218,7 +218,7 @@ const ChatArea = () => {
         }}
       >
         <div
-          className={`h-10 w-10 p-1 flex justify-center ml-2 rounded-full items-center text-xl font-bold ${
+          className={`h-12 w-12 p-1 flex justify-center ml-2 rounded-full items-center text-xl font-bold ${
             darkMode ? 'bg-gray-600 text-gray-300' : 'bg-[#d9d9d9] text-white'
           }`}
         >

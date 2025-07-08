@@ -82,8 +82,10 @@ const BotChatArea = () => {
   // Fetch Nova's reply
   setTimeout(() => {
   setIsGenerating(true);
-}, 2000);
+}, 50);setIsGenerating(true);
   try {
+    await new Promise((res) => setTimeout(res, 50));// nccessary delay for thinking animation
+    await new Promise((res) => setTimeout(res, 1000)); // Simulated "thinking" to be removed later
     await dispatch(chatbotReply(trimmedMsg, token));
   } catch (err) {
     console.error("Error talking to Nova AI:", err);
@@ -144,6 +146,7 @@ const BotChatArea = () => {
           }`}
           style={{ scrollbarWidth: 'none', WebkitOverflowScrolling: 'touch' }}
         >
+        <ChatBanner />
           {allMsg.map((msg, index) =>
             user.sub === msg?.sender?.auth0Id ? (
               <SelfBotmsg

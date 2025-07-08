@@ -21,7 +21,7 @@ const ChatbotContainer = () => {
       <div
   className={`
     row-span-2
-    h-12 w-11
+    h-12 w-12
     flex justify-center items-center
     rounded-full
     text-white text-xl font-semibold
