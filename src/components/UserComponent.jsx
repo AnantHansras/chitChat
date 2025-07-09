@@ -17,16 +17,24 @@ const UserComponent = ({ friend }) => {
     const chat = tempChat.data;
     navigate(`/chat/${chat._id}&${friend.name}&${isGrp}`);
   };
-
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+      
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
   return (
     <div
-      className={`flex items-center gap-3 rounded-2xl my-2 p-3 w-full ${
+      className={`flex items-center gap-3 rounded-2xl my-2 p-4 w-full ${
         darkMode ? "bg-gray-800 text-gray-300" : "bg-white text-gray-800"
       } shadow-md`}
     >
       {/* Avatar */}
       <p
-        className={`h-10 w-10 flex justify-center items-center rounded-full text-white text-lg font-bold shrink-0 ${
+        className={`h-12 w-12 flex justify-center items-center rounded-full text-white text-lg font-bold shrink-0 ${
           darkMode ? "bg-gray-600" : "bg-gray-300"
         }`}
       >
@@ -34,9 +42,24 @@ const UserComponent = ({ friend }) => {
       </p>
 
       {/* Friend Name */}
-      <p className="flex-1 truncate text-base font-semibold">
-        {friend.name}
-      </p>
+      {
+        isMobile && (
+        <p className="text-lg font-semibold truncate flex-1">
+            {friend.chatName.length > 20
+              ? `${friend.chatName.slice(0, 20)}...`
+              : friend.chatName}
+        </p>
+            )
+      }
+      {
+        !isMobile && (
+          <p className="text-base font-semibold truncate flex-1">
+            {friend.chatName.length > 40
+              ? `${friend.chatName.slice(0, 40)}...`
+              : friend.chatName}
+            </p>
+        )
+        }
 
       {/* Message Button */}
       <button

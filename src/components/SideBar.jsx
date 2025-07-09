@@ -54,6 +54,18 @@ const [loading, setLoading] = useState(false);
     }
 useEffect(() => {
   const fetch = async () => {
+    try {
+      const fetchedChats = await dispatch(fetchChats(token, search));
+      setChats(fetchedChats.data);
+    } catch (error) {
+      console.error('Failed to fetch chats:', error);
+    }
+  };
+  fetch();
+}, [search, refresh]);
+
+useEffect(() => {
+  const fetch = async () => {
     setLoading(true);
     try {
       const fetchedChats = await dispatch(fetchChats(token, search));
@@ -64,9 +76,7 @@ useEffect(() => {
     setLoading(false);
   };
   fetch();
-}, [search, refresh]);
-
-
+}, []);
   return (
     <div
       className={`flex-1 md:flex-[0.3] flex flex-col ${

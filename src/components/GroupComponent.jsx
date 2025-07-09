@@ -25,13 +25,13 @@ const GroupComponent = ({ friend }) => {
       }, []);
   return (
     <div
-      className={`flex items-center gap-3 rounded-2xl my-2 p-3 w-full ${
+      className={`flex items-center gap-3 rounded-2xl my-2 p-4 w-full ${
         darkMode ? "bg-gray-800 text-gray-300" : "bg-white text-gray-800"
       } shadow-md`}
     >
       {/* Initial Avatar */}
       <p
-        className={`h-10 w-10 flex justify-center items-center rounded-full text-white text-lg font-bold shrink-0 ${
+        className={`h-12 w-12 flex justify-center items-center rounded-full text-white text-lg font-bold shrink-0 ${
           darkMode ? "bg-gray-600" : "bg-gray-300"
         }`}
       >
@@ -39,7 +39,7 @@ const GroupComponent = ({ friend }) => {
       </p>
           {
             isMobile && (
-              <p className="text-base font-semibold truncate flex-1">
+              <p className="text-lg font-semibold truncate flex-1">
                 {friend.chatName.length > 20
                   ? `${friend.chatName.slice(0, 20)}...`
                   : friend.chatName}
@@ -48,7 +48,7 @@ const GroupComponent = ({ friend }) => {
           }
           {
             !isMobile && (
-              <p className="text-base font-semibold text-gray-500 truncate flex-1">
+              <p className="text-base font-semibold truncate flex-1">
                 {friend.chatName.length > 40
                   ? `${friend.chatName.slice(0, 40)}...`
                   : friend.chatName}

@@ -49,11 +49,6 @@ const BotChatArea = () => {
     scrollToBottom();
   }, []);
 
-  const handleAttachmentChange = (e) => {
-    if (e.target.files.length > 0) {
-      setAttachment(e.target.files[0]);
-    }
-  };
 
   const handleSend = async (e) => {
   e.preventDefault();
