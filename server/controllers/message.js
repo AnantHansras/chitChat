@@ -281,7 +281,6 @@ const getChatbotReply = async (content) => {
   return "Hmm… let me think about that 🤔.";
 };
 
-
 const sendMessageToBot = async (req, res) => {
   try {
     const { content } = req.body;
@@ -339,7 +338,5 @@ const sendMessageToBot = async (req, res) => {
     });
   }
 };
-
-
 
 module.exports = {sendBotMessage,allBotMessages,sendMessage,allMessages,deleteMessage,reactToMessage,sendMessageToBot}

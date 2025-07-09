@@ -58,7 +58,7 @@ const ChatArea = () => {
     const seenByUserIds = msg.seenBy.map((user) => user._id);
     if (isGroupChat == 'false') {
       // For individual chats: Check if the receiver has seen the message.
-      const otherUserId = allGroupMembers.find((memberId) => memberId !== user._id);
+      const otherUserId = allGroupMembers.find((memberId) => memberId !== msg.sender._id);
       
       return seenByUserIds.includes(otherUserId);
     } else {
