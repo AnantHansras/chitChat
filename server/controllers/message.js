@@ -349,7 +349,6 @@ const sendMessageToBot = async (req, res) => {
       success: true,
       message: 'User and bot messages sent successfully',
       data: {
-        userMessage: userMsg,
         botMessage: botMsg,
       },
     });
