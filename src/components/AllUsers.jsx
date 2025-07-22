@@ -112,7 +112,7 @@ const AllUsers = () => {
         }}>
           {loading ? (
     [...Array(4)].map((_, idx) => <UserSkeleton key={idx} darkMode={darkMode} />)
-  ) : users.length > 0 ? (
+  ) : users?.length > 0 ? (
     users.map((user, index) => (
       <UserComponent key={index} friend={user} />
     ))

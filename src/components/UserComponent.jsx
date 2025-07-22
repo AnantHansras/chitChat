@@ -45,7 +45,7 @@ const UserComponent = ({ friend }) => {
       {
         isMobile && (
         <p className="text-lg font-semibold truncate flex-1">
-            {friend.chatName.length > 20
+            {friend?.chatName?.length > 20
               ? `${friend.chatName.slice(0, 20)}...`
               : friend.chatName}
         </p>
@@ -54,7 +54,7 @@ const UserComponent = ({ friend }) => {
       {
         !isMobile && (
           <p className="text-base font-semibold truncate flex-1">
-            {friend.chatName.length > 40
+            {friend?.chatName?.length > 40
               ? `${friend.chatName.slice(0, 40)}...`
               : friend.chatName}
             </p>
