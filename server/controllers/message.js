@@ -4,7 +4,7 @@ const User = require('../models/userSchema');
 const dotenv = require('dotenv');
 dotenv.config();
 const {uploadImageToCloudinary} = require('../config/imageUploader');
-import { geminichatSession } from '../config/gemini';
+const {geminichatSession} = require('../config/gemini');
 const allMessages = async(req,res) =>{
     try{
         const chatId = req.body.chatId;
