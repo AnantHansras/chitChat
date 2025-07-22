@@ -289,7 +289,7 @@ const getChatbotReply = async (content) => {
     const prompt = `
 You are a friendly and intelligent AI chatbot. Reply to the user's message in a natural, conversational tone. Keep the response brief, helpful, and engaging. Avoid repeating the user's input.
 
-User: ${content}
+User: ${text}
 AI:
 `;
 
