@@ -84,6 +84,7 @@ const BotChatArea = () => {
     await new Promise((res) => setTimeout(res, 50));// nccessary delay for thinking animation
     await new Promise((res) => setTimeout(res, 1000)); // Simulated "thinking" to be removed later
     await dispatch(chatbotReply(trimmedMsg, token));
+    console.log("Message sent successfully",trimmedMsg);
   } catch (err) {
     console.error("Error talking to Nova AI:", err);
   } finally {

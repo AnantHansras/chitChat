@@ -62,7 +62,7 @@ export function sendbotdmsg(content,attachment,token){
 export function chatbotReply(content,token){
     return async (dispatch) => {
       try {
-        
+        console.log("Message sent successfully",content);
         const response = await apiConnector("POST",CHATBOT_API,{content},{
           Authorization: `Bearer ${token}`,
         })
