@@ -9,6 +9,7 @@ import Tooltip from '@mui/material/Tooltip';
 import { useDispatch, useSelector } from 'react-redux';
 import {AnimatePresence,motion} from 'framer-motion'
 import { fetchUsers } from '../services/userAPI';
+import { useState } from 'react';
 const AllUsers = () => {
   const navigate = useNavigate();
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);

@@ -8,6 +8,7 @@ import { IoIosInformationCircleOutline } from "react-icons/io";
 const FriendContainer = ({ friend, chatName }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const refresh = useSelector((state) => state.refresh.refresh);
   const darkMode = useSelector((state) => state.darkMode.isDarkMode);
   const [count, setCount] = useState(0);
@@ -156,9 +157,9 @@ const FriendContainer = ({ friend, chatName }) => {
           darkMode ? 'text-gray-400' : 'text-[#0000008a]'
         }`}
       >
-        {friend.latestMessage.content.length > 7
-          ? friend.latestMessage.content.slice(0, 7) + '...'
-          : friend.latestMessage.content}
+        {friend.latestMessage.content.length > (isMobile ? 7 : 14)
+  ? friend.latestMessage.content.slice(0, isMobile ? 7 : 14) + '...'
+  : friend.latestMessage.content}
       </p>
     ) : (
       <p
