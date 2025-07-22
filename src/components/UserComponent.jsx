@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { accessChats } from "../services/chatAPI";
 import { useSelector, useDispatch } from "react-redux";
-
+import { useEffect, useState } from "react";
 const UserComponent = ({ friend }) => {
   const navigate = useNavigate();
   const darkMode = useSelector((state) => state.darkMode.isDarkMode);

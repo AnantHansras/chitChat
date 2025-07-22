@@ -11,7 +11,7 @@ const GroupComponent = ({ friend }) => {
   const handleOnClick = (e) =>{
     e.preventDefault();
     dispatch(addSelfToGroup(friend._id,token,navigate));
-    navigate('/chat' + friend._id + '&' + friend.chatName + '&' + friend.isGroupChat)
+    navigate('/chat/' + friend._id + '&' + friend.chatName + '&' + friend.isGroupChat)
   }
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
     
