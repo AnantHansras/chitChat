@@ -263,22 +263,44 @@ const reactToMessage = async (req, res) => {
     }
 };
 
+// const getChatbotReply = async (content) => {
+//   const text = content.trim().toLowerCase();
+
+//   if (text.includes("hello") || text.includes("hi")) {
+//     return "Hello 👋! How can I assist you today?";
+//   }
+
+//   if (text.includes("help")) {
+//     return "Sure, I’m here to help. Please tell me more about what you need.";
+//   }
+
+//   if (text.includes("thanks") || text.includes("thank you")) {
+//     return "You’re welcome! 😊";
+//   }
+
+//   return "Hmm… let me think about that 🤔.";
+// };
+
 const getChatbotReply = async (content) => {
   const text = content.trim().toLowerCase();
 
-  if (text.includes("hello") || text.includes("hi")) {
-    return "Hello 👋! How can I assist you today?";
-  }
+  // Fallback to Gemini for other inputs
+  try {
+    const prompt = `
+You are a friendly and intelligent AI chatbot. Reply to the user's message in a natural, conversational tone. Keep the response brief, helpful, and engaging. Avoid repeating the user's input.
 
-  if (text.includes("help")) {
-    return "Sure, I’m here to help. Please tell me more about what you need.";
-  }
+User: ${content}
+AI:
+`;
 
-  if (text.includes("thanks") || text.includes("thank you")) {
-    return "You’re welcome! 😊";
-  }
 
-  return "Hmm… let me think about that 🤔.";
+    const result = await geminichatSession.sendMessage(prompt);
+    const reply = await result.response.text();
+    return reply.trim();
+  } catch (error) {
+    console.error("Gemini error:", error);
+    return "Oops! I had trouble thinking that through. Try again?";
+  }
 };
 
 const sendMessageToBot = async (req, res) => {
