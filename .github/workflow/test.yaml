@@ -1,0 +1,50 @@
+name: Vulnerability Scan
+
+on:
+  workflow_dispatch:
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
+      - name: Install OSV Scanner
+        uses: google/osv-scanner-action@v2
+        with:
+          scan-args: |
+            --recursive .
+            --format json
+            --output results.json
+
+      - name: Print Vulnerabilities
+        shell: python
+        run: |
+          import json
+
+          with open("results.json") as f:
+              data = json.load(f)
+
+          vulns_found = False
+
+          for result in data.get("results", []):
+              package = result.get("packages", [])
+
+              for pkg in package:
+                  pkg_name = pkg.get("package", {}).get("name", "Unknown")
+
+                  for vuln in pkg.get("vulnerabilities", []):
+                      vulns_found = True
+
+                      print("=" * 80)
+                      print(f"Package      : {pkg_name}")
+                      print(f"Vulnerability: {vuln.get('id', 'N/A')}")
+                      print(f"Summary      : {vuln.get('summary', 'N/A')}")
+                      print(f"Severity     : {vuln.get('database_specific', {}).get('severity', 'N/A')}")
+                      print(f"Fixed Version: {', '.join(vuln.get('affected', [{}])[0].get('ranges', [{}]))}")
+                      print("=" * 80)
+
+          if not vulns_found:
+              print("No vulnerabilities found.")
